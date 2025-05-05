@@ -22,6 +22,10 @@ function AddProduct() {
     category: "",
     subCategory: "",
     brand: "",
+    refundPolicies: {
+      returnable: true, // true or false
+      returnWindow: 0,   // number of days
+    },
     productkey: [{
       Size: "",
       Quantity: "",
@@ -86,6 +90,29 @@ function AddProduct() {
       setSubCategories([]); // Reset when category is unselected
     }
   };
+  const handleRefundPolicyChange = (e) => {
+    const { name, value } = e.target;
+  
+    if (name === "returnable") {
+      // Convert the value to boolean correctly
+      setFormValues((prev) => ({
+        ...prev,
+        refundPolicies: {
+          ...prev.refundPolicies,
+          [name]: value === "yes", // If "Yes" is selected, set to true
+        },
+      }));
+    } else if (name === "returnWindow") {
+      // Ensure returnWindow is a valid number
+      setFormValues((prev) => ({
+        ...prev,
+        refundPolicies: {
+          ...prev.refundPolicies,
+          [name]: parseInt(value) || 0, // Ensure the value is a valid number or 0 if invalid
+        },
+      }));
+    }
+  };
 
   const handleSubCategoryChange1 = (event) => {
     setFormValues((prev) => ({ ...prev, subCategory: event.target.value }));
@@ -134,7 +161,7 @@ function AddProduct() {
     event.preventDefault();
     try {
       const formData = new FormData();
-
+  
       for (const key in formValues) {
         if (key === "images") {
           formValues.images.forEach((image) => {
@@ -142,11 +169,14 @@ function AddProduct() {
           });
         } else if (key === "productkey") {
           formData.append("productkey", JSON.stringify(formValues.productkey)); // ✅ Convert to JSON
+        } else if (key === "refundPolicies") {
+          // Add refund policies to form data
+          formData.append("refundPolicies", JSON.stringify(formValues.refundPolicies)); // Convert to JSON
         } else {
           formData.append(key, formValues[key]);
         }
       }
-
+  
       await Productservices.createproduct(formData);
       alert("Product created successfully");
       navigate("/product");
@@ -155,6 +185,7 @@ function AddProduct() {
       alert("Failed to create product ");
     }
   };
+  
   // Add size and quantity fields
   const handleChange = (index, field, value) => {
     const updatedproductkey = [...formValues.productkey];
@@ -332,18 +363,30 @@ function AddProduct() {
                       />
                     </div>
                   </div>
+                  
                   <div className="col-md-12">
-                    <div className="input-field">
-                      <label className="pt-3">Refund Policies</label>
-                      <textarea
-                        name="refundpolicies"
-                        value={formValues.refundpolicies}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Enter refundpolicies"
-                        className="form-control"
-                      />
-                    </div>
+                    <label className="pt-3">Refundable</label>
+                    <select
+                      name="returnable"  // Ensure we use "returnable" here
+                      value={formValues.refundPolicies.returnable ? "yes" : "no"}  // Correct string conversion
+                      onChange={handleRefundPolicyChange}  // Handle change for returnable
+                      className="form-control"
+                    >
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+
+                  <div className="col-md-12">
+                    <label className="pt-3">Return Window (days)</label>
+                    <input
+                      type="number"
+                      name="returnWindow"  // Correct field name for returnWindow
+                      value={formValues.refundPolicies.returnWindow}  // Correct value handling
+                      onChange={handleRefundPolicyChange}  // Handle change for returnWindow
+                      className="form-control"
+                      placeholder="Enter number of days"
+                    />
                   </div>
                   
 

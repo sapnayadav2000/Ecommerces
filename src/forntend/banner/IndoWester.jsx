@@ -10,7 +10,7 @@ import AddtoCartServices from "../../services/AddtoCart";
 import { Modal, Button } from "react-bootstrap";
 import Slider from "react-slick";
 import { toast } from "react-toastify";
-const Kurti = () => {
+const IndoWestern = () => {
   const { currency } = useCurrency();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,26 +45,34 @@ const Kurti = () => {
     }
   }, [selectedProduct]);
   useEffect(() => {
-    const fetchKurtiProducts = async () => {
+    const fetchProducts = async () => {
       try {
         const res = await productServices.getproduct();
         const allProducts = res.data;
-        // console.log('All Products',allProducts)
-        const kurtiProducts = allProducts.filter((product) => {
-          const subCatName = product.subCategory?.[0]?.name?.toLowerCase();
-          return subCatName === "kurti";
+        console.log('All Products', allProducts);
+  
+        const normalize = (str) => str.toLowerCase().replace(/\s+/g, ' ').trim();
+  
+        const Products = allProducts.filter((product) => {
+          return product.subCategoryname?.some(
+            (name) => normalize(name) === "indo western"
+          );
         });
-        // console.log('All kurti',kurtiProducts)
-        setProducts(kurtiProducts);
+  
+        console.log('Indo Western Products', Products);
+        setProducts(Products);
       } catch (err) {
-        console.error("Error fetching Kurti products:", err);
+        console.error("Error fetching Indo Western products:", err);
       } finally {
         setLoading(false);
       }
     };
   
-    fetchKurtiProducts();
+    fetchProducts();
   }, []);
+  
+  
+  
   
   const onSizeClick = (productId, size) => {
     const product = products.find((p) => p._id === productId);
@@ -173,7 +181,7 @@ const Kurti = () => {
     <>
       <section className="ec-banner section py-5">
         <div className="container">
-        <h2 className="mb-4 text-center fw-bold">Kurti</h2>
+          <h2 className="mb-4 text-center fw-bold">Indo Western</h2>
           <div className="row g-4">
             {loading ? (
               <div className="text-center">
@@ -276,7 +284,7 @@ const Kurti = () => {
                 </div>
               ))
             ) : (
-              <p className="text-center">No kurti available</p>
+              <p className="text-center">No Indo Western available</p>
             )}
           </div>
 
@@ -418,4 +426,4 @@ const Kurti = () => {
   );
 };
 
-export default Kurti;
+export default IndoWestern;

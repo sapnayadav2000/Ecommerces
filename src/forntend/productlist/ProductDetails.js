@@ -294,161 +294,161 @@ const rating = getAverageRatingByProductId(reviews, product._id);
       <HomeHeader />
       <div className="container-fluid py-5">
         <div className="row justify-content bg-white">
-          <div className="col-lg-5 mt-5">
-            <img
-              src={product.images[activeImageIndex]}
-              alt={product.name}
-              className="product-card-img img-fluid mb-3 ml-5"
-              onError={handleImageError}
-              style={{ width: "80%" }}
-            />
-            <Slider {...sliderSettings}>
-              {product?.images?.map((img, index) => (
-                <div key={index} className="image-wrapper">
-                  <img
-                    src={img}
-                    alt={`Thumbnail ${index + 1}`}
-                    className={`img-thumbnail mx-3 ${
-                      activeImageIndex === index ? "border border-dark" : ""
-                    }`}
-                    style={{
-                      width: "80%", // Take full width of the slide
-                      height: "auto", // Maintain aspect ratio
-                      cursor: "pointer",
-                      objectFit: "cover", // Ensure the image fits well in the container
-                    }}
-                    onClick={() => setActiveImageIndex(index)} // Set active index on click
-                  />
-                </div>
-              ))}
-            </Slider>
-          </div>
-
-          <div className="col-lg-6 mt-5">
-            <h5 style={{ fontSize: "300%" }}>{product.name}</h5>
-            <h5 className="mt-3" style={{ fontSize: "200%" }}>
-              {product.Sortdescription}
-            </h5>
-            <hr />
-
-            <div className="price mt-4" style={{ fontSize: "150%" }}>
-              <span className="text-muted text-decoration-line-through me-2">
-                {currency.symbol}
-                {product.Originalprice}
-              </span>
-              <span className="text-danger fw-bold ml-3">
-                {currency.symbol}
-                {currentPrice}
-              </span>
-              {rating && (
-              <div className="mb-2 mt-3">
-                <strong>Rating: </strong>
-                <span style={{ color: "#f39c12" }}>{rating} / 5</span>
-              </div>
-            )}
-            </div>
-
-            <div className="sizes mt-4" style={{ fontSize: "150%" }}>
-              Size:
-              <br />
-              {product.productkey?.length > 0 ? (
-                product.productkey.map((item, index) => (
-                  <button
-                    key={index}
-                    className={`btn btn-primary ml-2 mt-3 ${
-                      selectedSizes[product._id] === item.Size
-                        ? "btn-dark"
-                        : "btn-outline-primary"
-                    }`}
-                    onClick={() => onSizeClick(product, item.Size)}
-                  >
-                    {item.Size}
-                  </button>
-                ))
-              ) : (
-                <p className="text-muted">No sizes available</p>
-              )}
-            </div>
-
-            <div className="container mt-3">
-  <div className="row">
-    <div className="col-lg-3">
-      {/* Content for the first column */}
-      <div className="d-flex align-items-center"  style={{ border: "1px solid black" }}>
-        <button
-          className="btn btn-outline-dark"
-          onClick={() => setQuantity(Math.max(1, quantity - 1))}
-        >
-          -
-        </button>
-        <span className="mx-3 ">{quantity}</span>
-        <button
-          className="btn btn-outline-dark "
-          onClick={() => setQuantity(quantity + 1)}
-        >
-          +
-        </button>
-      </div>
-    </div>
-
-    <div className="col-lg-3">
-      {/* Content for the second column */}
-      <button
-        className="btn btn-primary w-100"
-        onClick={() => handleAddToCart(product, selectedSizes[product._id])}
-      >
-        + Add to Cart
-      </button>
-    </div>
+        <div className="col-lg-5 mt-5">
+  <div className="position-relative">
+    <img
+      src={product.images[activeImageIndex]}
+      alt={product.name}
+      className="product-card-img img-fluid mb-3 ml-5 rounded shadow-sm"
+      onError={handleImageError}
+      style={{ width: "100%", height: "auto", objectFit: "cover" }}
+    />
+    <Slider {...sliderSettings} className="image-thumbnails">
+      {product?.images?.map((img, index) => (
+        <div key={index} className="image-wrapper">
+          <img
+            src={img}
+            alt={`Thumbnail ${index + 1}`}
+            className={`img-thumbnail mx-3 rounded-circle shadow-sm ${
+              activeImageIndex === index ? "border border-dark" : ""
+            }`}
+            style={{
+              width: "80%",
+              height: "auto",
+              cursor: "pointer",
+              objectFit: "cover",
+            }}
+            onClick={() => setActiveImageIndex(index)}
+          />
+        </div>
+      ))}
+    </Slider>
   </div>
 </div>
 
+<div className="col-lg-6 mt-5 ml-5">
+  <h5 className="font-weight-bold" style={{ fontSize: "2.5rem" }}>
+    {product.name}
+  </h5>
+  <h5 className="mt-3" style={{ fontSize: "1.75rem", color: "#6c757d" }}>
+    {product.Sortdescription}
+  </h5>
+  <hr />
 
-            <div className="p-4">
-              <div className="flex gap-4 mb-4">
-                <button
-                  onClick={() => setActiveTab("details")}
-                  className={`px-4 rounded btn btn-primary ${
-                    activeTab === "details"
-                      ? "bg-blue-500 text-white"
-                      : "bg-blue-500 text-white"
-                  }`}
-                >
-                  Details
-                </button>
-                <button
-                  onClick={() => setActiveTab("data")}
-                  className={`px-4 ml-4 rounded border btn btn-primary ${
-                    activeTab === "data"
-                      ? "bg-blue-500 text-white"
-                      : "bg-blue-500 text-white"
-                  }`}
-                >
-                  Data Information
-                </button>
-              </div>
+  <div className="price mt-4" style={{ fontSize: "1.5rem" }}>
+    <span className="text-muted text-decoration-line-through me-2">
+      {currency.symbol}
+      {product.Originalprice}
+    </span>
+    <span className="text-danger fw-bold ml-2">
+      {currency.symbol}
+      {currentPrice}
+    </span>
+    {rating && (
+      <div className="mb-2 mt-3">
+        <strong>Rating: </strong>
+        <span style={{ color: "#f39c12" }}>{rating} / 5</span>
+      </div>
+    )}
+  </div>
 
-              {activeTab === "details" && (
-                <div className="bg-gray-100 p-4 rounded shadow">
-                  <h2 className="text-lg font-semibold mb-2">Details</h2>
-                  <p>{product.description}</p>
-                </div>
-              )}
+  <div className="sizes mt-4" style={{ fontSize: "1.5rem" }}>
+    <strong>Size:</strong>
+    <br />
+    {product.productkey?.length > 0 ? (
+      product.productkey.map((item, index) => (
+        <button
+          key={index}
+          className={`btn btn-primary mt-3 mx-2 ${
+            selectedSizes[product._id] === item.Size ? "btn-dark" : ""
+          }`}
+          onClick={() => onSizeClick(product, item.Size)}
+        >
+          {item.Size}
+        </button>
+      ))
+    ) : (
+      <p className="text-muted">No sizes available</p>
+    )}
+  </div>
 
-              {activeTab === "data" && (
-                <div className="bg-gray-100 p-4 rounded shadow">
-                  <h2 className="text-lg font-semibold mb-2">
-                    Data Information
-                  </h2>
-                  <p>{product.Sortdescription}</p>
-                  <p className="mt-2">
-                    Return: {product.refundpolicies || "No Return Policy"}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="text-center mb-5">
+  <div className="container mt-3">
+    <div className="row">
+      <div className="col-lg-3">
+        {/* Quantity Selector */}
+        <div className="d-flex align-items-center" style={{ border: "1px solid #ccc", borderRadius: "5px" }}>
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => setQuantity(Math.max(1, quantity - 1))}
+            style={{ borderRadius: "50%" }}
+          >
+            -
+          </button>
+          <span className="mx-3">{quantity}</span>
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => setQuantity(quantity + 1)}
+            style={{ borderRadius: "50%" }}
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div className="col-lg-3">
+        <button
+          className="btn btn-primary w-100"
+          onClick={() => handleAddToCart(product, selectedSizes[product._id])}
+          style={{ borderRadius: "25px", fontSize: "1.2rem" }}
+        >
+          + Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div className="p-4 mt-3">
+    <div className="d-flex gap-4 mb-4">
+      <button
+        onClick={() => setActiveTab("details")}
+        className={`px-4  rounded-pill btn btn-primary  ${
+          activeTab === "details" ? "bg-blue-500 text-white" : "bg-light text-white"
+        }`}
+        style={{ transition: "all 0.3s ease" }}
+      >
+        Details
+      </button>
+      <button
+        onClick={() => setActiveTab("data")}
+        className={`px-4  rounded-pill btn btn-primary ${
+          activeTab === "data" ? "bg-blue-500 text-white" : "bg-light text-white"
+        }`}
+        style={{ transition: "all 0.3s ease" }}
+      >
+        Data Information
+      </button>
+    </div>
+
+    {activeTab === "details" && (
+      <div className="bg-gray-100 p-4 rounded shadow">
+        <h2 className="text-lg font-semibold mb-2">Details</h2>
+        <p>{product.description}</p>
+      </div>
+    )}
+
+    {activeTab === "data" && (
+      <div className="bg-gray-100 p-4 rounded shadow" >
+        <h2 className="text-lg font-semibold mb-2">Data Information</h2>
+        <p>{product.Sortdescription}</p>
+        <p className="mt-2">
+          Return: {product.refundPolicies?.returnable === true ? `${product.refundPolicies.returnWindow} Days` : "No Refund Policy"}
+        </p>
+      </div>
+    )}
+  </div>
+</div>
+
+          <div className="text-center mb-5 mt-5">
             <h2 className="fw-bold">Customer Reviews</h2>
             <p className="text-muted">
               What our customers say about this product
@@ -538,7 +538,7 @@ const rating = getAverageRatingByProductId(reviews, product._id);
 
           {/* Related Products */}
           <div className="text-center mt-5">
-            <h2>Related Products</h2>
+            <h2 className="fw-bold ">Related Products</h2>
             <p className="mt-3">Browse the collection of top products</p>
           </div>
 
@@ -558,7 +558,7 @@ const rating = getAverageRatingByProductId(reviews, product._id);
                             ? `${process.env.REACT_APP_API_BASE_URL}/${related.images[0]}`
                             : "/default-product.jpg"
                         }
-                        alt={related.name}
+                        alt={related.name} 
                       />
                       <div className="ec-pro-actions">
                         <button

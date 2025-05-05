@@ -128,7 +128,7 @@ const AllWishlists = () => {
     const body = {
       userId: userId,
       productId: product._id,
-      quantity: 1,
+      quantity:  quantity,
       selectedSize: selectedSize,
       price: selectedPrice,
     };

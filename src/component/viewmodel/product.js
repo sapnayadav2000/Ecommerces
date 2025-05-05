@@ -15,6 +15,7 @@ Modal.setAppElement("#root");
 
 function Product() {
   const { data, run } = useAsync(Productservices.getproduct);
+  console.log("Allproducts",data)
   const [searchTerm, setSearchTerm] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedEdit, setSelectedEdit] = useState(null);
@@ -150,7 +151,7 @@ function Product() {
                      
                     {product.Originalprice}
                     </td>
-                    <td>{product.refundpolicies}</td>
+                    <td> {product.refundPolicies?.returnable === true ? `${product.refundPolicies.returnWindow} Days` : "No Refund Policy"}</td>
                     <td>
                       {product.productkey?.length
                         ? product.productkey.map(

@@ -17,5 +17,9 @@ const Conatct = {
            
         return await requests.patch(`/api/contact/${id}`,data);
       },
+      DeleteContact: async (id) => {
+            
+        return await requests.delete(`/api/contact/${id}`);
+      },
 };
 export default Conatct;

@@ -67,7 +67,7 @@ const SideBar = () => {
     { name: "Enquire", key: "enquire", path: "/enquire", img: "/img/help.svg" },
     { name: "Manage Review", key: "review", path: "/review", img: "/img/review.svg" },
     { name: "Ticket Manager", key: "ticket-manager", path: "/ticket-manager", img: "/img/tickets.png" },
-    { name: "Pincode", key: "pincode", path: "/pincode", img: "/img/tickets.png" },
+    { name: "Pincode", key: "pincode", path: "/pincode", img: "/img/pincode.svg" },
   ];
 
   const renderMenuItem = (name, key, img, subItems) => {

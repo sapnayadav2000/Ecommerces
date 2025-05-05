@@ -16,10 +16,10 @@ const Ticket = () => {
     TicketId: "",
     Issue_type: "",
     mobileno: "",
-    image: null, // State for storing selected image
+    image: "",// State for storing selected image
   });
 
-  const [imagePreview, setImagePreview] = useState(null); // For image preview
+  const [previewImage, setPreviewImage] = useState("/img/placeholder-img.svg"); // Placeholder image path
 
   console.log("Order Product ID from URL:", orderProductId);
   if (userId) {
@@ -29,18 +29,18 @@ const Ticket = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({ ...formData, image: file });
-    
-    // Preview the selected image
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result); // Store image preview
+        setPreviewImage(reader.result);
       };
       reader.readAsDataURL(file);
+      setFormData({
+        ...formData,
+        image: file, // use correct state setter
+      });
     }
   };
 
@@ -64,7 +64,7 @@ const Ticket = () => {
     ticketFormData.append("mobileno", formData.mobileno);
     ticketFormData.append("Issue_type", formData.Issue_type);
     if (formData.image) {
-      ticketFormData.append("file", formData.image); // Append image
+      ticketFormData.append("image", formData.image); // Append image
     }
 
     try {
@@ -82,7 +82,7 @@ const Ticket = () => {
           mobileno: "",
           image: null, // Reset image after submission
         });
-        setImagePreview(null); // Reset image preview
+        setPreviewImage(null); // Reset image preview
       }
     } catch (err) {
       const errorMessage = err.response?.data?.error || "Something went wrong";
@@ -225,39 +225,22 @@ const Ticket = () => {
             />
           </div>
 
-          {/* <div style={{ marginBottom: "20px" }}>
-            <label
-              style={{
-                fontSize: "1em",
-                color: "#7f8c8d",
-                marginBottom: "8px",
-                display: "block",
-              }}
-            >
-              Upload Image (Optional)
-            </label>
-        
-            <input
-              type="file"
-              name="image"
-              onChange={handleImageChange}
-              style={{
-                width: "100%",
-                padding: "12px",
-                marginTop: "8px",
-                borderRadius: "4px",
-                border: "1px solid #ccc",
-                fontSize: "1em",
-                boxSizing: "border-box",
-              }}
-            />
-            {imagePreview && (
-              <div style={{ marginTop: "10px", textAlign: "center" }}>
-                <img src={imagePreview} alt="Image Preview" style={{ maxWidth: "100%", height: "auto" }} />
-              </div>
-            )}
-          </div> */}
-
+          <div className="col-lg-6 col-md-6 mb-3">
+                    <div className="input-field">
+                      <label className="pt-3">
+                        Upload Image*<small>(Size should be 343 x 160)</small>
+                      </label>
+                      <input
+                        type="file"
+                        name="image"
+                        onChange={handleFileChange}
+                        className="form-control"
+                      />
+                      <div className="file-preview">
+                        <img id="uploadFile" src={previewImage} alt=" " />
+                      </div>
+                    </div>
+                  </div>
           <button type="submit" style={buttonStyle}>
             Submit Ticket
           </button>

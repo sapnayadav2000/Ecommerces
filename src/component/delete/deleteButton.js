@@ -11,6 +11,7 @@ import TicketServices from "../../services/ticketServices";
 import ReviewServices from "../../services/reviewServices";
 import PincodeServices from "../../services/pincode";
 import ReturnServices from "../../services/returnServices";
+import ContactServices from "../../services/conatctServices";
 function DeleteBanner({ data, page, closeModal, onSuccess }) {
   const handleDelete = async () => {
     if (page === "banner") {
@@ -133,6 +134,18 @@ function DeleteBanner({ data, page, closeModal, onSuccess }) {
     
     else if (page === "returns") {
       const res = await ReturnServices.DeleteReturn(data._id);
+
+      if (res.status === false) {
+        console.log(res);
+      } else {
+        alert("Data deleted successfully");
+        onSuccess();
+        closeModal();
+      }
+    }
+
+    else if (page === "contact") {
+      const res = await ContactServices.DeleteContact(data._id);
 
       if (res.status === false) {
         console.log(res);

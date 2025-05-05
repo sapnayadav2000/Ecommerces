@@ -7,7 +7,9 @@ import contactServices from "../../services/conatctServices";
 import useAsync from "../../Hooks/useAsync";
 // import CategoryUpdate from "../update/categoryUpdate";
 import HelpTogal from "../Togal/HelpTogal";
-import CategoryButton from "../delete/deleteButton";
+import ContactButton from "../delete/deleteButton";
+import Modal from "react-modal";
+Modal.setAppElement("#root");
 function Conatct() {
   const { data, run } = useAsync(contactServices.getConatct);
   console.log("data", data);
@@ -45,7 +47,7 @@ function Conatct() {
 
   // Filter data based on search term
   const filteredData = data?.contact?.filter((contact) =>
-    `${contact.first_name} ${contact.last_name} ${contact.email} ${contact.mobileno} ${contact.description}`
+    `$ ${contact.email} ${contact.mobileno}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
@@ -60,7 +62,7 @@ function Conatct() {
               <input
                 type="search"
                 name="search"
-                placeholder="Search..."
+                placeholder="Search by email and mobileno"
                 value={searchTerm}
                 onChange={handleSearchChange}
               />
@@ -81,8 +83,8 @@ function Conatct() {
                   <th>Mobile No</th>
                   <th>Description</th>
                   <th>Status</th>
-                  {/* <th>Edit</th>
-                  <th>Delete</th> */}
+                  {/* <th>Edit</th> */}
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -108,7 +110,7 @@ function Conatct() {
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
-                    </td>
+                    </td> */}
                     <td>
                       <button
                         className="viewdelete"
@@ -116,7 +118,7 @@ function Conatct() {
                       >
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
-                    </td> */}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -137,7 +139,7 @@ function Conatct() {
             closeModal={closeEditModal}
             onSuccess={run}
           />
-        </Modal>
+        </Modal> */}
 
         <Modal
           isOpen={isDeleteModalOpen}
@@ -146,13 +148,13 @@ function Conatct() {
           className="modal-content"
           overlayClassName="modal-overlay"
         >
-          <contactButton
+          <ContactButton
             data={selectedEdit}
             page="contact"
             closeModal={closeDeleteModal}
             onSuccess={run}
           />
-        </Modal> */}
+        </Modal>
       </div>
     </>
   );

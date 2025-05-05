@@ -82,9 +82,9 @@ function ProductUpdate({ product, onSuccess, closeModal }) {
         refundPolicies: refundData,
         price: product?.price || "",
         Originalprice: product?.Originalprice || "",
-        brand: product?.brand || "",
-        subCategory: product?.subCategory || "",
-        category: product?.category || "",
+        brand: Array.isArray(product?.brand) ? product.brand[0] : product?.brand || "",
+        subCategory: Array.isArray(product?.subCategory) ? product.subCategory[0]?._id : product?.subCategory || "",
+        category: Array.isArray(product?.category) ? product.category[0]?._id : product?.category || "",
         images: product?.images || [],
         productkey: product?.productkey || [],
       });

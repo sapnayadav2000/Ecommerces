@@ -6,12 +6,13 @@ import Returnservices from "../../services/returnServices";
 import useAsync from "../../Hooks/useAsync";
 import HelpTogal from "../Togal/HelpTogal";
 import ReturnButton from "../delete/deleteButton";
-import ReturnUpdate from "../update/reviewUpdate";
+import ReturnUpdate from "../update/returnUpdate";
 import Modal from "react-modal";
 Modal.setAppElement("#root");
 
 function Return() {
   const { data, run } = useAsync(Returnservices.getAllReturn); // Fetch return requests
+  console.log('response',data)
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(""); // Filter by status
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -88,7 +89,7 @@ function Return() {
                 <th>Reason</th>
                 <th>Description</th>
                 <th>Status</th>
-                {/* <th>Edit</th> */}
+                <th>Edit</th>
                 <th>Delete</th>
               </tr>
             </thead>
@@ -105,14 +106,14 @@ function Return() {
                       onSuccess={() => run()}
                     />
                   </td>
-                  {/* <td>
+                  <td>
                     <button
                       className="view-details-btn"
                       onClick={() => handleEditDetails(returns)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
-                  </td> */}
+                  </td>
                   <td>
                     <button
                       className="viewdelete"

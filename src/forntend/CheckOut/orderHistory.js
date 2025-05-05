@@ -69,144 +69,119 @@ const OrderHistory = () => {
     <>
       <HomeHeader />
       <div className="container py-5">
-        <h2 className="text-center mb-5">Your Order History</h2>
+  <h2 className="text-center mb-5 display-5 fw-bold text-primary">Your Order History</h2>
 
-        {/* Check if orders exist and are an array */}
-        {Array.isArray(orders) && orders.length > 0 ? (
-          orders.map((order) => (
-            <div
-              key={order._id}
-              className="border rounded-4 shadow-sm p-4 mb-5 bg-light"
-            >
-              <div className="d-flex justify-content-between align-items-center flex-wrap mb-3">
-                <div>
-                  <small className="text-muted">
-                    Placed on: {new Date(order.createdAt).toLocaleString()}
-                  </small>
-                </div>
-                <div>
-                  <span
-                    className={`badge px-3 py-2 text-capitalize ${
-                      order.orderStatus === "Cancel"
-                        ? "bg-danger"
-                        : order.orderStatus === "Delivered"
-                        ? "bg-success"
-                        : "bg-warning text-dark"
-                    }`}
-                  >
-                    {order.orderStatus}
-                  </span>
-                </div>
-              </div>
+  {Array.isArray(orders) && orders.length > 0 ? (
+    orders.map((order) => (
+      <div
+        key={order._id}
+        className="order-card border-start border-4 border-primary shadow-sm p-4 mb-5 bg-white rounded-4"
+        style={{ transition: "0.3s", background: "#fff" }}
+      >
+        <div className="d-flex justify-content-between align-items-center flex-wrap mb-3">
+          <div>
+            <small className="text-muted fs-6">
+              Placed on: {new Date(order.createdAt).toLocaleString()}
+            </small>
+          </div>
+          <span
+            className={`badge px-3 py-2 rounded-pill fs-6 fw-medium  ${
+              order.orderStatus === "Cancel"
+                ? "bg-danger"
+                : order.orderStatus === "Delivered"
+                ? "bg-success"
+                : "bg-warning text-dark"
+            }`}
+          >
+            {order.orderStatus}
+          </span>
+        </div>
 
-              {Array.isArray(order.orderProducts) &&
-                order.orderProducts.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="d-flex align-items-start gap-3 mb-4 bg-white rounded p-3"
-                  >
-                    <img
-                      src={`${process.env.REACT_APP_API_BASE_URL}/${item.productId?.images?.[0]}`}
-                      alt={item.productId?.name}
-                      onError={(e) => {
-                        e.target.src = "/placeholder-image.jpg";
-                      }}
-                      className="rounded"
-                      style={{
-                        width: "90px",
-                        height: "90px",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <div>
-                      <h6 className="mb-1">{item.productId?.name}</h6>
-                      <div className="text-muted">
-                        Size: {item.size} | Qty: {item.quantity}
-                      </div>
-                      <div className="fw-bold text-success">
-                        {currency.symbol}
-                        {item.price.toFixed(2)}
-                      </div>
-                    </div>
-                    <Link to={`/track-order/${order._id}`}>
-                    <button className="btn btn-success btn-sm mt-2 ml-10">
-                      Tracking Order
-                    </button>
-                  </Link>
-                    {order.orderStatus === "Delivered" && (
-                      <button
-                        className="btn btn-success btn-sm mt-2 ml-10"
-                        onClick={() => handleReviewClick(item.productId?._id)}
-                      >
-                        Leave a Review
-                      </button>
-                    )}
-                      {order.orderStatus === "Delivered" && (
-                      <button
-                        className="btn btn-success btn-sm mt-2 ml-10"
-                        onClick={() => handleReturnClick(item._id)}
-                      >
-                        Return Policy
-                      </button>
-                    )}
-
-                      {order.orderStatus === "Return" && (
-                      <button
-                        className="btn btn-success btn-sm mt-2 ml-10"
-                        onClick={() => handleReturnClicks(item._id)}
-                      >
-                        Ticket
-                      </button>
-                    )}
-                  </div>
-                  
-                ))}
-                
-
-              <div className="mt-3">
-                <p className="mb-1">
-                  <strong>Name:</strong>{" "}
-                  {order?.userAddress?.firstName || "N/A"}{" "}
-                  {order?.userAddress?.lastName || "N/A"}
-                </p>
-                <p className="mb-1">
-                  <strong>Phone:</strong> {order?.userAddress?.phone}
-                </p>
-                <p className="mb-1">
-                  <strong>Shipping:</strong> {order?.userAddress?.address},{" "}
-                  {order?.userAddress?.city}, {order?.userAddress?.state} -{" "}
-                  {order?.userAddress?.pincode}
-                </p>
-
-                <p className="mb-1">
-                  <strong>Payment Method:</strong> {order.paymentMethod}
-                </p>
-                <p className="mb-1">
-                  <strong>Payment Status:</strong> {order.paymentStatus}
-                </p>
-                <p className="mb-1">
-                  <strong>Total Amount:</strong> {currency.symbol}
-                  {order.totalAmount.toFixed(2)}
-                </p>
-              </div>
-              <UserInvoice order={order} />
-              {order.orderStatus !== "Cancel" &&
-                order.orderStatus !== "Delivered" && (
-                  <div className="text-end mt-3">
+        {/* Order Items */}
+        {order.orderProducts.map((item, idx) => (
+          <div
+            key={idx}
+            className="d-flex flex-column flex-md-row align-items-start gap-3 p-3 rounded shadow-sm mb-4"
+            style={{ background: "#f8f9fa", borderRadius: "10px" }}
+          >
+            <img
+              src={`${process.env.REACT_APP_API_BASE_URL}/${item.productId?.images?.[0]}`}
+              alt={item.productId?.name}
+              onError={(e) => (e.target.src = "/placeholder-image.jpg")}
+              style={{
+                width: "90px",
+                height: "90px",
+                objectFit: "cover",
+                borderRadius: "8px",
+                border: "1px solid #ddd"
+              }}
+            />
+            <div className="flex-grow-1">
+              <h6 className="fw-semibold">{item.productId?.name}</h6>
+              <div className="text-muted mb-1">Size: {item.size} | Qty: {item.quantity}</div>
+              <div className="fw-bold text-success">{currency.symbol}{item.price.toFixed(2)}</div>
+              <div className="d-flex flex-wrap gap-2 mt-2 ">
+                <Link to={`/track-order/${order._id}`}>
+                  <button className="btn btn-primary btn-sm  mt-5">Track Order</button>
+                </Link>
+                {order.orderStatus === "Delivered" && (
+                  <>
                     <button
-                      className="btn btn-primary btn-sm"
-                      onClick={() => Cancelorder(order._id)}
+                      className="btn btn-outline-success btn-sm mt-5"
+                      onClick={() => handleReviewClick(item.productId?._id)}
                     >
-                      Cancel Order
+                      Leave a Review
                     </button>
-                  </div>
+                    <button
+                      className="btn btn-outline-warning btn-sm mt-5"
+                      onClick={() => handleReturnClick(item._id)}
+                    >
+                      Return Policy
+                    </button>
+                  </>
                 )}
+                {order.orderStatus === "Return" && (
+                  <button
+                    className="btn btn-outline-info btn-sm mt-5"
+                    onClick={() => handleReturnClicks(item._id)}
+                  >
+                    Create Ticket
+                  </button>
+                )}
+              </div>
             </div>
-          ))
-        ) : (
-          <p>No orders found.</p> // Display message if there are no orders
+          </div>
+        ))}
+
+        {/* Address and Summary */}
+        <div className="mt-4">
+          <p className="mb-1"><strong>Name:</strong> {order?.userAddress?.firstName} {order?.userAddress?.lastName}</p>
+          <p className="mb-1"><strong>Phone:</strong> {order?.userAddress?.phone}</p>
+          <p className="mb-1">
+            <strong>Shipping:</strong> {order?.userAddress?.address}, {order?.userAddress?.city}, {order?.userAddress?.state} - {order?.userAddress?.pincode}
+          </p>
+          <p className="mb-1"><strong>Payment Method:</strong> {order.paymentMethod}</p>
+          <p className="mb-1"><strong>Payment Status:</strong> {order.paymentStatus}</p>
+          <p className="mb-1"><strong>Total:</strong> {currency.symbol}{order.totalAmount.toFixed(2)}</p>
+        </div>
+
+        {/* Invoice and Cancel Button */}
+        <UserInvoice order={order} />
+        {order.orderStatus !== "Cancel" && order.orderStatus !== "Delivered" && (
+          <div className="text-end mt-3">
+            <button className="btn btn-danger btn-sm" onClick={() => Cancelorder(order._id)}>
+              Cancel Order
+            </button>
+          </div>
         )}
       </div>
+    ))
+  ) : (
+    <div className="text-center text-muted fs-5">You have no orders yet.</div>
+  )}
+</div>
+
+
 
       <Footer />
     </>

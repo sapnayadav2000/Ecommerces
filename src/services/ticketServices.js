@@ -11,30 +11,18 @@ const TicketServices={
         } );
     },
     AllTicket:async()=>
-    { const token = localStorage.getItem("authtoken");
-        return requests.get(`/api/ticket/`,{
-            headers: {
-                Authorization: `Bearer ${token}`,
-              }
-        }) 
+    { 
+        return requests.get(`/api/ticket/`) 
     },
 
     DeleteTicket:async(id,body)=>
-    { const token = localStorage.getItem("authtoken");
-        return requests.delete(`/api/ticket/${id}`,body,{
-            headers: {
-                Authorization: `Bearer ${token}`,
-              }
-        })
+    { 
+        return requests.delete(`/api/ticket/${id}`,body)
     },
 
     updatePriority: async (id, body) => {
-        const token = localStorage.getItem("authtoken");
-        return requests.patch(`/api/ticket/${id}`, body, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        
+        return requests.patch(`/api/ticket/${id}`, body);
       },
 
 

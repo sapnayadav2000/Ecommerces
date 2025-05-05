@@ -144,6 +144,7 @@ function TicketManager() {
             <thead>
               <tr className="trs">
                 <th>#</th>
+                <th>Image</th>
                 <th>Issue Type</th>
                 <th>Mobile No</th>
                 <th>Priority</th>
@@ -157,6 +158,19 @@ function TicketManager() {
               {(filteredTickets || []).map((ticket, i) => (
                 <tr key={ticket._id}>
                   <td>{i + 1}</td>
+                  <td>
+                    <div className="product-img">
+                      <img
+                        src={`${process.env.REACT_APP_API_BASE_URL}/${ticket?.image}`}
+                        alt="image"
+                        style={{
+                          height: "70px",
+                          width: "70px",
+                          objectFit: "contain",
+                        }}
+                      />
+                    </div>
+                  </td>
                   <td>{ticket.Issue_type}</td>
                   <td>{ticket.mobileno}</td>
                   <td className="status-toggle">
