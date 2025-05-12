@@ -2,7 +2,6 @@ import Pagetitle from "./pagetitle";
 import HelpTogal from "../Togal/HelpTogal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faSearch } from "@fortawesome/free-solid-svg-icons";
-
 import { Link } from "react-router-dom";
 import useAsync from "../../Hooks/useAsync";
 import Pincodeservices from "../../services/pincode.js";
@@ -13,17 +12,23 @@ import DeleteButton from "../delete/deleteButton.js";
 Modal.setAppElement("#root");
 function Pincode() {
   const { data, run } = useAsync(Pincodeservices.getPincode);
-  console.log('pincode data',data);
+  // console.log('pincode data',data);
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeIndex, setActiveIndex] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedEdit, setSelectedEdit] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 10;
   const filteredData = data?.data?.filter((pincode) =>
     `${pincode.pincode}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
-  )
+  )||[];
+  const totalProducts = filteredData.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = filteredData.slice(startIndex, endIndex);
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -88,7 +93,7 @@ function Pincode() {
                 </tr>
               </thead>
               <tbody>
-                {filteredData?.map((pincode, i) => (
+                {currentProducts?.map((pincode, i) => (
                   <tr key={i}>
                     <td>{i + 1}</td>
                     <td>{pincode.pincode}</td>
@@ -123,6 +128,35 @@ function Pincode() {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="pagination-controls d-flex justify-content-center my-3">
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Prev
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn btn-sm mx-1 ${
+                  currentPage === index + 1 ? "btn-primary" : "btn-outline-primary"
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
           </div>
         </div>
         <Modal

@@ -6,6 +6,7 @@ import orderServices from "../../services/orderServices";
 
 const statusSteps = [
   "Pending",
+  
   "Dispatch",
   "Shipped",
   "Delivered",

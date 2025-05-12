@@ -46,7 +46,7 @@ const TermCondition = () => {
                     <li className="ec-breadcrumb-item">
                       <a href="/">Home</a>
                     </li>
-                    <li className="ec-breadcrumb-item active">
+                    <li className="ec-breadcrumb-item active" aria-current="page">
                       Terms & Conditions
                     </li>
                   </ul>

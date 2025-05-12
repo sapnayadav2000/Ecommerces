@@ -20,7 +20,8 @@ function Reviews() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedEdit, setSelectedEdit] = useState(null);
-    
+      const [currentPage, setCurrentPage] = useState(1);
+      const productsPerPage = 10;
   const handleEditDetails = (review) => {
     setSelectedEdit(review);
     setIsEditModalOpen(true);
@@ -60,8 +61,12 @@ function Reviews() {
     const matchesStatus = statusFilter ? review.status.toLowerCase() === statusFilter.toLowerCase() : true;
     const matchesRating = ratingFilter ? review.rating === parseInt(ratingFilter) : true; // Check for rating filter
     return matchesSearch && matchesStatus && matchesRating;
-  });
-
+  })||[];
+  const totalProducts = filteredReviews.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = filteredReviews.slice(startIndex, endIndex);
   return (
     <div className="right_col" role="main">
       <Pagetitle />
@@ -117,7 +122,7 @@ function Reviews() {
               </tr>
             </thead>
             <tbody>
-              {filteredReviews?.map((review, i) => (
+              {currentProducts?.map((review, i) => (
                 <tr key={review._id}>
                   <td>{i + 1}</td>
 
@@ -190,6 +195,35 @@ function Reviews() {
             </tbody>
           </table>
         </div>
+        <div className="pagination-controls d-flex justify-content-center my-3">
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Prev
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn btn-sm mx-1 ${
+                  currentPage === index + 1 ? "btn-primary" : "btn-outline-primary"
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
       </div>
 
       {/* Edit Review Modal (optional) */}

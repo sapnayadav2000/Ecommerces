@@ -18,7 +18,8 @@ function UserManager() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
   const handleEditDetails = (user) => {
     setSelectedUser(user);
     setIsEditModalOpen(true);
@@ -46,8 +47,12 @@ function UserManager() {
   // Filter data based on the search term
   const filteredUsers = data?.users?.filter((user) =>
     user?.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+  )||[];
+  const totalProducts = filteredUsers.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = filteredUsers.slice(startIndex, endIndex);
   return (
     <div className="right_col" role="main">
       <Pagetitle />
@@ -84,7 +89,7 @@ function UserManager() {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers?.map((user, i) => (
+              {currentProducts?.map((user, i) => (
                 <tr key={user._id}>
                   <td>{i + 1}</td>
                  
@@ -116,6 +121,36 @@ function UserManager() {
             </tbody>
           </table>
         </div>
+            {/* Pagination Controls */}
+            <div className="pagination-controls d-flex justify-content-center my-3">
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Prev
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn btn-sm mx-1 ${
+                  currentPage === index + 1 ? "btn-primary" : "btn-outline-primary"
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
       </div>
 
       {/* Edit User Modal */}

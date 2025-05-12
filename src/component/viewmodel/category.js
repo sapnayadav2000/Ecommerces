@@ -21,7 +21,8 @@ function Category() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedEdit, setSelectedEdit] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
   const handleEditDetails = (cat) => {
     setSelectedEdit(cat);
     setIsEditModalOpen(true);
@@ -59,7 +60,14 @@ function Category() {
   // Filter data based on the search term
   const filteredData = data?.data?.filter((cat) =>
     cat.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )||[];
+
+  
+  const totalProducts = filteredData.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = filteredData.slice(startIndex, endIndex);
   return (
     <div className="right_col" role="main">
       <Pagetitle></Pagetitle>
@@ -101,7 +109,7 @@ function Category() {
               </tr>
             </thead>
             <tbody>
-              {filteredData?.map((cat, i) => (
+              {currentProducts?.map((cat, i) => (
                 <tr key={i}>
                   <td>{i + 1}</td>
 
@@ -144,6 +152,36 @@ function Category() {
             </tbody>
           </table>
         </div>
+          {/* Pagination Controls */}
+          <div className="pagination-controls d-flex justify-content-center my-3">
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Prev
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn btn-sm mx-1 ${
+                  currentPage === index + 1 ? "btn-primary" : "btn-outline-primary"
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
       </div>
       <Modal
         isOpen={isEditModalOpen}

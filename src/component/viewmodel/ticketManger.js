@@ -17,7 +17,8 @@ function TicketManager() {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [tickets, setTickets] = useState([]); // The state that stores the ticket data
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
   // Handle modal open for editing
   const handleEditDetails = (ticket) => {
     setSelectedTicket(ticket);
@@ -52,8 +53,13 @@ function TicketManager() {
     (ticket) =>
       ticket?.Issue_type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       ticket?.mobileno?.toString().includes(searchTerm)
-  );
+  )||[];
 
+  const totalProducts = filteredTickets.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = filteredTickets.slice(startIndex, endIndex);
   // Update ticket list when data changes
   useEffect(() => {
     if (data) {
@@ -155,7 +161,7 @@ function TicketManager() {
               </tr>
             </thead>
             <tbody>
-              {(filteredTickets || []).map((ticket, i) => (
+              {(currentProducts || []).map((ticket, i) => (
                 <tr key={ticket._id}>
                   <td>{i + 1}</td>
                   <td>
@@ -263,6 +269,36 @@ function TicketManager() {
             </tbody>
           </table>
         </div>
+            {/* Pagination Controls */}
+            <div className="pagination-controls d-flex justify-content-center my-3">
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Prev
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn btn-sm mx-1 ${
+                  currentPage === index + 1 ? "btn-primary" : "btn-outline-primary"
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
       </div>
 
       {/* Edit Ticket Modal */}

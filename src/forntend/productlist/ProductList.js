@@ -9,9 +9,11 @@ import wishListServices from "../../services/wishListServices";
 import { Modal } from "react-bootstrap";
 import { BsBasket3 } from "react-icons/bs";
 import { FaRegHeart, FaRegEye, FaHeart } from "react-icons/fa";
+
 import Slider from "react-slick";
 import { toast } from "react-toastify";
 const ProductList = () => {
+   const [productsPerPage] = useState(8);
   const [priceRange, setPriceRange] = useState({ min: 100, max: 7285 });
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,6 +27,7 @@ const ProductList = () => {
   const [quantity, setQuantity] = useState(1);
   const [hoveredProduct, setHoveredProduct] = useState(null);
   const [SelectedSizes, SetSelectedSizes] = useState([]);
+   const [currentPage, setCurrentPage] = useState(1);
   const [wishlistItems, setWishlistItems] = useState(() => {
     const stored = localStorage.getItem("wishlistItems");
     return stored ? JSON.parse(stored) : [];
@@ -112,49 +115,54 @@ const ProductList = () => {
     }
   };
 
-  const handleQuickView = (product, event) => {
-    event.preventDefault();
-    setSelectedProduct(product);
-    setShowModal(true);
-    setQuantity(1);
+
+
+  
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => {
+    if (currentPage < Math.ceil(products.length / productsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
   };
+
 
   const handleAddToCart = async (product, selectedSize = null) => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
-
-    if (!userId) return toast.error("Please log in to add to cart.");
-    if (!selectedSize) return toast.error("Please select a size.");
-    if (!userId) {
-      console.error("User not logged in");
-      return;
+  
+    // Generate or get existing sessionId for guest user
+    if (!localStorage.getItem("sessionId")) {
+      localStorage.setItem("sessionId", crypto.randomUUID());
     }
-
+    const sessionId = localStorage.getItem("sessionId");
+  
+    if (!selectedSize) return toast.error("Please select a size.");
+  
     const selectedPrice = selectedPrices[product._id] || product.price;
-
+  
     const body = {
-      userId: userId,
+      userId: userId || null, // send null if not logged in
+      sessionId,
       productId: product._id,
       quantity: quantity,
-      selectedSize: selectedSize,
+      selectedSize,
       price: selectedPrice,
     };
-
+  
     try {
       const response = await AddtoCartServices.addToCart(body, token);
-
+  
       if (response?.status === 409) {
-        // If the backend returns a 409 status, it means the product is already in the cart
         toast.error("This product is already in your cart.");
       } else {
         toast.success("Product added to cart successfully.");
       }
-
+  
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
-      toast.error("Product already in cart.");
+      toast.error("Failed to add product to cart.");
     }
   };
 
@@ -240,6 +248,18 @@ const ProductList = () => {
         return 0;
     }
   });
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = sortedProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const handleQuickView = (product, event) => {
+    event.preventDefault();
+    setSelectedProduct(product);
+    setShowModal(true);
+    setQuantity(1);
+  };
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -454,8 +474,8 @@ const ProductList = () => {
 
             <div className="container py-5 mt-5">
               <div className="row g-4">
-                {sortedProducts.length > 0 ? (
-                  sortedProducts.map((product) => {
+                {currentProducts.length > 0 ? (
+                  currentProducts.map((product) => {
                     const isHovered = hoveredProduct?._id === product._id;
                     const price = selectedPrices[product._id] || product.price;
 
@@ -543,7 +563,11 @@ const ProductList = () => {
                               {product.productkey?.map((sizeObj) => (
                                 <button
                                   key={sizeObj.Size}
-                                  className="btn btn-dark btn-sm"
+                                  className="btn  btn-sm"    style={{
+      border: '2px solid',
+      borderColor:
+        selectedSizes[product._id] === sizeObj.Size ? 'pink' : 'black',
+    }}
                                   onClick={() =>
                                     onSizeClick(product._id, sizeObj.Size)
                                   }
@@ -561,6 +585,39 @@ const ProductList = () => {
                   <div className="col-12 text-center">No products found</div>
                 )}
               </div>
+              <div className="ec-pro-pagination">
+                    <span>
+                      Showing {indexOfFirstProduct + 1}-
+                      {Math.min(indexOfLastProduct, products.length)} of{" "}
+                      {products.length} item(s)
+                    </span>
+                    <ul className="ec-pro-pagination-inner">
+                      {Array.from({
+                        length: Math.min(
+                          5,
+                          Math.ceil(products.length / productsPerPage)
+                        ),
+                      }).map((_, index) => (
+                        <li key={index}>
+                          <button
+                            className={
+                              currentPage === index + 1 ? "active" : ""
+                            }
+                            onClick={() => paginate(index + 1)}
+                          >
+                            {index + 1}
+                          </button>
+                        </li>
+                      ))}
+                      {Math.ceil(products.length / productsPerPage) > 5 && (
+                        <li>
+                          <button className="next" onClick={nextPage}>
+                            Next <i className="ecicon eci-angle-right" />
+                          </button>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
             </div>
 
             {selectedProduct && (
@@ -647,7 +704,11 @@ const ProductList = () => {
                         {selectedProduct?.productkey?.map((size) => (
                           <button
                             key={size.Size}
-                            className="btn btn-primary m-1 mt-4"
+                             className="btn m-1 mt-4"   style={{
+      border: '2px solid',
+      borderColor:
+        selectedSizes[selectedProduct._id] === size.Size ? 'pink' : 'black',
+    }}
                             onClick={() =>
                               onSizeClick(selectedProduct._id, size.Size)
                             }

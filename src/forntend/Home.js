@@ -8,7 +8,7 @@ import HomeProduct from "../forntend/product/HomeProduct";
 import NewArrivals from "../forntend/banner/NewArrivals";
 import Kurti from "../forntend/banner/kurti";
 import Service from "../forntend/Service/Service";
-import SilkSaree from "../forntend/banner/silkSaree"
+import SilkSaree from "../forntend/banner/silkSaree";
 import IndoWestern from "./banner/IndoWester";
 export default function Home() {
   return (
@@ -19,10 +19,10 @@ export default function Home() {
       <HomeBanner />
       <HomeProduct />
       <NewArrivals />
-       <Kurti/>
-    
-    <SilkSaree/>
-    <IndoWestern/>
+      <Kurti />
+
+      <SilkSaree />
+      <IndoWestern />
       <Service />
       <Footer />
     </div>

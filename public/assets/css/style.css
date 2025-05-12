@@ -16725,6 +16725,10 @@ h2, h3, h4, h5, h6 {
 .ec-main-menu ul li:hover > a {
   color: #e5106f !important;
 }
+.ec-main-menu ul li a.active {
+  color: #e5106f !important;
+  font-weight: bold;
+}
 .ec-main-menu ul li:hover > a .scroll {
   fill: #e5106f;
 }
@@ -17988,6 +17992,7 @@ button.btn-close.qty_close {
   color: rgba(68, 68, 68, 0.7);
   background-color: #ffffff;
   cursor: pointer;
+    border-radius: 50%;
 }
 .ec-product-inner .ec-pro-image .ec-pro-actions .ec-btn-group i {
   font-size: 17px;
@@ -18063,6 +18068,7 @@ button.btn-close.qty_close {
   color: rgba(68, 68, 68, 0.7);
   background-color: #ffffff;
   border: 1px solid #eeeeee;
+  border-radius: 50%;
 }
 .ec-product-inner .ec-pro-image .ec-pro-actions .add-to-cart:hover {
   background-color: #ffffff;
@@ -18144,10 +18150,11 @@ button.btn-close.qty_close {
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.5;
   font-weight: 400;
   font-family: "Poppins, sans-serif";
+  
 }
 .ec-product-inner .ec-pro-content .ec-pro-title a:hover {
   color: #e5106f;
@@ -18511,6 +18518,7 @@ i.ecicon.eci-star.fill {
     position: absolute;
     right: 15px;
     bottom: 62px;
+    
   }
   .ec-product-inner .ec-pro-image .ec-pro-actions .compare {
     position: absolute;
@@ -18868,9 +18876,7 @@ section.ec-instagram-section {
   color: #777777;
   background: #ffffff;
 }
-.ec-footer .footer-top {
-  border-top: 1px solid #eeeeee;
-}
+
 .ec-footer .footer-top .ec-footer-widget .ec-footer-heading {
   font-family: "Montserrat";
   font-size: 17px;
@@ -24081,6 +24087,8 @@ i.ecicon.eci-star-o {
   margin: 0 auto;
   bottom: 30px;
 }
+/* */
+
 .ec-category-wrapper-1 .ec_cat_content .ec-section-btn a {
   font-size: 16px;
   padding: 10px 15px;
@@ -31911,3 +31919,124 @@ input[type=email]:focus::-webkit-input-placeholder {
 .sizeChart input {
   height: auto !important;
 }
+
+.ec-breadcrumb {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.ec-breadcrumb-item + .ec-breadcrumb-item::before {
+  content: ">";
+  padding: 0 8px;
+  color: #aaa;
+}
+
+.ec-breadcrumb-item a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.ec-breadcrumb-item.active {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+
+.ec-page-content {
+
+  background: linear-gradient(to right, #e3f2fd, #fce4ec);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.ec-login-wrapper {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.ec-login-container {
+  width: 100%;
+}
+
+.ec-login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.ec-login-wrap {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.ec-login-wrap label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.ec-login-wrap input {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+}
+
+.ec-login-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+
+.custom-heading {
+  font-family: 'Lora', serif;  /* Custom font */
+   background: linear-gradient(to right, #ff79c6, #f06292); 
+  -webkit-background-clip: text;
+  color: transparent;  /* Makes the gradient applied only to text */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);  /* Subtle text shadow */
+  letter-spacing: 2px;  /* Spacing between letters for a more elegant look */
+  text-transform: uppercase;  /* All uppercase letters */
+  transition: transform 0.3s ease; /* Animation on hover */
+}
+
+.custom-heading:hover {
+  transform: scale(1.1);  /* Slightly enlarges the text when hovered */
+}
+
+
+
+
+
+
+
+

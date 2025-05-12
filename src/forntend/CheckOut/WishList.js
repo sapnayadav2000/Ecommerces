@@ -113,32 +113,39 @@ const AllWishlists = () => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
-    if (!userId) return toast.error("Please log in to add to cart.");
-    if (!selectedSize) {
-      toast.error("Please select a size.");
-      return;
+  
+    // Generate or get existing sessionId for guest user
+    if (!localStorage.getItem("sessionId")) {
+      localStorage.setItem("sessionId", crypto.randomUUID());
     }
-    if (!userId) {
-      console.error("User not logged in");
-      return;
-    }
-
+    const sessionId = localStorage.getItem("sessionId");
+  
+    if (!selectedSize) return toast.error("Please select a size.");
+  
     const selectedPrice = selectedPrices[product._id] || product.price;
-
+  
     const body = {
-      userId: userId,
+      userId: userId || null, // send null if not logged in
+      sessionId,
       productId: product._id,
-      quantity:  quantity,
-      selectedSize: selectedSize,
+      quantity: quantity,
+      selectedSize,
       price: selectedPrice,
     };
-
+  
     try {
       const response = await AddtoCartServices.addToCart(body, token);
-      toast.success("Product is added to cart");
+  
+      if (response?.status === 409) {
+        toast.error("This product is already in your cart.");
+      } else {
+        toast.success("Product added to cart successfully.");
+      }
+  
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
+      toast.error("Failed to add product to cart.");
     }
   };
 

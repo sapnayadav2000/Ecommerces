@@ -12,7 +12,8 @@ import wishListServices from "../../services/wishListServices";
 import AddtoCartServices from "../../services/AddtoCart";
 import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
-const AllNewArrivals = () => {
+
+const IndoWestern = () => {
   const [priceRange, setPriceRange] = useState({ min: 100, max: 7285 });
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,28 +54,30 @@ const AllNewArrivals = () => {
     }
   }, [selectedProduct]);
   useEffect(() => {
-    const fetchRecentProducts = async () => {
+    const fetchProducts = async () => {
       try {
         const res = await productServices.getproduct();
         const allProducts = res.data;
-
-        const sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-        const recentProducts = allProducts.filter((product) => {
-          const createdAt = new Date(product.createdAt);
-          return createdAt >= sevenDaysAgo;
+        console.log('All Products', allProducts);
+  
+        const normalize = (str) => str.toLowerCase().replace(/\s+/g, ' ').trim();
+  
+        const Products = allProducts.filter((product) => {
+          return product.subCategoryname?.some(
+            (name) => normalize(name) === "indo western"
+          );
         });
-
-        setProducts(recentProducts);
+  
+        console.log('Indo Western Products', Products);
+        setProducts(Products);
       } catch (err) {
-        console.error("Error fetching recent products:", err);
+        console.error("Error fetching Indo Western products:", err);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchRecentProducts();
+  
+    fetchProducts();
   }, []);
   const onSizeClick = (productId, size) => {
     const product = products.find((p) => p._id === productId);
@@ -270,7 +273,7 @@ const AllNewArrivals = () => {
   return (
     <>
       <HomeHeader />
-        <div style={{ display: "flex", width: "100%" }}>
+       <div style={{ display: "flex", width: "100%" }}>
           <div
             style={{
               flex: 3,
@@ -456,7 +459,7 @@ const AllNewArrivals = () => {
             </div>
 
             <div className="container">
-              <h2 className="mb-4 text-center fw-bold mt-2">🆕 New Arrivals</h2>
+              <h2 className="mb-4 text-center fw-bold mt-2">Indo Western</h2>
 
               {loading ? (
                 <div className="text-center ">
@@ -527,7 +530,7 @@ const AllNewArrivals = () => {
                           </div>
                         </div>
 
-                        <div className="ec-pro-content">
+                        <div className="ec-pro-content ">
                           <h5 className="ec-pro-title">
                             <Link to={`/product-details/${product._id}`}>
                               {product.name}
@@ -555,7 +558,7 @@ const AllNewArrivals = () => {
                           {product.productkey?.map((item) => (
                             <button
                               key={item.Size}
-                              className="btn  m-2" style={{
+                              className="btn m-2"  style={{
       border: '2px solid',
       borderColor:
         selectedSizes[product._id] === item.Size ? 'pink' : 'black',
@@ -690,7 +693,7 @@ const AllNewArrivals = () => {
                     {selectedProduct?.productkey?.map((size) => (
                       <button
                         key={size.Size}
-                        className="btn m-1 mt-4"   style={{
+                          className="btn m-1 mt-4"   style={{
       border: '2px solid',
       borderColor:
         selectedSizes[selectedProduct._id] === size.Size ? 'pink' : 'black',
@@ -748,4 +751,4 @@ const AllNewArrivals = () => {
   );
 };
 
-export default AllNewArrivals;
+export default IndoWestern;

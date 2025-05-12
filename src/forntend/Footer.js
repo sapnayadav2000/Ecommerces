@@ -21,9 +21,6 @@ export default function Footer() {
                     <li>
                       <a href="/wishlist">Wish List</a>
                     </li>
-                    <li>
-                      <a href="offer.html">Specials</a>
-                    </li>
                   </ul>
                 </div>
               </div>
@@ -34,13 +31,7 @@ export default function Footer() {
                   <h4 className="ecs-footer-heading">Services</h4>
                   <ul className="ec-footer-links">
                     <li>
-                      <a href="#">Discount Returns</a>
-                    </li>
-                    <li>
                       <a href="/privacy-policy">Policy & Policy</a>
-                    </li>
-                    <li>
-                      <a href="#">Customer Service</a>
                     </li>
                     <li>
                       <a href="/termscondition">Terms & Conditions</a>
@@ -57,9 +48,9 @@ export default function Footer() {
                     <li>
                       <a href="/about">About us</a>
                     </li>
-                    {/* <li><a href="/faq">FAQ</a></li> */}
+                   
                     <li>
-                      <a href="/track-order">Delivery Information</a>
+                      <a href="/Your-Orders">Delivery Information</a>
                     </li>
                     <li>
                       <a href="/contact-us">Contact us</a>
@@ -74,39 +65,39 @@ export default function Footer() {
                   <h4 className="ecs-footer-heading">Location</h4>
                   <ul className="ec-footer-links">
                     <li>
-                      <i className="ecicon eci-map-marker" /> 71 Pilgrim Avenue
+                      <i  className="fas fa-map-marker-alt" /> 71 Pilgrim Avenue
                       Chevy Chase, MD 20815, USA
                     </li>
                     <li>
-                      <i className="ecicon eci-phone" /> +91 8559959994
+                      <i  className="fas fa-phone" /> +91 5241234589
                     </li>
                     <li>
-                      <i className="ecicon eci-envelope" />{" "}
-                      surendra.purviya@gmail.com
+                      <i className="fas fa-envelope"/>{" "}
+                      example123@gmail.com
                     </li>
                   </ul>
 
                   {/* Social Links */}
-                  <div className="ecs-footer-social">
+                  <div className="ecs-footer-social mt-3">
                     <ul className="d-flex justify-content-start">
-                      <li>
+                      <li className="ml-3">
                         <a href="#">
-                          <i className="ecicon eci-facebook" />
+                        <i className="fab fa-facebook-f"></i>
                         </a>
                       </li>
-                      <li>
+                      <li  className="ml-3">
                         <a href="#">
-                          <i className="ecicon eci-twitter" />
+                        <i className="fab fa-twitter"></i>
                         </a>
                       </li>
-                      <li>
+                      <li  className="ml-3">
                         <a href="#">
-                          <i className="ecicon eci-instagram" />
+                        <i className="fab fa-instagram"></i>
                         </a>
                       </li>
-                      <li>
+                      <li  className="ml-3">
                         <a href="#">
-                          <i className="ecicon eci-linkedin" />
+                        <i className="fab fa-linkedin-in"></i>
                         </a>
                       </li>
                     </ul>
@@ -123,14 +114,19 @@ export default function Footer() {
             <div className="row align-items-center">
               {/* Copyright */}
               <div className="col-md-6 text-center text-md-start footer-copy">
-                <p className="m-0">
-                  Copyright © {new Date().getFullYear()}{" "}
-                  <a className="site-name text-upper" href="index.html">
-                    Websuntech
-                  </a>
-                  . All Rights Reserved.
-                </p>
-              </div>
+  <p className="m-0" style={{ color: 'white' }}>
+    Copyright © {new Date().getFullYear()}{" "}
+     <a
+      className="site-name text-upper"
+      href="index.html"
+      style={{ color: 'black', textDecoration: 'none' }}
+    >
+      Websuntech
+    </a>{" "}
+    . All Rights Reserved.
+  </p>
+</div>
+
 
               {/* Payment Icons */}
               <div className="col-md-6 text-center text-md-end footer-bottom-right">

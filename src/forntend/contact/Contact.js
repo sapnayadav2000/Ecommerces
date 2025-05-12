@@ -133,21 +133,21 @@ const Contact = () => {
                            </div>
                         </div>
                         <div className="ec_contact_info">
-                           <h1 className="ec_contact_info_head">Contact us</h1>
+                           <h1 className="ec_contact_info_head pt-3 pl-2">Contact us</h1>
                            <ul className="align-items-center">
-                              <li className="ec-contact-item">
-                                 <i className="ecicon eci-map-marker" aria-hidden="true" />
+                              <li className="ec-contact-item ">
+                              <i  className="fas fa-map-marker-alt ml-2" /> 
                                  <span>Address:</span> 71 Pilgrim Avenue, Chevy Chase, East California, MD 20815, USA
                               </li>
                               <li className="ec-contact-item align-items-center">
-                                 <i className="ecicon eci-phone" aria-hidden="true" />
+                              <i  className="fas fa-phone ml-2" /> 
                                  <span>Call Us:</span>
-                                 <a href="tel:+440123456789">+44 0123 456 789</a>
+                                 <a href="tel:+91 5241234589">+91 5241234589</a>
                               </li>
-                              <li className="ec-contact-item align-items-center">
-                                 <i className="ecicon eci-envelope" aria-hidden="true" />
+                              <li className="ec-contact-item align-items-center ">
+                              <i className="fas fa-envelope ml-2"/>{" "}
                                  <span>Email:</span>
-                                 <a href="mailto:example@ec-email.com">example@ec-email.com</a>
+                                 <a href="mailto:example@ec-email.com"> example123@gmail.com</a>
                               </li>
                            </ul>
                         </div>

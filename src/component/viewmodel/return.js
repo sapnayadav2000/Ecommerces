@@ -8,16 +8,18 @@ import HelpTogal from "../Togal/HelpTogal";
 import ReturnButton from "../delete/deleteButton";
 import ReturnUpdate from "../update/returnUpdate";
 import Modal from "react-modal";
+
 Modal.setAppElement("#root");
 
 function Return() {
-  const { data, run } = useAsync(Returnservices.getAllReturn); // Fetch return requests
-  console.log('response',data)
+  const { data, run } = useAsync(Returnservices.getAllReturn);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState(""); // Filter by status
+  const [statusFilter, setStatusFilter] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedEdit, setSelectedEdit] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
 
   const handleEditDetails = (returns) => {
     setSelectedEdit(returns);
@@ -44,15 +46,21 @@ function Return() {
   };
 
   const handleStatusChange = (event) => {
-    setStatusFilter(event.target.value); // Update status filter
+    setStatusFilter(event.target.value);
+    setCurrentPage(1);
   };
 
-  // Filter return requests based on search term and status
-  const filteredreturns = data?.data?.filter((returns) => {
+  const filteredreturns = data?.returns?.filter((returns) => {
     const matchesSearch = returns?.reason?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter ? returns.status.toLowerCase() === statusFilter.toLowerCase() : true;
     return matchesSearch && matchesStatus;
-  });
+  }) || [];
+
+  const totalProducts = filteredreturns.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = filteredreturns.slice(startIndex, endIndex);
 
   return (
     <div className="right_col" role="main">
@@ -86,54 +94,130 @@ function Return() {
             <thead>
               <tr className="trs">
                 <th>#</th>
+                <th>Order ID</th>
+                <th>User Name</th>
+                <th>Total Amount</th>
+                <th>Payment Method</th>
+                <th>Product Details</th>
                 <th>Reason</th>
                 <th>Description</th>
+               
                 <th>Status</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
             </thead>
             <tbody>
-              {filteredreturns?.map((returns, i) => (
-                <tr key={returns._id}>
-                  <td>{i + 1}</td>
-                  <td>{returns.reason}</td>
-                  <td>{returns.description || "N/A"}</td>
-                  <td className="status-toggle">
-                    <HelpTogal
-                      help={returns}
-                      page="returns"
-                      onSuccess={() => run()}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      className="view-details-btn"
-                      onClick={() => handleEditDetails(returns)}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="viewdelete"
-                      onClick={() => handleDelete(returns)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+  {currentProducts?.map((returns, i) => (
+    <tr key={returns._id}>
+    
+      <td>{i + 1}</td>
+      <td>{returns.orderId?.orderId || "N/A"}</td>
+       <td>{returns.userId?.name || "N/A"}</td>
+      <td>{returns.orderId.totalAmount || "N/A"}</td>
+       <td>{returns.orderId.paymentMethod || "N/A"}</td>
+
+       <td>
+  <div className="product-item">
+    {Array.isArray(returns.orderProductId?.productId?.images) && returns.orderProductId.productId.images.length > 0 ? (
+      returns.orderProductId.productId.images.map((img, index) => (
+        <img
+          key={index}
+          src={`http://localhost:4000/${img}`}
+          alt={`Product ${index + 1}`}
+          style={{
+            width: "50px",
+            height: "50px",
+            objectFit: "cover",
+            borderRadius: "5px",
+            marginRight: "5px",
+            marginTop: "4px"
+          }}
+        />
+      ))
+    ) : (
+      <img
+        src="/placeholder.jpg"
+        alt="No Image Available"
+        style={{
+          width: "50px",
+          height: "50px",
+          objectFit: "cover",
+          borderRadius: "5px",
+          marginRight: "5px",
+          marginTop: "4px"
+        }}
+      />
+    )}
+   <br></br> {returns.orderProductId?.productId?.name || "N/A"} (Quantity{returns.orderProductId.quantity}) (Size {returns.orderProductId.size})
+  </div>
+</td>
+
+      <td>{returns.reason || "N/A"}</td> {/* Fix: Ensure this is a string */}
+      <td>{returns.description || "N/A"}</td> {/* Fix: Ensure this is a string */}
+      <td className="status-toggle">
+        <HelpTogal
+          help={returns}
+          page="returns"
+          onSuccess={() => run()}
+        />
+      </td>
+      <td>
+        <button
+          className="view-details-btn"
+          onClick={() => handleEditDetails(returns)}
+        >
+          <FontAwesomeIcon icon={faEdit} />
+        </button>
+      </td>
+      <td>
+        <button
+          className="viewdelete"
+          onClick={() => handleDelete(returns)}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
           </table>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="pagination-controls d-flex justify-content-center my-3">
+          <button
+            className="btn btn-sm btn-secondary mx-1"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              className={`btn btn-sm mx-1 ${currentPage === index + 1 ? "btn-primary" : "btn-outline-primary"}`}
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            className="btn btn-sm btn-secondary mx-1"
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
         </div>
       </div>
 
-      {/* Edit returns Modal */}
+      {/* Edit Modal */}
       <Modal
         isOpen={isEditModalOpen}
         onRequestClose={closeEditModal}
-        contentLabel="Return Request Details"
+        contentLabel="Edit Return"
         className="modal-content"
         overlayClassName="modal-overlay"
       >
@@ -144,11 +228,11 @@ function Return() {
         />
       </Modal>
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete Modal */}
       <Modal
         isOpen={isDeleteModalOpen}
         onRequestClose={closeDeleteModal}
-        contentLabel="Delete Confirmation"
+        contentLabel="Delete Return"
         className="modal-content"
         overlayClassName="modal-overlay"
       >

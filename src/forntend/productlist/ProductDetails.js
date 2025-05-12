@@ -157,38 +157,39 @@ const ProductDetails = () => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
-
-    if (!userId) return toast.error("Please log in to add to cart.");
-    if (!selectedSize) return toast.error("Please select a size.");
-    if (!userId) {
-      console.error("User not logged in");
-      return;
+  
+    // Generate or get existing sessionId for guest user
+    if (!localStorage.getItem("sessionId")) {
+      localStorage.setItem("sessionId", crypto.randomUUID());
     }
-
+    const sessionId = localStorage.getItem("sessionId");
+  
+    if (!selectedSize) return toast.error("Please select a size.");
+  
     const selectedPrice = selectedPrices[product._id] || product.price;
-
+  
     const body = {
-      userId: userId,
+      userId: userId || null, // send null if not logged in
+      sessionId,
       productId: product._id,
       quantity: quantity,
-      selectedSize: selectedSize,
+      selectedSize,
       price: selectedPrice,
     };
-
+  
     try {
       const response = await AddtoCartServices.addToCart(body, token);
-
+  
       if (response?.status === 409) {
-        // If the backend returns a 409 status, it means the product is already in the cart
         toast.error("This product is already in your cart.");
       } else {
         toast.success("Product added to cart successfully.");
       }
-
-      // console.log("Added to cart:", response);
+  
+      console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
-      toast.error("Product already in cart.");
+      toast.error("Failed to add product to cart.");
     }
   };
   const handleAddToWishlist = async (product) => {
@@ -359,9 +360,11 @@ const rating = getAverageRatingByProductId(reviews, product._id);
       product.productkey.map((item, index) => (
         <button
           key={index}
-          className={`btn btn-primary mt-3 mx-2 ${
-            selectedSizes[product._id] === item.Size ? "btn-dark" : ""
-          }`}
+          className='btn mt-2 me-2'  style={{
+      border: '2px solid',
+      borderColor:
+        selectedSizes[product._id] === item.Size ? 'pink' : 'black',
+    }}
           onClick={() => onSizeClick(product, item.Size)}
         >
           {item.Size}
@@ -635,11 +638,11 @@ const rating = getAverageRatingByProductId(reviews, product._id);
                           {related.productkey.map((item) => (
                             <button
                               key={item.Size}
-                              className={`btn m-2 btn-primary ${
-                                selectedSizes[related._id] === item.Size
-                                  ? "btn-dark"
-                                  : "btn-outline-primary"
-                              }`}
+                               className="btn  m-1 mt-4"    style={{
+      border: '2px solid',
+      borderColor:
+        selectedSizes[related._id] === item.Size ? 'pink' : 'black',
+    }}
                               onClick={() => onSizeClick(related, item.Size)}
                             >
                               {item.Size}
@@ -753,7 +756,7 @@ const rating = getAverageRatingByProductId(reviews, product._id);
                   selectedProduct.productkey.map((size) => (
                     <button
                       key={size.Size}
-                      className="btn btn-primary m-1 mt-4"
+                      className="btn  m-1 mt-4" style={{ border: "1px solid #000" }}
                       onClick={() => onSizeClick(selectedProduct, size.Size)} // Passing product object and size
                     >
                       {size.Size}

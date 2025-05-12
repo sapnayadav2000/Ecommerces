@@ -28,35 +28,38 @@ const HomeHeader = () => {
   const [cartCount, setCartCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  useEffect(() => {
-    const fetchCartCount = async () => {
-      try {
-        const userData = JSON.parse(localStorage.getItem("user"));
-        const userId = userData?._id;
+useEffect(() => {
+  const fetchCartCount = async () => {
+    try {
+      const userData = JSON.parse(localStorage.getItem("user"));
+      const userId = userData?._id;
 
-        if (!userId) {
-          console.warn("User not logged in.");
-          return;
-        }
-
-        const response = await AddtoCartServices.getCartCountByUserId(userId);
-        // console.log("Cart count response:", response);
-
-        const carts = response?.data; // updated here
-        if (Array.isArray(carts) && carts.length > 0) {
-          setCartCount(carts[0].totalItems || 0);
-        } else {
-          setCartCount(0);
-        }
-      } catch (err) {
-        console.error("Failed to fetch cart count", err);
+      if (!userId) {
+        console.warn("User not logged in.");
+        return;
       }
-    };
 
-    if (isLoggedIn) {
-      fetchCartCount();
+      const response = await AddtoCartServices.getCartCountByUserId(userId);
+      const cart = response?.data;
+
+      console.log("Cart count response:", response);
+
+      if (cart && Array.isArray(cart.items)) {
+        const totalItems = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+        setCartCount(totalItems);
+      } else {
+        setCartCount(0);
+      }
+    } catch (err) {
+      console.error("Failed to fetch cart count", err);
     }
-  }, [isLoggedIn]);
+  };
+
+  if (isLoggedIn) {
+    fetchCartCount();
+  }
+}, [isLoggedIn]);
+
   useEffect(() => {
     const fetchWishlistCount = async () => {
       try {
@@ -69,7 +72,7 @@ const HomeHeader = () => {
         }
 
         const response = await wishListServices.getWishlistCount(userId);
-        // console.log("Wishlist count response:", response); // should show count: 3
+        console.log("Wishlist count response:", response); // should show count: 3
 
         const count = response?.count;
         setWishlistCount(count ?? 0);
@@ -129,7 +132,7 @@ const HomeHeader = () => {
               {/* Phone Number */}
               <div className="col header-top-center">
                 <div className="header-top-call">
-                  <FontAwesomeIcon icon={faPhone} /> +91 1234567801
+                  <FontAwesomeIcon icon={faPhone}className="p-2" /> Phone:+91 1234567801
                 </div>
               </div>
 
@@ -172,12 +175,14 @@ const HomeHeader = () => {
                           href="#"
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ backgroundColor: "lightblue" }}
+                       
                         >
-                          <FontAwesomeIcon
-                            icon={faFacebookF}
-                            style={{ color: "white" }}
-                          />
+                        
+                      <img
+                        src="/assets/images/logo/instagram-logo.svg"
+                        alt="Site Logo"
+                      />
+                   
                         </a>
                       </li>
                       <li className="list-inline-item">
@@ -185,12 +190,13 @@ const HomeHeader = () => {
                           href="#"
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ backgroundColor: "#1DA1F2" }}
+                        
                         >
-                          <FontAwesomeIcon
-                            icon={faTwitter}
-                            style={{ color: "white" }}
-                          />
+                             
+                      <img
+                        src="/assets/images/logo/facebook-logo.svg"
+                        alt="Site Logo"
+                      />
                         </a>
                       </li>
                       <li className="list-inline-item">
@@ -198,12 +204,13 @@ const HomeHeader = () => {
                           href="https://www.instagram.com/"
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ backgroundColor: "#E4405F" }}
+                         
                         >
-                          <FontAwesomeIcon
-                            icon={faInstagram}
-                            style={{ color: "white" }}
-                          />
+                             
+                      <img
+                        src="/assets/images/logo/twitter-logo.svg"
+                        alt="Site Logo"
+                      />
                         </a>
                       </li>
                       <li className="list-inline-item">
@@ -213,10 +220,10 @@ const HomeHeader = () => {
                           rel="noopener noreferrer"
                           style={{ backgroundColor: "#0077B5" }}
                         >
-                          <FontAwesomeIcon
-                            icon={faLinkedin}
-                            style={{ color: "white" }}
-                          />
+                           <img
+                        src="/assets/images/logo/linkedin-logo.svg"
+                        alt="Site Logo"
+                      />
                         </a>
                       </li>
                     </ul>
@@ -257,7 +264,7 @@ const HomeHeader = () => {
                             className="dropdown-toggle"
                             data-bs-toggle="dropdown"
                           >
-                            <FontAwesomeIcon icon={faUser} />
+                            <FontAwesomeIcon icon="fa-solid fa-user"/>
                           </button>
                           <ul className="dropdown-menu dropdown-menu-right">
                             <li>
@@ -293,7 +300,7 @@ const HomeHeader = () => {
                               </Link>
                             </li>
                             <li>
-                              <Link className="dropdown-item" to="/checkout">
+                              <Link className="dropdown-item" to="/add-to-cart">
                                 Checkout
                               </Link>
                             </li>
@@ -313,7 +320,7 @@ const HomeHeader = () => {
                       className="ec-header-btn ec-header-wishlist"
                     >
                       <div className="header-icon">
-                        <FontAwesomeIcon icon={faHeart} />
+                        <FontAwesomeIcon icon={faHeart} style={{ fontSize: '18px' }} />
                       </div>
                       <span className="ec-header-count ec-cart-wishlist">
                         {wishlistCount}
@@ -326,7 +333,7 @@ const HomeHeader = () => {
                       className="ec-header-btn ec-side-toggle"
                     >
                       <div className="header-icon">
-                        <BsBasket />
+                        <BsBasket  style={{ fontSize: '18px' }}/>
                       </div>
                       <span className="ec-header-count ec-cart-count">
                         {cartCount}
@@ -347,21 +354,21 @@ const HomeHeader = () => {
               <div className="col-sm-12 ec-main-menu-block align-self-center d-none d-lg-block">
                 <div className="ec-main-menu">
                   <ul>
-                    <Link to="/">
+                    <Link to="/"   className={({ isActive }) => (isActive ? "active" : "")}>
                       <li>
                         <a href="#">Home</a>
                       </li>
                     </Link>
                     <AllCategory />
-                    <Link to="/home-product">
+                    <Link to="/home-product"  className={({ isActive }) => (isActive ? "active" : "")}>
                       <li className="dropdown">
                         <a href="#">Products</a>
                       </li>
                     </Link>
-                    <li className="dropdown">
+                    <li className="dropdown"  >
                       <a href="#">Pages</a>
                       <ul className="sub-menu">
-                        <Link to="/about">
+                        <Link to="/about" >
                           <li>
                             <a href="#">About Us</a>
                           </li>
@@ -378,8 +385,8 @@ const HomeHeader = () => {
                         </Link>
                       </ul>
                     </li>
-                    <Link to="/blogs">
-                      <li className="dropdown">
+                    <Link to="/blogs"  className={({ isActive }) => (isActive ? "active" : "")}>
+                      <li className="dropdown" >
                         <a href="#">Blog</a>
                       </li>
                     </Link>

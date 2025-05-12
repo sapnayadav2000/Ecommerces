@@ -124,38 +124,39 @@ const SilkSaree = () => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
-
-    if (!userId) return toast.error("Please log in to add to cart.");
-    if (!selectedSize) return toast.error("Please select a size.");
-    if (!userId) {
-      console.error("User not logged in");
-      return;
+  
+    // Generate or get existing sessionId for guest user
+    if (!localStorage.getItem("sessionId")) {
+      localStorage.setItem("sessionId", crypto.randomUUID());
     }
-
+    const sessionId = localStorage.getItem("sessionId");
+  
+    if (!selectedSize) return toast.error("Please select a size.");
+  
     const selectedPrice = selectedPrices[product._id] || product.price;
-
+  
     const body = {
-      userId: userId,
+      userId: userId || null, // send null if not logged in
+      sessionId,
       productId: product._id,
       quantity: quantity,
-      selectedSize: selectedSize,
+      selectedSize,
       price: selectedPrice,
     };
-
+  
     try {
       const response = await AddtoCartServices.addToCart(body, token);
-
+  
       if (response?.status === 409) {
-        // If the backend returns a 409 status, it means the product is already in the cart
         toast.error("This product is already in your cart.");
       } else {
         toast.success("Product added to cart successfully.");
       }
-
+  
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
-      toast.error("Product already in cart.");
+      toast.error("Failed to add product to cart.");
     }
   };
   const handleQuickView = (product, event) => {
@@ -176,9 +177,9 @@ const SilkSaree = () => {
   };
   return (
     <>
-      <section className="ec-banner section py-5">
+      <section className="ec-banner section py-3">
         <div className="container">
-          <h2 className="mb-4 text-center fw-bold">Silk Saree</h2>
+          <h2 className="custom-heading mb-4 fw-bold text-center">Silk Saree</h2>
           <div className="row g-4">
             {loading ? (
               <div className="text-center">
@@ -201,7 +202,7 @@ const SilkSaree = () => {
                         }`}
                         alt={product.name}
                         style={{
-                          height: "350px",
+                          height: "450px",
 
                           objectFit: "cover",
                         }}
@@ -242,7 +243,7 @@ const SilkSaree = () => {
                         </button>
                       </div>
                     </div>
-                    <div className="card-body ">
+                    <div className="ec-pro-content">
                       <h5 className="ec-pro-title">
                         <Link to={`/product-details/${product._id}`}>
                           {product.name}
@@ -270,7 +271,11 @@ const SilkSaree = () => {
                       {product.productkey?.map((item) => (
                         <button
                           key={item.Size}
-                          className="btn btn-primary m-2"
+                          className="btn  m-2"  style={{
+      border: '2px solid',
+      borderColor:
+        selectedSizes[product._id] === item.Size ? 'pink' : 'black',
+    }}
                           onClick={() => onSizeClick(product._id, item.Size)}
                         >
                           {item.Size}
@@ -290,7 +295,7 @@ const SilkSaree = () => {
   <div className="text-center mt-4">
     <button
       className="btn btn-primary"
-      onClick={() => navigate("/all-new-arrivals")}
+      onClick={() => navigate("/saree")}
     >
       Explore All
     </button>
@@ -375,7 +380,11 @@ const SilkSaree = () => {
                 {selectedProduct?.productkey?.map((size) => (
                   <button
                     key={size.Size}
-                    className="btn btn-primary m-1 mt-4"
+                    className="btn  m-1 mt-4"  style={{
+      border: '2px solid',
+      borderColor:
+        selectedSizes[selectedProduct._id] === size.Size ? 'pink' : 'black',
+    }}
                     onClick={() => onSizeClick(selectedProduct._id, size.Size)}
                   >
                     {size.Size}

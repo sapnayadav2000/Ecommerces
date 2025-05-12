@@ -63,7 +63,7 @@ const HomeCategory = () => {
                       style={{ paddingTop: "30px" }}
                     >
                       <div
-                        className="ec-cat-image"
+                        className="ec-cat-image ml-5"
                         style={{ display: "flex", cursor: "pointer" }}
                         onClick={() =>
                           handleSubCategoryClick(category._id, category.slug)

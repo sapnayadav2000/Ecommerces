@@ -3,14 +3,26 @@ import requests from "./httpsServices";
 const AddtoCartServices = {
   getAllCart: async () => {
     const token = localStorage.getItem("token");
-    const res = await requests.get(`/api/cart/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log("getAllCart() response:", res); // <== Check this
-    return res;
+    const sessionId = localStorage.getItem("sessionId");
+  
+    try {
+      const res = await requests.get(`/api/cart`, {
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        params: {
+          ...(sessionId && !token && { sessionId }), // only send sessionId if user is not logged in
+        },
+      });
+  
+      console.log("getAllCart() response:", res);
+      return res;
+    } catch (error) {
+      console.error("getAllCart() error:", error);
+      throw error;
+    }
   },
+  
   addToCart: async (body, token) => {
     const response = await requests.post(`/api/cart/`, body, {
       headers: {
@@ -43,6 +55,8 @@ const AddtoCartServices = {
       },
     });
   },
+
+  
   updateQuantity: async (cartId, itemId, quantity) => {
     const token = localStorage.getItem("token");
     try {
@@ -61,5 +75,22 @@ const AddtoCartServices = {
       throw error;
     }
   },
+
+  mergeCartToUser: async (sessionId, userId) => {
+    try {
+      
+      const response = await requests.post(`/api/cart/merge`, {
+        sessionId,
+        userId,
+      });
+      console.log("mergeCartToUser() response:", response);
+      return response;
+    } catch (error) {
+      console.error("mergeCartToUser() error:", error);
+      throw error;
+    }
+  },
+  
 };
+
 export default AddtoCartServices;

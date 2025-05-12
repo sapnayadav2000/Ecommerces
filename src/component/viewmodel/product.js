@@ -9,17 +9,18 @@ import { useState } from "react";
 import Modal from "react-modal";
 import ProductUpdate from "../update/productUpdate.js";
 import DeleteButton from "../delete/deleteButton.js";
-import Footer from "../../forntend/Footer.js";
+
 
 Modal.setAppElement("#root");
 
 function Product() {
   const { data, run } = useAsync(Productservices.getproduct);
-  console.log("Allproducts",data)
   const [searchTerm, setSearchTerm] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedEdit, setSelectedEdit] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
 
   // Filter products by search term
   const filteredData = data?.data?.length
@@ -28,8 +29,15 @@ function Product() {
       )
     : [];
 
+  const totalProducts = filteredData.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = filteredData.slice(startIndex, endIndex);
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1); // reset to first page on search
   };
 
   const closeDeleteModal = () => {
@@ -80,31 +88,30 @@ function Product() {
               </Link>
             </div>
           </div>
+
           <div className="container-box-inner" style={{ overflowX: "auto" }}>
             <table id="example" className="table">
               <thead>
                 <tr className="trs">
-                  <th scope="col">#</th>
-                  <th scope="col">Images</th>
-                  <th scope="col">Category Name</th>
-                  <th scope="col">Sub Category Name</th>
-                  <th scope="col">Brand Name</th>
-                  <th scope="col">Name</th>
-                  {/* <th scope="col">Description</th> */}
-                  <th scope="col">Sort Description</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Originalprice</th>
-                  <th scope="col">Policies</th>
-                  <th scope="col">Offer Price</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Action</th>
-                  
+                  <th>#</th>
+                  <th>Images</th>
+                  <th>Category Name</th>
+                  <th>Sub Category Name</th>
+                  <th>Brand Name</th>
+                  <th>Name</th>
+                  <th>Sort Description</th>
+                  <th>Price</th>
+                  <th>Original Price</th>
+                  <th>Policies</th>
+                  <th>Offer Price</th>
+                  <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredData?.map((product, i) => (
+                {currentProducts?.map((product, i) => (
                   <tr key={i}>
-                    <td>{i + 1}</td>
+                    <td>{startIndex + i + 1}</td>
                     <td>
                       <div className="product-img">
                         {Array.isArray(product.images) && product.images.length > 0 ? (
@@ -141,24 +148,20 @@ function Product() {
                     <td>{product.subCategoryname?.join(", ") || "N/A"}</td>
                     <td>{product.brandname?.join(", ") || "N/A"}</td>
                     <td>{product.name}</td>
-                    {/* <td>{product.description}</td> */}
                     <th>{product.Sortdescription}</th>
+                    <td>{product.price}</td>
+                    <td>{product.Originalprice}</td>
                     <td>
-                     
-                    {product.price}
+                      {product.refundPolicies?.returnable === true
+                        ? `${product.refundPolicies.returnWindow} Days`
+                        : "No Refund Policy"}
                     </td>
-                    <td>
-                     
-                    {product.Originalprice}
-                    </td>
-                    <td> {product.refundPolicies?.returnable === true ? `${product.refundPolicies.returnWindow} Days` : "No Refund Policy"}</td>
                     <td>
                       {product.productkey?.length
-                        ? product.productkey.map(
-                            (item) =>
-                              item.OfferPrice
-                                ? ` ${item.Size}: ${item.OfferPrice} `
-                                : "N/A"
+                        ? product.productkey.map((item) =>
+                            item.OfferPrice
+                              ? ` ${item.Size}: ${item.OfferPrice} `
+                              : "N/A"
                           )
                         : "N/A"}
                     </td>
@@ -170,7 +173,7 @@ function Product() {
                       />
                     </td>
                     <td>
-                    <div className="dropdown">
+                      <div className="dropdown">
                         <button
                           className="btn btn-sm btn-outline-secondary dropdown-toggle"
                           type="button"
@@ -206,6 +209,37 @@ function Product() {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination Controls */}
+          <div className="pagination-controls d-flex justify-content-center my-3">
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Prev
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn btn-sm mx-1 ${
+                  currentPage === index + 1 ? "btn-primary" : "btn-outline-primary"
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="btn btn-sm btn-secondary mx-1"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
         </div>
 
         {/* Edit Product Modal */}
@@ -238,14 +272,13 @@ function Product() {
             onSuccess={run}
           />
         </Modal>
-       
       </div>
-     
     </>
   );
 }
 
 export default Product;
+
 
 
 

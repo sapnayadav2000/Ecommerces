@@ -36,7 +36,7 @@ import Order from "./component/viewmodel/order";
 import HomeHeader from "./forntend/HomeHeader";
 import Home from "./forntend/Home";
 import Conatct from "./component/viewmodel/contact";
-import Returns from "./component/viewmodel/return"
+import Returns from "./component/viewmodel/return";
 
 import Contact from "./forntend/contact/Contact";
 
@@ -58,12 +58,11 @@ import HomeCategory from "./forntend/category/HomeCategory";
 import HomeBanner from "./forntend/banner/HomeBanner";
 import NewArrivals from "./forntend/banner/NewArrivals";
 import AllNewArrivals from "./forntend/banner/AllNewArrivals";
-import kurti from "./forntend/banner/kurti";
-
+import Kurti from "./forntend/banner/AllKurti";
+import AllSaree from "./forntend/banner/AllSaree";
+import IndoWestern from "./forntend/banner/indowestern";
 // HomeProduct
 import HomeProduct from "./forntend/product/HomeProduct";
-
-
 
 import CheckOut from "./forntend/CheckOut/CheckOut";
 // import Cart from './forntend/Cart/Cart';
@@ -71,7 +70,6 @@ import TrackOrder from "./forntend/Track/TrackOrder";
 import About from "./forntend/About/About";
 import TermCondition from "./forntend/Service/termsCondition";
 import PrivacyPolicy from "./forntend/Service/privacayPolicy";
-
 
 import Service from "./forntend/Service/Service";
 import ProductDetails from "./forntend/productlist/ProductDetails";
@@ -82,7 +80,7 @@ import BlogDetails from "./forntend/Blog/BlogDeatils";
 import UserManager from "./component/viewmodel/userManger";
 import WishList from "./forntend/CheckOut/WishList";
 import Products from "./forntend/product/Product";
-import Return from "./forntend/Return/return"
+import Return from "./forntend/Return/return";
 import ProductList from "./forntend/productlist/ProductList";
 import { CurrencyProvider } from "./forntend/CurrencyContent";
 import OrderDetails from "./forntend/CheckOut/orderDetails";
@@ -142,7 +140,8 @@ function LayoutWrapper({ children, isAuthenticated, isAdmin }) {
     "/review",
     "/ticket-manager",
     "/pincode",
-     "/add-pincode","/return"
+    "/add-pincode",
+    "/return",
   ];
 
   // Routes where Header and Footer should be hidden
@@ -527,10 +526,8 @@ function App() {
                   <Reviews />
                 </PrivateRoute>
               }
-              
-              
             />
-            
+
             <Route
               path="/pincode"
               element={
@@ -542,8 +539,8 @@ function App() {
                   <Pincode />
                 </PrivateRoute>
               }
-              />
-                <Route
+            />
+            <Route
               path="/add-pincode"
               element={
                 <PrivateRoute
@@ -554,8 +551,8 @@ function App() {
                   <AddPincode />
                 </PrivateRoute>
               }
-              />
-                 <Route
+            />
+            <Route
               path="/return"
               element={
                 <PrivateRoute
@@ -563,10 +560,10 @@ function App() {
                   requiredPermission="return"
                   isAdmin={isAdmin}
                 >
-                  <Returns/>
+                  <Returns />
                 </PrivateRoute>
               }
-              />
+            />
 
             {/* front Routes */}
             <Route path="/" element={<Home />} />
@@ -579,11 +576,13 @@ function App() {
             <Route path="/fornt-banner" element={<HomeBanner />} />
             <Route path="/home-product" element={<Products />} />
             <Route path="/new-arrivals" element={<NewArrivals />} />
-            <Route path="/Kurti" element={<kurti/>} />
+
             <Route path="/all-new-arrivals" element={<AllNewArrivals />} />
-          
-          
-         
+            <Route path="/kurti" element={<Kurti />} />
+
+            <Route path="/saree" element={<AllSaree />} />
+            <Route path="/indo-western" element={<IndoWestern />} />
+
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/contact-us" element={<Contact />} />
             <Route path="/add-to-cart" element={<AddToCart />} />
@@ -592,8 +591,7 @@ function App() {
             <Route path="/termscondition" element={<TermCondition />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/category" element={<Category />} />
-          
-          
+
             <Route path="/service" element={<Service />} />
             <Route path="/wishlist" element={<WishList />} />
             <Route path="/product-details/:id" element={<ProductDetails />} />
