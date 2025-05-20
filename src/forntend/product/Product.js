@@ -7,13 +7,21 @@ import { Modal, Button } from "react-bootstrap";
 import { useCurrency } from "../CurrencyContent";
 import AddtoCartServices from "../../services/AddtoCart";
 import HomeHeader from "../HomeHeader";
-
+import { useWishlist } from "../../Store/whislist";
 import wishListServices from "../../services/wishListServices";
 import Slider from "react-slick";
 import { toast } from "react-toastify";
+import { useCart } from "../../Store/addtoCart";
 const Products = () => {
   const navigate = useNavigate();
   const { currency } = useCurrency();
+   const { fetchCartCount } = useCart();
+      const {
+    wishlistItems,
+    setWishlistItems,
+    fetchWishlistCount,
+  } = useWishlist();
+
   const [products, setProducts] = useState([]);
   const [selectedPrices, setSelectedPrices] = useState({});
   const [priceRange, setPriceRange] = useState({ min: 100, max: 7285 });
@@ -24,10 +32,7 @@ const Products = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSizes, setSelectedSizes] = useState({});
   const [SelectedSizes, SetSelectedSizes] = useState([]);
-  const [wishlistItems, setWishlistItems] = useState(() => {
-    const stored = localStorage.getItem("wishlistItems");
-    return stored ? JSON.parse(stored) : [];
-  });
+
 
   const [sortOption, setSortOption] = useState("price");
   const [searchTerm, setSearchTerm] = useState(""); // State for the name filter
@@ -52,21 +57,27 @@ const Products = () => {
     }
   }, [selectedProduct]);
   const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-      { breakpoint: 600, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-    ],
-  };
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow:
+    selectedProduct && selectedProduct.images?.length >= 4
+      ? 4
+      : selectedProduct?.images?.length || 1,
+  slidesToScroll: 1,
+  beforeChange: (oldIndex, newIndex) => {
+    setActiveImageIndex((prev) => ({
+      ...prev,
+      [selectedProduct._id]: newIndex,
+    }));
+  },
+};
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await Productservices.getproduct();
-        setProducts(response.data);
+          const activeProducts = response.data.filter(product => product.status === 'Active');
+      setProducts(activeProducts);
       } catch (error) {
         console.error("Failed to fetch products", error);
       }
@@ -152,9 +163,16 @@ const Products = () => {
   );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const nextPage = () => {
+     const nextPage = () => {
     if (currentPage < Math.ceil(products.length / productsPerPage)) {
       setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Previous page function
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -213,15 +231,16 @@ const Products = () => {
       } else {
         toast.success("Product added to cart successfully.");
       }
-  
+  fetchCartCount();
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
-      toast.error("Failed to add product to cart.");
+      toast.error("This product is already in your cart.");
     }
   };
 
-  const handleAddToWishlist = async (product) => {
+ const handleAddToWishlist = async (product) => {
+    const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
 
@@ -233,7 +252,6 @@ const Products = () => {
     const isWishlisted = wishlistItems.includes(product._id);
 
     try {
-      const token = localStorage.getItem("token");
       if (isWishlisted) {
         await wishListServices.removeFromWishlist(userId, product._id, token);
         setWishlistItems((prev) => prev.filter((id) => id !== product._id));
@@ -243,6 +261,8 @@ const Products = () => {
         setWishlistItems((prev) => [...prev, product._id]);
         toast.success("Product added to wishlist");
       }
+
+      fetchWishlistCount(); // update count
     } catch (error) {
       console.error("Wishlist error", error);
       toast.error("Error updating wishlist");
@@ -411,7 +431,9 @@ const Products = () => {
                 className="btn p-1 d-inline-flex align-items-center justify-content-center"
                 style={{ backgroundColor: "#FF0B55", width: "40px" }}
               >
-                <img src="img/dashboard.svg" alt="image" />
+                <a href="/">
+  <img src="/img/dashboard.svg" alt="Dashboard" />
+</a>
               </button>
 
               <div
@@ -572,13 +594,22 @@ const Products = () => {
                       {products.length} item(s)
                     </span>
                     <ul className="ec-pro-pagination-inner">
+                       <li>
+          <button
+            className="prev btn btn-primary"
+            onClick={prevPage}
+            disabled={currentPage === 1}
+          >
+          Prev
+          </button>
+        </li>
                       {Array.from({
                         length: Math.min(
                           5,
                           Math.ceil(products.length / productsPerPage)
                         ),
                       }).map((_, index) => (
-                        <li key={index}>
+                        <li key={index} className="mt-3">
                           <button
                             className={
                               currentPage === index + 1 ? "active" : ""
@@ -596,6 +627,15 @@ const Products = () => {
                           </button>
                         </li>
                       )}
+                       <li>
+          <button
+            className="next btn btn-primary"
+            onClick={nextPage}
+            disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+          >
+            Next 
+          </button>
+        </li>
                     </ul>
                   </div>
                 </div>
@@ -611,7 +651,6 @@ const Products = () => {
               >
                 <Modal.Header
                   closeButton
-                  style={{ backgroundColor: "white" }}
                 ></Modal.Header>
                 <Modal.Body style={{ backgroundColor: "white" }}>
                   <div className="row">
@@ -698,7 +737,7 @@ const Products = () => {
                       </div>
                       <div
                         className="mt-3 d-flex align-items-center"
-                        style={{ border: "1px solid black" }}
+                         style={{ border: "1px solid black",width: '86%' }}
                       >
                         <button
                           className="btn btn-outline-dark "
@@ -706,7 +745,7 @@ const Products = () => {
                         >
                           -
                         </button>
-                        <span className="mx-3">{quantity}</span>
+                        <span className="mx-4">{quantity}</span>
                         <button
                           className="btn btn-outline-dark"
                           onClick={() => setQuantity(quantity + 1)}

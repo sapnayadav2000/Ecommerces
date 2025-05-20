@@ -23,29 +23,29 @@ const OrderHistory = () => {
     const fetchOrders = async () => {
       try {
         const response = await OrderServices.getOrders(user?._id);
-        console.log("response data", response); // Inspect the response structure
-        setOrders(response || []); // Ensure orders is an array
+        console.log("response data", response);
+        setOrders(response || []);
       } catch (error) {
         console.error("Failed to fetch user orders:", error);
-        setOrders([]); // Handle errors by setting orders to empty array
+        setOrders([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [navigate, user]);
 
-  const Cancelorder = async (id) => {
+  const CancelOrder = async (orderId, productId) => {
     try {
-      await OrderServices.deleteOrder(id);
-      toast.success("Order Canceled");
-      // console.log('order cancels',OrderServices)
+      await OrderServices.cancelProductInOrder(orderId, productId);
+      toast.success("Product canceled from order");
+
       const response = await OrderServices.getOrders(user?._id);
       setOrders(response || []);
     } catch (err) {
-      console.error("Error canceling order:", err);
-      toast.error("Failed to cancel the order. Please try again.");
+      console.error("Error canceling product from order:", err);
+      toast.error("Failed to cancel the product. Please try again.");
     }
   };
 
@@ -77,7 +77,7 @@ const OrderHistory = () => {
             <div
               key={order._id}
               className="order-card border-start border-4 border-primary shadow-sm p-4 mb-5 bg-white rounded-4"
-              style={{ transition: "0.3s", background: "#fff" }}
+              style={{ transition: "0.5s", background: "#fff" }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap mb-3">
                 <div>
@@ -98,79 +98,96 @@ const OrderHistory = () => {
                 </span>
               </div>
 
-              {/* Order Items */}
-              {order.orderProducts.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="d-flex flex-column flex-md-row align-items-start gap-3 p-3 rounded shadow-sm mb-4"
-                  style={{ background: "#f8f9fa", borderRadius: "10px" }}
-                >
-                  <img
-                    src={`${process.env.REACT_APP_API_BASE_URL}/${item.productId?.images?.[0]}`}
-                    alt={item.productId?.name}
-                    onError={(e) => (e.target.src = "/placeholder-image.jpg")}
-                    style={{
-                      width: "90px",
-                      height: "90px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                      border: "1px solid #ddd",
-                    }}
-                  />
-                  <div className="flex-grow-1">
-                    <h6 className="fw-semibold">{item.productId?.name}</h6>
-                    <div className="text-muted mb-1">
-                      Size: {item.size} | Qty: {item.quantity}
-                    </div>
-                    <div className="fw-bold text-success">
-                      {currency.symbol}
-                      {item.price.toFixed(2)}
-                    </div>
-                    <div className="d-flex flex-wrap gap-2 mt-2 ">
-                      <Link to={`/track-order/${order._id}`}>
-                        <button className="btn btn-primary btn-sm  mt-5">
-                          Track Order
-                        </button>
-                      </Link>
-                      {order.orderStatus === "Delivered" && (
-                        <>
-                          <button
-                            className="btn btn-primary btn-sm  mt-5"
-                            onClick={() =>
-                              handleReviewClick(item.productId?._id)
-                            }
-                          >
-                            Leave a Review
-                          </button>
-                          <button
-                            className="btn btn-primary btn-sm  mt-5"
-                            onClick={() => handleReturnClick(item._id)}
-                          >
-                            Return Policy
-                          </button>
-                        </>
-                      )}
-                      {order.orderStatus === "Delivered" && (
-                        <button
-                          className="btn btn-primary btn-sm  mt-5"
-                          onClick={() => handleReturnClicks(item._id)}
-                        >
-                          Create Ticket
-                        </button>
-                      )}
-                      {order.orderStatus !== "Cancel" &&
-                        order.orderStatus !== "Delivered" && (
-                          <button
-                            className="btn btn-primary btn-sm  mt-5"
-                            onClick={() => Cancelorder(order._id)}
-                          >
-                            Cancel Order
-                          </button>
-                        )}
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {/* Order Products */}
+             {order.orderProducts.map((item, idx) => (
+  <div
+    key={idx}
+    className="d-flex flex-column flex-md-row align-items-start gap-3 p-3 rounded shadow-sm mb-4"
+    style={{ background: "#f8f9fa", borderRadius: "10px" }}
+  >
+    {/* Product Image */}
+    <img
+      src={`${process.env.REACT_APP_API_BASE_URL}/${item.productId?.images?.[0]}`}
+      alt={item.productId?.name}
+      onError={(e) => (e.target.src = "/placeholder-image.jpg")}
+      style={{
+        width: "90px",
+        height: "90px",
+        objectFit: "cover",
+        borderRadius: "8px",
+        border: "1px solid #ddd",
+      }}
+    />
+
+    {/* Product Info + Badge Right */}
+    <div className="flex-grow-1 w-100">
+      <div className="d-flex justify-content-between align-items-start">
+        <h6 className="fw-semibold mb-2">{item.productId?.name}</h6>
+
+        <span
+          className={`badge px-3 py-2 rounded-pill fs-6 fw-medium ${
+            item.orderStatus === "Cancel"
+              ? "bg-danger"
+              : item.orderStatus === "Delivered"
+              ? "bg-success"
+              : "bg-warning text-dark"
+          }`}
+        >
+          {item.orderStatus}
+        </span>
+      </div>
+
+      <div className="text-muted mb-1">
+        Size: {item.size} | Qty: {item.quantity}
+      </div>
+      <div className="fw-bold text-success">
+        {currency.symbol}
+        {item.price.toFixed(2)}
+      </div>
+
+
+      <div className="d-flex flex-wrap gap-2 mt-4">
+        
+<Link to={`/track-order/${item.orderId}/${item._id}`}>
+  <button className="btn btn-primary btn-sm mb-3">Track Order</button>
+</Link>
+        {item.orderStatus === "Delivered" && (
+          <>
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => handleReviewClick(item.productId?._id)}
+            >
+              Leave a Review
+            </button>
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => handleReturnClick(item._id)}
+            >
+              Return Policy
+            </button>
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => handleReturnClicks(item._id)}
+            >
+              Create Ticket
+            </button>
+          </>
+        )}
+
+        {item.orderStatus !== "Cancel" &&
+          item.orderStatus !== "Delivered" && (
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => CancelOrder(order._id, item.productId._id)}
+            >
+              Cancel Order
+            </button>
+          )}
+      </div>
+    </div>
+  </div>
+))}
+
 
               {/* Address and Summary */}
               <div className="mt-4">
@@ -198,7 +215,7 @@ const OrderHistory = () => {
                 </p>
               </div>
 
-              {/* Invoice and Cancel Button */}
+              {/* Invoice */}
               <UserInvoice order={order} />
             </div>
           ))

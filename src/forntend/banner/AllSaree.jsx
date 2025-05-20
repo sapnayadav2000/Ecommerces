@@ -12,8 +12,17 @@ import wishListServices from "../../services/wishListServices";
 import AddtoCartServices from "../../services/AddtoCart";
 import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { useWishlist } from "../../Store/whislist";
+import { useCart } from "../../Store/addtoCart";
 const AllSaree = () => {
   const [priceRange, setPriceRange] = useState({ min: 100, max: 7285 });
+    const { fetchCartCount } = useCart();
+      const {
+    wishlistItems,
+    setWishlistItems,
+    fetchWishlistCount,
+  } = useWishlist();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { currency } = useCurrency();
@@ -23,10 +32,7 @@ const AllSaree = () => {
   const [selectedPrices, setSelectedPrices] = useState({});
   const [selectedSizes, setSelectedSizes] = useState({});
   const [SelectedSizes, SetSelectedSizes] = useState([]);
-  const [wishlistItems, setWishlistItems] = useState(() => {
-    const stored = localStorage.getItem("wishlistItems");
-    return stored ? JSON.parse(stored) : [];
-  });
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -98,7 +104,7 @@ const AllSaree = () => {
       [productId]: size,
     }));
   };
-  const handleAddToWishlist = async (product) => {
+ const handleAddToWishlist = async (product) => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
@@ -120,6 +126,8 @@ const AllSaree = () => {
         setWishlistItems((prev) => [...prev, product._id]);
         toast.success("Product added to wishlist");
       }
+
+      fetchWishlistCount(); // update count
     } catch (error) {
       console.error("Wishlist error", error);
       toast.error("Error updating wishlist");
@@ -157,11 +165,11 @@ const AllSaree = () => {
       } else {
         toast.success("Product added to cart successfully.");
       }
-  
+  fetchCartCount();
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
-      toast.error("Failed to add product to cart.");
+      toast.error("This product is already in your cart.");
     }
   };
   const handleQuickView = (product, event) => {
@@ -170,16 +178,21 @@ const AllSaree = () => {
     setShowModal(true);
   };
   const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-      { breakpoint: 600, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-    ],
-  };
+  dots: false,
+  infinite: true,
+  speed: 500,
+   slidesToShow:
+    selectedProduct && selectedProduct.images?.length >= 4
+      ? 4
+      : selectedProduct?.images?.length || 1,
+  slidesToScroll: 1,
+  beforeChange: (oldIndex, newIndex) => {
+    setActiveImageIndex((prev) => ({
+      ...prev,
+      [selectedProduct._id]: newIndex,
+    }));
+  },
+};
   const handleSizeChange = (size) => {
     SetSelectedSizes((prev) =>
       prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
@@ -261,9 +274,16 @@ const AllSaree = () => {
   );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const nextPage = () => {
+    const nextPage = () => {
     if (currentPage < Math.ceil(products.length / productsPerPage)) {
       setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Previous page function
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -419,7 +439,9 @@ const AllSaree = () => {
                 className="btn mt-2"
                 style={{ backgroundColor: "#FF0B55" }}
               >
-                <img src="img/dashboard.svg" alt="image" />
+                                <a href="/">
+  <img src="/img/dashboard.svg" alt="Dashboard" />
+</a>
               </button>
 
               <div
@@ -583,13 +605,22 @@ const AllSaree = () => {
                       {products.length} item(s)
                     </span>
                     <ul className="ec-pro-pagination-inner">
+                       <li>
+          <button
+            className="prev btn btn-primary ml-3"
+            onClick={prevPage}
+            disabled={currentPage === 1}
+          >
+          Prev
+          </button>
+        </li>
                       {Array.from({
                         length: Math.min(
                           5,
                           Math.ceil(products.length / productsPerPage)
                         ),
                       }).map((_, index) => (
-                        <li key={index}>
+                        <li key={index}className="mt-3">
                           <button
                             className={
                               currentPage === index + 1 ? "active" : ""
@@ -602,11 +633,20 @@ const AllSaree = () => {
                       ))}
                       {Math.ceil(products.length / productsPerPage) > 5 && (
                         <li>
-                          <button className="next" onClick={nextPage}>
+                          <button className="next " onClick={nextPage}>
                             Next <i className="ecicon eci-angle-right" />
                           </button>
                         </li>
                       )}
+                                  <li>
+          <button
+            className="next btn btn-primary"
+            onClick={nextPage}
+            disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+          >
+            Next 
+          </button>
+        </li>
                     </ul>
                   </div>
           </section>
@@ -707,7 +747,7 @@ const AllSaree = () => {
                   {/* Quantity Selection */}
                   <div
                     className="mt-3 d-flex align-items-center"
-                    style={{ border: "1px solid black" }}
+                    style={{ border: "1px solid black", width: '86%'}}
                   >
                     <button
                       className="btn btn-outline-dark "
@@ -715,7 +755,7 @@ const AllSaree = () => {
                     >
                       -
                     </button>
-                    <span className="mx-3">{quantity}</span>
+                    <span className="mx-4">{quantity}</span>
                     <button
                       className="btn btn-outline-dark"
                       onClick={() => setQuantity(quantity + 1)}

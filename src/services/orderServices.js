@@ -1,18 +1,16 @@
 import requests from "./httpsServices";
-const trackOrder = async (userId, orderId) => {
-  const res = await requests.get(`/api/Orders/track/${userId}/${orderId}`);
-  console.log("response data", res);
-  return res;
+const trackOrder = async (userId, orderId, orderProductId) => {
+  return await requests.get(`/api/Orders/track/${userId}/${orderId}/${orderProductId}`);
 };
 const OrderServices = {
-  updateOrder: async (id, body) => {
-    const token = localStorage.getItem("token");
-    return requests.patch(`/api/order/${id}`, body, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  },
+updateOrderStatus: (orderId, productId, data) => {
+   const token = localStorage.getItem("token");
+  return requests.patch(`/api/orders/update-status/${orderId}/${productId}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+},
   getOrders: async (id) => {
     const token = localStorage.getItem("token");
     return requests.get(`/api/Orders/${id}`, {
@@ -45,14 +43,14 @@ const OrderServices = {
       },
     });
   },
-  deleteOrder: async (id) => {
-    const token = localStorage.getItem("token");
-    return requests.delete(`/api/Orders/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  },
+cancelProductInOrder: async (orderId, productId) => {
+  const token = localStorage.getItem("token");
+  return requests.delete(`/api/Orders/${orderId}/${productId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+},
   getUserAddresses: async (userId) => {
     const token = localStorage.getItem("token");
     return requests.get(`/api/user/${userId}/addresses`, {

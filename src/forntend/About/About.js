@@ -32,17 +32,8 @@ const About = () => {
       {/* Breadcrumb */}
       <div className="bg-light py-4 border-bottom text-center">
         <div className="container">
-          <h2 className="fw-bold">{getTitle()}</h2>
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb mb-0">
-              <li className="breadcrumb-item">
-                <a href="/">Home</a>
-              </li>
-              <li className="ml-2 active" aria-current="page">
-                {getTitle()}
-              </li>
-            </ol>
-          </nav>
+          <h2 className="fw-bold">About Us</h2>
+         
         </div>
       </div>
 

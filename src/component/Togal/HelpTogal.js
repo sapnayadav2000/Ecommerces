@@ -11,6 +11,7 @@ import Reviewservices from "../../services/reviewServices";
 import Conatctservices from "../../services/conatctServices";
 import Pincodeservices from "../../services/pincode";
 import ReturnServices from "../../services/returnServices";
+import BlogServices from "../../services/blogServices";
 const HelpTogal = ({ help, page, onSuccess }) => {
   // Initialize the state based on the user's status
   const [isChecked, setIsChecked] = useState(help?.status === "Active");
@@ -47,7 +48,13 @@ const HelpTogal = ({ help, page, onSuccess }) => {
         status: newStatus,
       });
       onSuccess();
-    } else if (page === "product") {
+    } 
+     else if (page === "blog") {
+      const res = await BlogServices.updateblog(help._id, {
+        status: newStatus,
+      });
+      onSuccess();
+    }else if (page === "product") {
       const res = await Productservices.updateproduct(help._id, {
         status: newStatus,
       });

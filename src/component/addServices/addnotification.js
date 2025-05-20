@@ -112,6 +112,7 @@ function AddNotification() {
                         name="image"
                         onChange={handleFileChange}
                         className="form-control"
+                         required
                       />
                       <div className="file-preview">
                         <img id="uploadFile" src={previewImage} alt=" " />

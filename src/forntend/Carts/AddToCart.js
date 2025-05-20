@@ -281,12 +281,14 @@ import { useNavigate } from "react-router-dom";
 import AddtoCartServices from "../../services/AddtoCart";
 import { useCurrency } from "../CurrencyContent";
 import { toast } from "react-toastify";
-
+import { useCart } from "../../Store/addtoCart";
 const AddToCart = () => {
+   const { fetchCartCount } = useCart();
   const [cart, setCart] = useState(null);
   const { currency } = useCurrency();
   const navigate = useNavigate();
-
+const [showConfirmModal, setShowConfirmModal] = useState(false);
+const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
   const items = cart?.items || [];
   const subTotal = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -339,6 +341,7 @@ const AddToCart = () => {
         const cartData = response?.data;
         if (cartData && typeof cartData === "object" && cartData.items?.length){
           setCart(cartData);
+           fetchCartCount();
         } else {
           setCart(null);
         }
@@ -480,6 +483,7 @@ const AddToCart = () => {
                                           readOnly
                                         />
                                         <button
+                                          className="btn btn-sm btn-light"
                                           onClick={(e) => {
                                             e.preventDefault(); // 👈 prevents default behavior (like changing the URL)
                                             handleQuantityChange(cart._id, item._id, item.quantity + 1);
@@ -497,10 +501,60 @@ const AddToCart = () => {
                                       <button
                                         type="button"
                                         className="btn btn-primary"
-                                        onClick={() => handleRemove(cart._id, item._id)}
+                                          onClick={() => {
+    // Set the item to be removed and show the confirmation modal
+    setSelectedWishlistItem({ cartId: cart._id, productId: item._id });
+    setShowConfirmModal(true);
+  }}
+                                        
                                       >
                                         Remove
                                       </button>
+                                      {showConfirmModal && (
+  <div
+    className="modal-backdrop"
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 1050,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    <div
+      className="modal-content p-4 bg-white rounded shadow"
+      style={{ width: "450px", textAlign:'center' }} // Smaller modal width
+    >
+      <h6 className="mb-2">Are you sure?</h6>
+      <p style={{ fontSize: "14px" }}>Do you want to remove this item from your cart?</p>
+      <div className="d-flex justify-content-end gap-2">
+        <button
+          className="btn btn-sm btn-secondary mt-2"
+          onClick={() => setShowConfirmModal(false)}
+        >
+          Cancel
+        </button>
+        <button
+          className="btn btn-sm btn-danger mt-2"
+          onClick={() => {
+            if (selectedWishlistItem) {
+              // Call remove function when user confirms
+              handleRemove(selectedWishlistItem.cartId, selectedWishlistItem.productId);
+            }
+            setShowConfirmModal(false);
+          }}
+        >
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+)}
                                     </td>
                                   </tr>
                                 );

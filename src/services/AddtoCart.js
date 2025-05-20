@@ -47,14 +47,29 @@ const AddtoCartServices = {
       },
     });
   },
-  getCartCountByUserId: async (userId) => {
-    const token = localStorage.getItem("token");
-    return requests.get(`/api/cart?user=${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  },
+getCartCount: async () => {
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const sessionId = localStorage.getItem("sessionId");
+
+  const config = {
+    headers: {},
+    params: {},
+  };
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  if (user?._id) {
+    config.params.userId = user._id;
+  } else if (sessionId) {
+    config.params.sessionId = sessionId;
+  }
+
+  return requests.get(`/api/cart`, config);
+},
+
 
   
   updateQuantity: async (cartId, itemId, quantity) => {

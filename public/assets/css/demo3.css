@@ -5056,7 +5056,7 @@
     pointer-events: auto;
     background-color: #ffffff;
     background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid black;
     border-radius: 0;
     outline: 0;
   }
@@ -19288,7 +19288,7 @@
       right: -5px;
     }
     .ec_cat_slider .slick-arrow.slick-prev {
-      left: -5px;
+      left: -25px;
     }
   }
   @media only screen and (max-width: 1599px) {
@@ -20636,7 +20636,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: space-between;
+  justify-content:start;
 }
 
 /* Product Card Styling */
@@ -20665,7 +20665,7 @@
 /* Product Image Styling */
 .ec-pro-image img {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   object-fit: cover;
   transition: transform 0.3s ease-in-out;
 }

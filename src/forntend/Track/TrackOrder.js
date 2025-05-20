@@ -4,18 +4,10 @@ import HomeHeader from "../HomeHeader";
 import Footer from "../Footer";
 import orderServices from "../../services/orderServices";
 
-const statusSteps = [
-  "Pending",
-  
-  "Dispatch",
-  "Shipped",
-  "Delivered",
-  "Cancel",
-  "Return",
-];
+const statusSteps = ["Pending", "Dispatch", "Shipped", "Delivered", "Cancel", "Return"];
 
 const TrackOrder = () => {
-  const { orderId } = useParams();
+ const { orderId, orderProductId } = useParams(); // productId = orderProductId
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user?._id;
 
@@ -27,30 +19,36 @@ const TrackOrder = () => {
       try {
         if (!userId || !orderId) {
           console.warn("Missing userId or orderId.");
+          setLoading(false);
           return;
         }
+console.log("orderId:", orderId);
+console.log("orderProductId:", orderProductId);
+        const response = await orderServices.trackOrder(userId, orderId, orderProductId);
+        const orders = response?.data;
 
-        const response = await orderServices.trackOrder(userId, orderId);
-        const orders = response?.orderProducts;
+      let orderProduct = null;
+if (Array.isArray(orders)) {
+  orderProduct = orders.find((item) => item._id === orderProductId);
+} else if (orders && orders._id === orderProductId) {
+  orderProduct = orders;
+}
 
-        if (orders && orders.length > 0) {
-          setOrder(orders[0]); // Show the first order product; or use all if needed
-        } else {
-          console.warn("No order product found.");
-        }
+        setOrder(orderProduct || null);
       } catch (error) {
         console.error("Error fetching order:", error);
+        setOrder(null);
       } finally {
         setLoading(false);
       }
     };
 
     fetchOrder();
-  }, [userId, orderId]);
+  }, [userId, orderId, orderProductId]);
 
   const getStepClass = (step) => {
     if (!order) return "step0";
-    const currentIndex = statusSteps.indexOf(order?.orderId?.orderStatus);
+    const currentIndex = statusSteps.indexOf(order.orderStatus);
     const stepIndex = statusSteps.indexOf(step);
     return stepIndex <= currentIndex ? "step0 active" : "step0";
   };
@@ -89,14 +87,16 @@ const TrackOrder = () => {
             <div className="ec-trackorder-content col-md-12">
               <div className="ec-trackorder-inner">
                 <div className="ec-trackorder-top">
-                  <h2 className="ec-order-id">Order ID: {order?.orderId?._id}</h2>
+                  <h2 className="ec-order-id">Order ID: {order.orderId}</h2>
                   <div className="ec-order-detail">
                     <div>
                       Expected Arrival:{" "}
-                      {new Date(order?.orderId?.createdAt).toLocaleDateString()}
+                      {new Date(order.createdAt).toLocaleDateString()}
                     </div>
-                    <div>Payment Status: {order?.orderId?.paymentStatus}</div>
-                    <div>Payment Method: {order?.orderId?.paymentMethod}</div>
+                    <div>Order Status: {order.orderStatus}</div>
+                    <div>Product Name: {order?.productId?.name}</div>
+                    <div>Size: {order?.size}</div>
+                    <div>Price: ₹{order?.price}</div>
                   </div>
                 </div>
 
@@ -113,7 +113,9 @@ const TrackOrder = () => {
                           </span>
                           <span className="ec-progressbar-track" />
                           <span className="ec-track-title">
-                            Order<br />{step}
+                            Order
+                            <br />
+                            {step}
                           </span>
                         </li>
                       ))}

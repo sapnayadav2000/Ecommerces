@@ -124,7 +124,7 @@ function Reviews() {
             <tbody>
               {currentProducts?.map((review, i) => (
                 <tr key={review._id}>
-                  <td>{i + 1}</td>
+                 <td>{startIndex + i + 1}</td>
 
                   {/* Display Review Images */}
                   <td>
@@ -176,7 +176,7 @@ function Reviews() {
                   </td>
                   <td>
                                       <button
-                                        className="view-details-btn"
+                                        className="view-details-btn  bg-primary"
                                         onClick={() => handleEditDetails(review)}
                                       >
                                         <FontAwesomeIcon icon={faEdit} />
@@ -184,7 +184,7 @@ function Reviews() {
                                     </td>
                                     <td>
                                       <button
-                                        className="viewdelete"
+                                        className="viewdelete bg-danger"
                                         onClick={() => handleDelete(review)}
                                       >
                                         <FontAwesomeIcon icon={faTrash} />

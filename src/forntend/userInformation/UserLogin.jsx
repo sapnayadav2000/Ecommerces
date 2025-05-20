@@ -20,48 +20,58 @@ const UserLogin = () => {
     if (rememberedEmail) setEmail(rememberedEmail);
     if (rememberedPassword) setPassword(rememberedPassword);
   }, []);
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    setError(""); // Reset previous error messages
+const handleLogin = async (event) => {
+  event.preventDefault();
+  setError(""); // Reset previous error messages
 
-    try {
-      const response = await UserServices.getLogin({ email, password });
+  try {
+    const response = await UserServices.getLogin({ email, password });
 
-      console.log("Full Response:", response); // ✅ Logs the entire response object
-      console.log("Token received:", response.token); // ✅ Correct way to access token
-      console.log("Response Data:", response.data); // ✅ Logs user details
+    // Debug logs (optional)
+    console.log("Full Response:", response);
+    console.log("Token received:", response.token);
+    console.log("Response Data:", response.data);
 
-      // ✅ Check if token exists (fixing the issue)
-      if (response?.status === true && response?.token) {
-        toast.success("Login Successful!");
-
-        // Store authentication details
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("userId", response.data._id);
-        localStorage.setItem("userRole", response.data.userType);
-        localStorage.setItem("name", response.data.name);
-        localStorage.setItem("email", response.data.email);
-        localStorage.setItem("image", response.data.image || "");
-
-        // Notify other components about login state change
-        window.dispatchEvent(new Event("storage"));
-
-        // Redirect and refresh
-        setTimeout(() => {
-          navigate("/user-profile");
-          window.location.reload();
-        }, 500);
-      } else {
-        console.error("Login failed. API response:", response);
-        setError("Login failed. Please check your credentials.");
-      }
-    } catch (err) {
-      console.error("Error:", err);
-      setError(
-        err.response?.data?.error || "Something went wrong. Please try again."
-      );
+    // 🚫 Check if user status is inactive
+    if (response?.data?.status === "Inactive") {
+      setError("Your account is inactive. Please contact support.");
+      toast.error("Your account is inactive. Please contact support.");
+      return; // Stop further execution
     }
-  };
+
+    // ✅ Proceed if status is not inactive and login is successful
+    if (response?.status === true && response?.token) {
+      toast.success("Login Successful!");
+
+      // Store user data in localStorage
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("userId", response.data._id);
+      localStorage.setItem("userRole", response.data.userType);
+      localStorage.setItem("name", response.data.name);
+      localStorage.setItem("email", response.data.email);
+      localStorage.setItem("image", response.data.image || "");
+
+      // Notify other components
+      window.dispatchEvent(new Event("storage"));
+
+      // Redirect to homepage
+      setTimeout(() => {
+        navigate("/user-profile");
+        window.location.reload();
+      }, 500);
+    } else {
+      console.error("Login failed. API response:", response);
+      setError("Login failed. Please check your credentials.");
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    setError(
+      err.response?.data?.error || "Something went wrong. Please try again."
+    );
+  }
+  
+};
+
 
   return (
     <>

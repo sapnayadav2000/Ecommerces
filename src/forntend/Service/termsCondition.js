@@ -37,7 +37,7 @@ const TermCondition = () => {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <div className="row ec_breadcrumb_inner">
+              <div className="row ec_breadcrumb_inner p-3">
                 <div className="col-md-6 col-sm-12">
                   <h2 className="ec-breadcrumb-title">Terms & Conditions</h2>
                 </div>

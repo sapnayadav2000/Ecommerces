@@ -8,8 +8,13 @@ const HomeBanner = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await BannerServices.getBanner(); // ✅ Use the correct method
-        setBanners(response.data);
+        const response = await BannerServices.getBanner();
+        const allBanners = response.data;
+        
+   
+      
+
+        setBanners(allBanners);
       } catch (error) {
         console.error("Error fetching banners:", error);
       } finally {
@@ -20,11 +25,11 @@ const HomeBanner = () => {
     fetchBanners();
   }, []);
 
+  // Show the last available banner (or change logic as needed)
   const lastBanner = banners[banners.length - 3];
+
   return (
-    <>
-      {/* Banner Section */}
-      <section className="ec-banner section">
+    <section className="ec-banner section">
       <h2 className="d-none">Banner</h2>
       <div className="ec-banners">
         <div className="ec-banner-right col-sm-12">
@@ -40,14 +45,13 @@ const HomeBanner = () => {
                   style={{ width: "100%", borderRadius: "10px" }}
                 />
               ) : (
-                <p>No banners available</p>
+                <p>No active banners available</p>
               )}
             </div>
           </div>
         </div>
       </div>
     </section>
-    </>
   );
 };
 

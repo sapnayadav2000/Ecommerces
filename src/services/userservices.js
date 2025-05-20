@@ -24,7 +24,7 @@ const UserServices = {
   },
   deleteuser: async (id) => {
     const token = localStorage.getItem("token");
-    return requests.delete(`/api/user/usersdelete/${id}`, {
+    return requests.delete(`/api/user/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

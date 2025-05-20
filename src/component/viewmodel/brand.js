@@ -99,7 +99,7 @@ function Brand() {
             <tbody>
               {currentProducts?.map((brand, i) => (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                  <td>{startIndex + i + 1}</td>
 
                   <td>
                     <div className="product-img">
@@ -125,7 +125,7 @@ function Brand() {
                   </td>
                   <td>
                     <button
-                      className="view-details-btn"
+                      className="view-details-btn  bg-primary"
                       onClick={() => handleEditDetails(brand)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
@@ -133,7 +133,7 @@ function Brand() {
                   </td>
                   <td>
                     <button
-                      className="viewdelete"
+                      className="viewdelete bg-danger"
                       onClick={() => handleDelete(brand)}
                     >
                       <FontAwesomeIcon icon={faTrash} />

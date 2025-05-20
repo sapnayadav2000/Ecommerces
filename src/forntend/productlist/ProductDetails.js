@@ -16,8 +16,11 @@ import Service from "../Service/Service";
 import Slider from "react-slick";
 import { toast } from "react-toastify";
 import ReviewServices from "../../services/reviewServices";
+import { useWishlist } from "../../Store/whislist";
+import { useCart } from "../../Store/addtoCart";
 const ProductDetails = () => {
   const navigate = useNavigate();
+   const { fetchWishlistCount } = useWishlist();
   const [reviews, setReviews] = useState([]);
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("details");
@@ -25,7 +28,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-
+ const { fetchCartCount } = useCart();
   const { currency } = useCurrency();
   const [selectedPrices, setSelectedPrices] = useState({});
   const [selectedSizes, setSelectedSizes] = useState({});
@@ -185,7 +188,7 @@ const ProductDetails = () => {
       } else {
         toast.success("Product added to cart successfully.");
       }
-  
+  fetchCartCount();
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
@@ -214,6 +217,7 @@ const ProductDetails = () => {
         setWishlistItems((prev) => [...prev, product._id]);
         toast.success("Product added to wishlist");
       }
+      fetchWishlistCount();
     } catch (error) {
       console.error("Wishlist error", error);
       toast.error("Error updating wishlist");
@@ -275,6 +279,7 @@ const ProductDetails = () => {
       { breakpoint: 600, settings: { slidesToShow: 1, slidesToScroll: 1 } },
     ],
   }
+  
 // Function definition
 const getAverageRatingByProductId = (reviews, productId) => {
   const filtered = reviews.filter(
@@ -562,6 +567,7 @@ const rating = getAverageRatingByProductId(reviews, product._id);
                             : "/default-product.jpg"
                         }
                         alt={related.name} 
+                        //  style={{ width: "300px", height: "400px", objectFit: "cover" }} 
                       />
                       <div className="ec-pro-actions">
                         <button
@@ -632,13 +638,13 @@ const rating = getAverageRatingByProductId(reviews, product._id);
                       </div>
 
                       {related.productkey?.length > 0 && (
-                        <div className="sizes mt-4">
+                        <div className="sizes mt-2">
                           Size:
                           <br />
                           {related.productkey.map((item) => (
                             <button
                               key={item.Size}
-                               className="btn  m-1 mt-4"    style={{
+                               className="btn  m-1 "    style={{
       border: '2px solid',
       borderColor:
         selectedSizes[related._id] === item.Size ? 'pink' : 'black',

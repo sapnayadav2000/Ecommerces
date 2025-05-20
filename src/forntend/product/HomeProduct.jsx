@@ -9,10 +9,19 @@ import { useCurrency } from "../CurrencyContent";
 import AddtoCartServices from "../../services/AddtoCart";
 import wishListServices from "../../services/wishListServices";
 import Slider from "react-slick";
-
+import { useWishlist } from "../../Store/whislist";
+import { useCart } from "../../Store/addtoCart";
 const HomeProduct = () => {
   const { currency } = useCurrency();
-    const [selectedSize, setSelectedSize] = useState(null);
+  const {
+    wishlistItems,
+    setWishlistItems,
+    fetchWishlistCount,
+  } = useWishlist();
+  
+
+
+    const { fetchCartCount } = useCart();
   const [products, setProducts] = useState([]);
   const [selectedPrices, setSelectedPrices] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,10 +30,10 @@ const HomeProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedSizes, setSelectedSizes] = useState({});
-  const [wishlistItems, setWishlistItems] = useState(() => {
-    const stored = localStorage.getItem("wishlistItems");
-    return stored ? JSON.parse(stored) : [];
-  });
+  // const [wishlistItems, setWishlistItems] = useState(() => {
+  //   const stored = localStorage.getItem("wishlistItems");
+  //   return stored ? JSON.parse(stored) : [];
+  // });
   const [activeImageIndex, setActiveImageIndex] = useState({
     [selectedProduct?._id]: 0, // Default to the first image of the selected product
   });
@@ -45,23 +54,29 @@ const HomeProduct = () => {
       }));
     }
   }, [selectedProduct]);
+
   const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-      { breakpoint: 600, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-    ],
-  };
+  dots: false,
+  infinite: true,
+  speed: 500,
+ slidesToShow:
+    selectedProduct && selectedProduct.images?.length >= 4
+      ? 4
+      : selectedProduct?.images?.length || 1,
+  slidesToScroll: 1,
+  beforeChange: (oldIndex, newIndex) => {
+    setActiveImageIndex((prev) => ({
+      ...prev,
+      [selectedProduct._id]: newIndex,
+    }));
+  },
+};
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await Productservices.getproduct();
-        // console.log('dta',response)
-        setProducts(response.data);
+         const activeProducts = response.data.filter(product => product.status === 'Active');
+      setProducts(activeProducts);
       } catch (error) {
         console.error("Failed to fetch products", error);
       }
@@ -86,6 +101,13 @@ const HomeProduct = () => {
   const nextPage = () => {
     if (currentPage < Math.ceil(products.length / productsPerPage)) {
       setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Previous page function
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -119,10 +141,11 @@ const HomeProduct = () => {
     const userId = user?._id;
   
     // Generate or get existing sessionId for guest user
-    if (!localStorage.getItem("sessionId")) {
-      localStorage.setItem("sessionId", crypto.randomUUID());
-    }
-    const sessionId = localStorage.getItem("sessionId");
+  if (!localStorage.getItem("sessionId")) {
+  const newSessionId = crypto.randomUUID();
+  localStorage.setItem("sessionId", newSessionId);
+}
+const sessionId = localStorage.getItem("sessionId");
   
     if (!selectedSize) return toast.error("Please select a size.");
   
@@ -145,16 +168,17 @@ const HomeProduct = () => {
       } else {
         toast.success("Product added to cart successfully.");
       }
-  
+    fetchCartCount(); 
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
-      toast.error("Failed to add product to cart.");
+      toast.error("This product is already in your cart");
     }
   };
-  
 
-  const handleAddToWishlist = async (product) => {
+
+
+const handleAddToWishlist = async (product) => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
@@ -176,11 +200,14 @@ const HomeProduct = () => {
         setWishlistItems((prev) => [...prev, product._id]);
         toast.success("Product added to wishlist");
       }
+
+      fetchWishlistCount(); // update count
     } catch (error) {
       console.error("Wishlist error", error);
       toast.error("Error updating wishlist");
     }
   };
+  
   return (
     <section className="section ec-trend-product section-space-p">
       <div className="container">
@@ -305,37 +332,50 @@ const HomeProduct = () => {
           </div>
 
           {/* Pagination */}
-          <div className="ec-pro-pagination">
-            <span>
-              Showing {indexOfFirstProduct + 1}-
-              {Math.min(indexOfLastProduct, products.length)} of{" "}
-              {products.length} item(s)
-            </span>
-            <ul className="ec-pro-pagination-inner">
-              {Array.from({
-                length: Math.min(
-                  5,
-                  Math.ceil(products.length / productsPerPage)
-                ),
-              }).map((_, index) => (
-                <li key={index}>
-                  <button
-                    className={currentPage === index + 1 ? "active" : ""}
-                    onClick={() => paginate(index + 1)}
-                  >
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
-              {Math.ceil(products.length / productsPerPage) > 5 && (
-                <li>
-                  <button className="next" onClick={nextPage}>
-                    Next <i className="ecicon eci-angle-right" />
-                  </button>
-                </li>
-              )}
-            </ul>
-          </div>
+           <div className="ec-pro-pagination">
+      <span>
+        Showing {indexOfFirstProduct + 1}-
+        {Math.min(indexOfLastProduct, products.length)} of{" "}
+        {products.length} item(s)
+      </span>
+      <ul className="ec-pro-pagination-inner">
+        {/* Previous Button */}
+        <li>
+          <button
+            className="prev btn btn-primary"
+            onClick={prevPage}
+            disabled={currentPage === 1}
+          >
+          Prev
+          </button>
+        </li>
+
+        {/* Page Numbers */}
+        {Array.from({
+          length: Math.min(5, Math.ceil(products.length / productsPerPage)),
+        }).map((_, index) => (
+          <li key={index} className="mt-2">
+            <button
+              className={currentPage === index + 1 ? "active" : "black" }
+              onClick={() => paginate(index + 1)}
+            >
+              {index + 1}
+            </button>
+          </li>
+        ))}
+
+        {/* Next Button */}
+        <li>
+          <button
+            className="next btn btn-primary"
+            onClick={nextPage}
+            disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+          >
+            Next 
+          </button>
+        </li>
+      </ul>
+    </div>
         </div>
       </div>
 
@@ -368,30 +408,30 @@ const HomeProduct = () => {
               />
 
               {/* Thumbnails */}
-              <Slider {...sliderSettings}>
-                {selectedProduct?.images?.map((img, index) => (
-                  <div key={index} className="image-wrapper">
-                    <img
-                      key={index}
-                      src={`${process.env.REACT_APP_API_BASE_URL}/${img}`} // Actual image URL
-                      alt={`Thumbnail ${index + 1}`}
-                      className={`img-thumbnail mx-1 ${
-                        activeImageIndex[selectedProduct?._id] === index
-                          ? "border border-dark"
-                          : ""
-                      }`} // Add border if active
-                      style={{
-                        width: "70px",
-                        height: "90px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() =>
-                        handleImageClick(selectedProduct?._id, index)
-                      } // Update active image index for the specific product
-                    />
-                  </div>
-                ))}
-              </Slider>
+             <Slider {...sliderSettings}>
+  {selectedProduct?.images?.map((img, index) => (
+    <div key={index} className="image-wrapper">
+      <img
+        src={`${process.env.REACT_APP_API_BASE_URL}/${img}`}
+        alt={`Thumbnail ${index + 1}`}
+        className={`img-thumbnail mx-1 ${
+          activeImageIndex[selectedProduct?._id] === index
+            ? "border border-dark"
+            : ""
+        }`}
+        style={{
+          width: "70px",
+          height: "90px",
+          cursor: "pointer",
+        }}
+        onClick={() =>
+          handleImageClick(selectedProduct?._id, index)
+        }
+      />
+    </div>
+  ))}
+</Slider>
+
             </div>
 
             {/* Right Side - Product Details */}
@@ -434,7 +474,7 @@ const HomeProduct = () => {
               {/* Quantity Selection */}
               <div
                 className="mt-3 d-flex align-items-center"
-                style={{ border: "1px solid black" }}
+                style={{ border: "1px solid black",width: '86%' }}
               >
                 <button
                   className="btn btn-outline-dark"
@@ -442,7 +482,7 @@ const HomeProduct = () => {
                 >
                   -
                 </button>
-                <span className="mx-3">{quantity}</span>
+                <span className="mx-4">{quantity}</span>
                 <button
                   className="btn btn-outline-dark"
                   onClick={() => setQuantity(quantity + 1)}

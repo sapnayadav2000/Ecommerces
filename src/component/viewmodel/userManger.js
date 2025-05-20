@@ -19,7 +19,7 @@ function UserManager() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 10;
+
   const handleEditDetails = (user) => {
     setSelectedUser(user);
     setIsEditModalOpen(true);
@@ -46,9 +46,11 @@ function UserManager() {
 
   // Filter data based on the search term
   const filteredUsers = data?.users?.filter((user) =>
-    user?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+     user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  user?.mobileNo?.toLowerCase().includes(searchTerm.toLowerCase())
   )||[];
   const totalProducts = filteredUsers.length;
+  const productsPerPage = 10;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
@@ -62,7 +64,7 @@ function UserManager() {
             <input
               type="search"
               name="search"
-              placeholder="Search by User Name"
+              placeholder="Search by User Name and mobileNo"
               value={searchTerm}
               onChange={handleSearchChange}
             />
@@ -91,7 +93,7 @@ function UserManager() {
             <tbody>
               {currentProducts?.map((user, i) => (
                 <tr key={user._id}>
-                  <td>{i + 1}</td>
+                  <td>{startIndex + i + 1}</td>
                  
                   <td>{user.name}</td>
                   <td>{user.email}</td>
@@ -102,7 +104,7 @@ function UserManager() {
                   </td>
                   <td>
                     <button
-                      className="view-details-btn"
+                      className="view-details-btn bg-primary"
                       onClick={() => handleEditDetails(user)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
@@ -110,7 +112,7 @@ function UserManager() {
                   </td>
                   <td>
                     <button
-                      className="viewdelete"
+                      className="viewdelete bg-danger"
                       onClick={() => handleDelete(user)}
                     >
                       <FontAwesomeIcon icon={faTrash} />

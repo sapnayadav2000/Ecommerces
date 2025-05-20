@@ -10,17 +10,22 @@ import AddtoCartServices from "../../services/AddtoCart";
 import { Modal, Button } from "react-bootstrap";
 import Slider from "react-slick";
 import { toast } from "react-toastify";
+import { useWishlist } from "../../Store/whislist";
+import { useCart } from "../../Store/addtoCart";
 const Kurti = () => {
   const { currency } = useCurrency();
+     const {
+    wishlistItems,
+    setWishlistItems,
+    fetchWishlistCount,
+  } = useWishlist();
+      const { fetchCartCount } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // For navigation on button click
   const [selectedPrices, setSelectedPrices] = useState({});
   const [selectedSizes, setSelectedSizes] = useState({});
-  const [wishlistItems, setWishlistItems] = useState(() => {
-    const stored = localStorage.getItem("wishlistItems");
-    return stored ? JSON.parse(stored) : [];
-  });
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -52,9 +57,11 @@ const Kurti = () => {
         // console.log('All Products',allProducts)
         const kurtiProducts = allProducts.filter((product) => {
           const subCatName = product.subCategory?.[0]?.name?.toLowerCase();
-          return subCatName === "kurti";
+         const isActive = product.status?.toLowerCase() === "active";
+        return subCatName === "kurti" && isActive;
         });
         // console.log('All kurti',kurtiProducts)
+        
         setProducts(kurtiProducts);
       } catch (err) {
         console.error("Error fetching Kurti products:", err);
@@ -88,7 +95,7 @@ const Kurti = () => {
       [productId]: size,
     }));
   };
-  const handleAddToWishlist = async (product) => {
+ const handleAddToWishlist = async (product) => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
@@ -110,6 +117,8 @@ const Kurti = () => {
         setWishlistItems((prev) => [...prev, product._id]);
         toast.success("Product added to wishlist");
       }
+
+      fetchWishlistCount(); // update count
     } catch (error) {
       console.error("Wishlist error", error);
       toast.error("Error updating wishlist");
@@ -147,11 +156,11 @@ const Kurti = () => {
       } else {
         toast.success("Product added to cart successfully.");
       }
-  
+  fetchCartCount();
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
-      toast.error("Failed to add product to cart.");
+      toast.error("This product is already in your cart.");
     }
   };
   const handleQuickView = (product, event) => {
@@ -160,16 +169,21 @@ const Kurti = () => {
     setShowModal(true);
   };
   const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-      { breakpoint: 600, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-    ],
-  };
+  dots: false,
+  infinite: true,
+  speed: 500,
+ slidesToShow:
+    selectedProduct && selectedProduct.images?.length >= 4
+      ? 4
+      : selectedProduct?.images?.length || 1,
+  slidesToScroll: 1,
+  beforeChange: (oldIndex, newIndex) => {
+    setActiveImageIndex((prev) => ({
+      ...prev,
+      [selectedProduct._id]: newIndex,
+    }));
+  },
+};
   return (
     <>
       <section className="ec-banner section py-3">
@@ -390,7 +404,7 @@ const Kurti = () => {
               {/* Quantity Selection */}
               <div
                 className="mt-3 d-flex align-items-center"
-                style={{ border: "1px solid black" }}
+                style={{ border: "1px solid black" ,width: '86%'}}
               >
                 <button
                   className="btn btn-outline-dark "
@@ -398,7 +412,7 @@ const Kurti = () => {
                 >
                   -
                 </button>
-                <span className="mx-3">{quantity}</span>
+                <span className="mx-4">{quantity}</span>
                 <button
                   className="btn btn-outline-dark"
                   onClick={() => setQuantity(quantity + 1)}

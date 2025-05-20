@@ -8,10 +8,11 @@ import HelpTogal from "../Togal/HelpTogal";
 import ReturnButton from "../delete/deleteButton";
 import ReturnUpdate from "../update/returnUpdate";
 import Modal from "react-modal";
-
+import { useCurrency } from "../../forntend/CurrencyContent";
 Modal.setAppElement("#root");
 
 function Return() {
+    const { currency } = useCurrency();
   const { data, run } = useAsync(Returnservices.getAllReturn);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -111,10 +112,10 @@ function Return() {
   {currentProducts?.map((returns, i) => (
     <tr key={returns._id}>
     
-      <td>{i + 1}</td>
+       <td>{startIndex + i + 1}</td>
       <td>{returns.orderId?.orderId || "N/A"}</td>
        <td>{returns.userId?.name || "N/A"}</td>
-      <td>{returns.orderId.totalAmount || "N/A"}</td>
+      <td> {currency.symbol}{returns.orderId.totalAmount || "N/A"}</td>
        <td>{returns.orderId.paymentMethod || "N/A"}</td>
 
        <td>
@@ -164,7 +165,7 @@ function Return() {
       </td>
       <td>
         <button
-          className="view-details-btn"
+          className="view-details-btn  bg-primary"
           onClick={() => handleEditDetails(returns)}
         >
           <FontAwesomeIcon icon={faEdit} />
@@ -172,7 +173,7 @@ function Return() {
       </td>
       <td>
         <button
-          className="viewdelete"
+          className="viewdelete bg-danger"
           onClick={() => handleDelete(returns)}
         >
           <FontAwesomeIcon icon={faTrash} />

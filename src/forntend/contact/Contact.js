@@ -22,18 +22,12 @@ const Contact = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      const user = JSON.parse(localStorage.getItem('user'));
-      const userId = user?._id;
-
-      if (!userId) {
-         toast.error('Please log in to submit the contact form.');
-         return;
-      }
+  
 
       try {
          const res = await ContactServices.createContact({
             ...formData,
-            userId
+          
          });
            
             toast.success( 'Your message has been sent successfully!');    

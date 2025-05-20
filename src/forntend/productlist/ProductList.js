@@ -9,11 +9,14 @@ import wishListServices from "../../services/wishListServices";
 import { Modal } from "react-bootstrap";
 import { BsBasket3 } from "react-icons/bs";
 import { FaRegHeart, FaRegEye, FaHeart } from "react-icons/fa";
-
+import { useWishlist } from "../../Store/whislist";
 import Slider from "react-slick";
 import { toast } from "react-toastify";
+import { useCart } from "../../Store/addtoCart";
 const ProductList = () => {
    const [productsPerPage] = useState(8);
+     const { fetchCartCount } = useCart();
+   const { fetchWishlistCount } = useWishlist();
   const [priceRange, setPriceRange] = useState({ min: 100, max: 7285 });
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -109,6 +112,7 @@ const ProductList = () => {
         setWishlistItems((prev) => [...prev, product._id]);
         toast.success("Product added to wishlist");
       }
+      fetchWishlistCount();
     } catch (error) {
       console.error("Wishlist error", error);
       toast.error("Error updating wishlist");
@@ -119,12 +123,18 @@ const ProductList = () => {
 
   
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const nextPage = () => {
+     const nextPage = () => {
     if (currentPage < Math.ceil(products.length / productsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
 
+  // Previous page function
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   const handleAddToCart = async (product, selectedSize = null) => {
     const token = localStorage.getItem("token");
@@ -158,11 +168,11 @@ const ProductList = () => {
       } else {
         toast.success("Product added to cart successfully.");
       }
-  
+  fetchCartCount();
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
-      toast.error("Failed to add product to cart.");
+      toast.error("This product is already in your cart.");
     }
   };
 
@@ -261,16 +271,21 @@ const ProductList = () => {
     setQuantity(1);
   };
   const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-      { breakpoint: 600, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-    ],
-  };
+  dots: false,
+  infinite: true,
+  speed: 500,
+   slidesToShow:
+    selectedProduct && selectedProduct.images?.length >= 4
+      ? 4
+      : selectedProduct?.images?.length || 1,
+  slidesToScroll: 1,
+  beforeChange: (oldIndex, newIndex) => {
+    setActiveImageIndex((prev) => ({
+      ...prev,
+      [selectedProduct._id]: newIndex,
+    }));
+  },
+};
   const handleSizeChange = (size) => {
     SetSelectedSizes((prev) =>
       prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
@@ -436,7 +451,9 @@ const ProductList = () => {
                 className="btn mt-2"
                 style={{ backgroundColor: "#FF0B55" }}
               >
-                <img src="/img/dashboard.svg" alt="image" />
+                              <a href="/">
+  <img src="/img/dashboard.svg" alt="Dashboard" />
+</a>
               </button>
 
               <div
@@ -508,7 +525,7 @@ const ProductList = () => {
                             >
                               <button
                                 title="Add To Cart"
-                                className="btn btn-light border"
+                                className="btn btn-light border" style={{borderRadius:'60%'}}
                                 onClick={() =>
                                   handleAddToCart(
                                     product,
@@ -520,14 +537,14 @@ const ProductList = () => {
                               </button>
                               <button
                                 title="Quick View"
-                                className="btn btn-light border"
+                                className="btn btn-light border" style={{borderRadius:'60%'}}
                                 onClick={(e) => handleQuickView(product, e)}
                               >
                                 <FaRegEye />
                               </button>
                               <button
                                 title="Wishlist"
-                                className="btn btn-light border"
+                                className="btn btn-light border" style={{borderRadius:'60%'}}
                                 onClick={() => handleAddToWishlist(product)}
                               >
                                 {wishlistItems.includes(product._id) ? (
@@ -592,13 +609,22 @@ const ProductList = () => {
                       {products.length} item(s)
                     </span>
                     <ul className="ec-pro-pagination-inner">
+                                  <li>
+          <button
+            className="prev btn btn-primary ml-3"
+            onClick={prevPage}
+            disabled={currentPage === 1}
+          >
+          Prev
+          </button>
+        </li>
                       {Array.from({
                         length: Math.min(
                           5,
                           Math.ceil(products.length / productsPerPage)
                         ),
                       }).map((_, index) => (
-                        <li key={index}>
+                        <li key={index} className="mt-3">
                           <button
                             className={
                               currentPage === index + 1 ? "active" : ""
@@ -615,7 +641,16 @@ const ProductList = () => {
                             Next <i className="ecicon eci-angle-right" />
                           </button>
                         </li>
-                      )}
+                      )}                           <li>
+          <button
+            className="next btn btn-primary"
+            onClick={nextPage}
+            disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+          >
+            Next 
+          </button>
+        </li>
+                      
                     </ul>
                   </div>
             </div>
@@ -655,11 +690,11 @@ const ProductList = () => {
                       <Slider {...sliderSettings}>
                         {selectedProduct?.images?.map((img, index) => (
                           <div key={index} className="image-wrapper">
-                            <img
+                            <img 
                               key={index}
                               src={`${process.env.REACT_APP_API_BASE_URL}/${img}`} // Actual image URL
                               alt={`Thumbnail ${index + 1}`}
-                              className={`img-thumbnail mx-1 ${
+                              className={`img-thumbnail mx-1 slider-image ${
                                 activeImageIndex[selectedProduct?._id] === index
                                   ? "border border-dark"
                                   : ""
@@ -721,7 +756,7 @@ const ProductList = () => {
                       {/* Quantity Selection */}
                       <div
                         className="mt-3 d-flex align-items-center"
-                        style={{ border: "1px solid black" }}
+                         style={{ border: "1px solid black",width: '86%' }}
                       >
                         <button
                           className="btn btn-outline-dark "
@@ -729,7 +764,7 @@ const ProductList = () => {
                         >
                           -
                         </button>
-                        <span className="mx-3">{quantity}</span>
+                        <span className="mx-4">{quantity}</span>
                         <button
                           className="btn btn-outline-dark"
                           onClick={() => setQuantity(quantity + 1)}

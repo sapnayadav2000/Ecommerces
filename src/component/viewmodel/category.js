@@ -111,7 +111,7 @@ function Category() {
             <tbody>
               {currentProducts?.map((cat, i) => (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                  <td>{startIndex + i + 1}</td>
 
                   <td>
                     <div className="product-img">
@@ -133,7 +133,7 @@ function Category() {
                   </td>
                   <td>
                     <button
-                      className="view-details-btn"
+                      className="view-details-btn  bg-primary"
                       onClick={() => handleEditDetails(cat)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
@@ -141,7 +141,7 @@ function Category() {
                   </td>
                   <td>
                     <button
-                      className="viewdelete"
+                      className="viewdelete bg-danger"
                       onClick={() => handleDelete(cat)}
                     >
                       <FontAwesomeIcon icon={faTrash} />

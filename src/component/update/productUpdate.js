@@ -301,7 +301,7 @@ const handleSubmit = async (event) => {
                     <div className="input-field">
                       <label className="pt-3">Category</label>
                       <select
-                        className="form-control"
+                        className="form-control border"
                         name="Category"
                         value={formValues.category}
                         onChange={handleCategoryChange}
@@ -320,7 +320,7 @@ const handleSubmit = async (event) => {
                     <div className="input-field">
                       <label className="pt-3">Subcategory</label>
                       <select
-                        className="form-control"
+                        className="form-control border"
                         onChange={handleSubCategoryChange1}
                         value={formValues.subCategory || ""}
                         disabled={
@@ -348,7 +348,7 @@ const handleSubmit = async (event) => {
                     <div className="input-field">
                       <label className="pt-3">Brand</label>
                       <select
-                        className="form-control"
+                        className="form-control border"
                         name="Category"
                         value={formValues.brand}
                         onChange={handleCategoryChange2}
@@ -445,7 +445,7 @@ const handleSubmit = async (event) => {
     name="returnable"  // Ensure we use "returnable" here
     value={formValues.refundPolicies.returnable ? "yes" : "no"}  // Correct string conversion
     onChange={handleRefundPolicyChange}  // Handle change for returnable
-    className="form-control"
+    className="form-control border"
   >
      <option value="yes">Yes</option>
      <option value="no">No</option>
@@ -461,6 +461,7 @@ const handleSubmit = async (event) => {
     onChange={handleRefundPolicyChange}  // Handle change for returnWindow
     className="form-control"
     placeholder="Enter number of days"
+    min="0"
   />
 </div>
 

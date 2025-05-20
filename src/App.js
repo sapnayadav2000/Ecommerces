@@ -70,7 +70,9 @@ import TrackOrder from "./forntend/Track/TrackOrder";
 import About from "./forntend/About/About";
 import TermCondition from "./forntend/Service/termsCondition";
 import PrivacyPolicy from "./forntend/Service/privacayPolicy";
-
+import { WishlistProvider } from "./Store/whislist";
+import{CartProvider} from "./Store/addtoCart"
+import ScrollToTop  from "./Store/scrooler"
 import Service from "./forntend/Service/Service";
 import ProductDetails from "./forntend/productlist/ProductDetails";
 import AddToCart from "./forntend/Carts/AddToCart";
@@ -205,7 +207,10 @@ function App() {
 
   return (
     <CurrencyProvider>
+        <WishlistProvider>
+          <CartProvider>
       <Router>
+         <ScrollToTop />
         <LayoutWrapper isAuthenticated={isAuthenticated} isAdmin={isAdmin}>
           <Routes>
             <Route
@@ -586,7 +591,7 @@ function App() {
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/contact-us" element={<Contact />} />
             <Route path="/add-to-cart" element={<AddToCart />} />
-            <Route path="/track-order/:orderId" element={<TrackOrder />} />
+            <Route path="/track-order/:orderId/:orderProductId" element={<TrackOrder />} />
             <Route path="/about" element={<About />} />
             <Route path="/termscondition" element={<TermCondition />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -622,6 +627,8 @@ function App() {
         </LayoutWrapper>
         <ToastContainer />
       </Router>
+      </CartProvider>
+      </WishlistProvider>
     </CurrencyProvider>
   );
 }

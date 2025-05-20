@@ -364,20 +364,21 @@ function AddProduct() {
                     </div>
                   </div>
                   
-                  <div className="col-md-12">
+                  <div className="col-lg-6 col-md-6">
                     <label className="pt-3">Refundable</label>
                     <select
                       name="returnable"  // Ensure we use "returnable" here
                       value={formValues.refundPolicies.returnable ? "yes" : "no"}  // Correct string conversion
                       onChange={handleRefundPolicyChange}  // Handle change for returnable
-                      className="form-control"
+                      className="form-control border"
+                    
                     >
-                      <option value="yes">Yes</option>
+                      <option value="yes" >Yes</option>
                       <option value="no">No</option>
                     </select>
                   </div>
 
-                  <div className="col-md-12">
+                  <div className="col-lg-6 col-md-6">
                     <label className="pt-3">Return Window (days)</label>
                     <input
                       type="number"
@@ -386,6 +387,7 @@ function AddProduct() {
                       onChange={handleRefundPolicyChange}  // Handle change for returnWindow
                       className="form-control"
                       placeholder="Enter number of days"
+                       min="0"
                     />
                   </div>
                   

@@ -19,17 +19,23 @@ const HomeCategory = () => {
     ],
   };
 
-  useEffect(() => {
-    const getCategory = async () => {
-      try {
-        const response = await CategoryServices.getCategory();
-        setCategories(response.data);
-      } catch (error) {
-        console.error("Failed to fetch Category", error);
-      }
-    };
-    getCategory();
-  }, []);
+useEffect(() => {
+  const getCategory = async () => {
+    try {
+      const response = await CategoryServices.getCategory();
+      const allCategories = response.data;
+
+      // Filter to only active categories
+      const activeCategories = allCategories.filter(cat => cat.status === "Active");
+
+      setCategories(activeCategories);
+    } catch (error) {
+      console.error("Failed to fetch Category", error);
+    }
+  };
+  getCategory();
+}, []);
+
 
   const handleSubCategoryClick = (subCategoryId, subCategorySlug) => {
     // Navigate to product list with subcategory ID
@@ -63,7 +69,7 @@ const HomeCategory = () => {
                       style={{ paddingTop: "30px" }}
                     >
                       <div
-                        className="ec-cat-image ml-5"
+                        className="ec-cat-image"
                         style={{ display: "flex", cursor: "pointer" }}
                         onClick={() =>
                           handleSubCategoryClick(category._id, category.slug)

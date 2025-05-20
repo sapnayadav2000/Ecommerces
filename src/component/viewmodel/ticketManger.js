@@ -163,7 +163,7 @@ function TicketManager() {
             <tbody>
               {(currentProducts || []).map((ticket, i) => (
                 <tr key={ticket._id}>
-                  <td>{i + 1}</td>
+                  <td>{startIndex + i + 1}</td>
                   <td>
                     <div className="product-img">
                       <img

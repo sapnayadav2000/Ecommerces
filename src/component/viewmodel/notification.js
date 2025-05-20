@@ -93,7 +93,7 @@ function Notification() {
               <tbody>
                 {currentProducts?.map((slider, i) => (
                   <tr key={i}>
-                    <td>{i + 1}</td>
+                     <td>{startIndex + i + 1}</td>
                     <td>
                       <div className="product-img">
                         <img
@@ -118,7 +118,7 @@ function Notification() {
                     </td>
                     <td>
                       <button
-                        className="view-details-btn"
+                        className="view-details-btn  bg-primary"
                         onClick={() => handleEditDetails(slider)}
                       >
                         <FontAwesomeIcon icon={faEdit} />
@@ -126,7 +126,7 @@ function Notification() {
                     </td>
                     <td>
                       <button
-                        className="viewdelete"
+                        className="viewdelete bg-danger"
                         onClick={() => handleDelete(slider)}
                       >
                         <FontAwesomeIcon icon={faTrash} />

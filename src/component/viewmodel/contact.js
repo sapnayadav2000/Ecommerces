@@ -97,7 +97,7 @@ function Conatct() {
               <tbody>
                 {currentProducts?.map((contact, i) => (
                   <tr key={contact._id}>
-                    <td>{i + 1}</td>
+                    <td>{startIndex + i + 1}</td>
                     <td>{contact.first_name}</td>
                     <td>{contact.last_name}</td>
                     <td>{contact.email}</td>
@@ -120,7 +120,7 @@ function Conatct() {
                     </td> */}
                     <td>
                       <button
-                        className="viewdelete"
+                        className="viewdelete bg-danger"
                         onClick={() => handleDelete(contact)}
                       >
                         <FontAwesomeIcon icon={faTrash} />

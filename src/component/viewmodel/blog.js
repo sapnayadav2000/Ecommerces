@@ -102,7 +102,7 @@ const currentProducts = filteredData.slice(startIndex, endIndex);
             <tbody>
               {currentProducts?.map((blog, i) => (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                  <td>{startIndex + i + 1}</td>
 
                   <td>
                     <div className="product-img">
@@ -124,11 +124,15 @@ const currentProducts = filteredData.slice(startIndex, endIndex);
                   <td>{blog.views}</td>
 
                   <td className="status-toggle">
-                  <td>{blog.status}</td>
+                  <HelpTogal
+                      help={blog}
+                      page="blog"
+                      onSuccess={() => run()}
+                    />
                   </td>
                   <td>
                     <button
-                      className="view-details-btn"
+                      className="view-details-btn  bg-primary"
                       onClick={() => handleEditDetails(blog)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
@@ -136,7 +140,7 @@ const currentProducts = filteredData.slice(startIndex, endIndex);
                   </td>
                   <td>
                     <button
-                      className="viewdelete"
+                      className="viewdelete bg-danger"
                       onClick={() => handleDelete(blog)}
                     >
                       <FontAwesomeIcon icon={faTrash} />

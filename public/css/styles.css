@@ -13,7 +13,7 @@ ul,
 li {
     margin: 0;
     padding: 0;
-    line-height: normal;}
+    line-height: normal;  }
     
 input:focus {
     box-shadow: none !important;
@@ -729,8 +729,8 @@ a {
   color: white;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 20px;
   width: 30%;
+  font-size: 20px;
   border: none;
   display: flex;
   justify-content: center;
@@ -1249,5 +1249,3 @@ thead {
   margin-top: 10px;}
 .file-preview {
   padding-top: 30px;}
-
-  

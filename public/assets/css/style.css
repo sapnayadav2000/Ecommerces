@@ -16396,7 +16396,7 @@ h2, h3, h4, h5, h6 {
 .ec-header-bottom {
   background-color: transparent;
   padding: 25px 0;
-  border-bottom: 1px solid #eeeeee;
+
 }
 
 .ec-flex {
@@ -31945,7 +31945,7 @@ input[type=email]:focus::-webkit-input-placeholder {
 
 .ec-page-content {
 
-  background: linear-gradient(to right, #e3f2fd, #fce4ec);
+
   display: flex;
   align-items: center;
   justify-content: center;

@@ -95,7 +95,7 @@ function Pincode() {
               <tbody>
                 {currentProducts?.map((pincode, i) => (
                   <tr key={i}>
-                    <td>{i + 1}</td>
+                     <td>{startIndex + i + 1}</td>
                     <td>{pincode.pincode}</td>
                     <td>{pincode.city}</td>
                     <td>{pincode.state}</td>
@@ -110,7 +110,7 @@ function Pincode() {
                     </td>
                     <td>
                       <button
-                        className="view-details-btn"
+                        className="view-details-btn  bg-primary"
                         onClick={() => handleEditDetails(pincode)}
                       >
                         <FontAwesomeIcon icon={faEdit} />
@@ -118,7 +118,7 @@ function Pincode() {
                     </td>
                     <td>
                       <button
-                        className="viewdelete"
+                        className="viewdelete bg-danger"
                         onClick={() => handleDelete(pincode)}
                       >
                         <FontAwesomeIcon icon={faTrash} />

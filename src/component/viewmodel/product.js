@@ -113,7 +113,7 @@ function Product() {
                   <tr key={i}>
                     <td>{startIndex + i + 1}</td>
                     <td>
-                      <div className="product-img">
+                      {/* <div className="product-img">
                         {Array.isArray(product.images) && product.images.length > 0 ? (
                           product.images.map((img, index) => (
                             <img
@@ -142,7 +142,35 @@ function Product() {
                         ) : (
                           <span>No Image</span>
                         )}
-                      </div>
+                      </div> */}
+                      <div className="product-img">
+  {Array.isArray(product.images) && product.images.length > 0 ? (
+    <img
+      src={`${process.env.REACT_APP_API_BASE_URL}/${product.images[0]}`}
+      alt="product"
+      style={{
+        height: "70px",
+        width: "70px",
+        objectFit: "contain",
+        marginRight: "5px",
+        marginTop: "5px",
+      }}
+    />
+  ) : product.images ? (
+    <img
+      src={`${process.env.REACT_APP_API_BASE_URL}/${product.images}`}
+      alt="product"
+      style={{
+        height: "70px",
+        width: "70px",
+        objectFit: "contain",
+      }}
+    />
+  ) : (
+    <span>No Image</span>
+  )}
+</div>
+
                     </td>
                     <td>{product.categoryname?.join(", ") || "N/A"}</td>
                     <td>{product.subCategoryname?.join(", ") || "N/A"}</td>
@@ -185,7 +213,7 @@ function Product() {
                         <ul className="dropdown-menu">
                           <li>
                             <button
-                              className="dropdown-item"
+                              className="dropdown-item  bg-primary"
                               onClick={() => handleEditDetails(product)}
                             >
                               <FontAwesomeIcon icon={faEdit} className="me-2" />
@@ -194,7 +222,7 @@ function Product() {
                           </li>
                           <li>
                             <button
-                              className="dropdown-item text-danger"
+                              className="dropdown-item bg-danger"  
                               onClick={() => handleDelete(product)}
                             >
                               <FontAwesomeIcon icon={faTrash} className="me-2" />

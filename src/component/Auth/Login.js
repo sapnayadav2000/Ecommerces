@@ -115,22 +115,24 @@ function Login({ setIsAuthenticated, setRole }) {
             <PasswordToggle password={password} setPassword={setPassword} />
             <div className="form-check" style={{ color: '#fff', marginBottom: '65px', marginTop: '-20px' }}>
               <input
-                className="form-check-input"
+                className="form-check-input mt-1"
                 type="checkbox"
                 defaultValue=""
                 id="flexCheckChecked"
               />
-              <label className="form-check-label" htmlFor="flexCheckChecked">
+              <label className="form-check-label ml-3" htmlFor="flexCheckChecked">
                 Remember Password
               </label>
+               <h6 style={{ color: 'red' }}>{error}</h6>
             </div>
-            <h6 style={{ color: 'red' }}>{error}</h6>
+           
             <div className="input-field mb-3">
               <input
                 type="submit"
                 className="login-btn"
                 id="login-btn"
                 value="Login"
+              
               />
             </div>
             <p className="company-details " style={{color:'white'}}>

@@ -10,7 +10,9 @@ import AddtoCartServices from "../../services/AddtoCart";
 import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useCart } from "../../Store/addtoCart";
 const AllWishlists = () => {
+   const { fetchCartCount } = useCart();
   const [wishlists, setWishlists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredProduct, setHoveredProduct] = useState(null);
@@ -71,21 +73,29 @@ const AllWishlists = () => {
     fetchAllWishlists();
   }, [navigate]);
 
-  const removeWishlist = async (userId, productId) => {
-    const token = localStorage.getItem("token");
-    try {
-      await wishListServices.removeFromWishlist(userId, productId, token);
-      toast.success("Wishlist Removed");
-      const response = await wishListServices.getAllWishList();
-      if (response?.data?.products) {
-        setWishlists([response.data]);
-      } else {
-        setWishlists([]);
-      }
-    } catch (err) {
-      console.error("Error removing wishlist item:", err);
+ const removeWishlist = async (userId, productId) => {
+  const token = localStorage.getItem("token");
+  try {
+    await wishListServices.removeFromWishlist(userId, productId, token);
+    toast.success("Wishlist Removed");
+
+    // Remove from localStorage
+    const wishlist = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+    const updatedWishlist = wishlist.filter(id => id !== productId);
+    localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
+
+    // Refresh state from backend
+    const response = await wishListServices.getAllWishList();
+    if (response?.data?.products) {
+      setWishlists([response.data]); 
+    } else {
+      setWishlists([]);
     }
-  };
+  } catch (err) {
+    console.error("Error removing wishlist item:", err);
+  }
+};
+
 
   const onSizeClick = (product, size) => {
     const selectedSizeObj = product.productkey?.find(
@@ -141,7 +151,7 @@ const AllWishlists = () => {
       } else {
         toast.success("Product added to cart successfully.");
       }
-  
+  fetchCartCount();
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
@@ -170,9 +180,9 @@ const AllWishlists = () => {
       <div className="container mt-5">
         <h2 className="text-center mb-4 fw-bold">My Wishlist</h2>
         <div className="row justify-content-start">
-          {wishlists.length === 0 ? (
-            <p className="text-center">No products found.</p>
-          ) : (
+          {wishlists.length === 0 || !wishlists[0].products || wishlists[0].products.length === 0 ? (
+  <p className="text-center">No products found.</p>
+) : (
             wishlists.map((wishlist, index) =>
               wishlist.products.map((item, i) => {
                 const product = item.productId;
@@ -284,11 +294,11 @@ const AllWishlists = () => {
                           {product.productkey?.map((item) => (
                             <button
                               key={item.Size}
-                              className={`btn btn-primary ml-3 ${
-                                selectedSizes[product._id] === item.Size
-                                  ? "btn-dark"
-                                  : "btn-outline-primary"
-                              }`}
+                                 className="btn  m-2" style={{
+                              border: '2px solid',
+                              borderColor:
+                                selectedSizes[product._id] === item.Size ? 'pink' : 'black',
+                            }}
                               onClick={() => onSizeClick(product, item.Size)}
                             >
                               {item.Size}
@@ -296,10 +306,13 @@ const AllWishlists = () => {
                           ))}
                         </div>
                       </div>
+                      
                     </div>
                   </div>
                 );
+                
               })
+              
             )
           )}
         </div>
@@ -361,7 +374,11 @@ const AllWishlists = () => {
                 {selectedProduct?.productkey?.map((size) => (
                   <button
                     key={size.Size}
-                    className="btn btn-primary m-1"
+                    className="btn  m-1" style={{
+      border: '2px solid',
+      borderColor:
+        selectedSizes[selectedProduct._id] === size.Size ? 'pink' : 'black',
+    }}
                     onClick={() => onSizeClick(selectedProduct, size.Size)}
                   >
                     {size.Size}
@@ -371,7 +388,7 @@ const AllWishlists = () => {
 
               <div
                 className="mt-3 d-flex align-items-center"
-                style={{ border: "1px solid black" }}
+                  style={{ border: "1px solid black",width: '86%' }}
               >
                 <button
                   className="btn btn-outline-dark"
@@ -379,7 +396,7 @@ const AllWishlists = () => {
                 >
                   -
                 </button>
-                <span className="mx-3">{quantity}</span>
+                <span className="mx-4">{quantity}</span>
                 <button
                   className="btn btn-outline-dark"
                   onClick={() => setQuantity(quantity + 1)}

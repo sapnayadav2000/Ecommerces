@@ -2,12 +2,8 @@ import requests from "./httpsServices";
 const Conatct = {
 
     createContact: async (body) => {
-        const token = localStorage.getItem("token");
-        return requests.post(`/api/contact/`, body,  {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+      
+        return requests.post(`/api/contact/`, body);
       },
       getConatct: async () => {
         return requests.get(`/api/contact/`);

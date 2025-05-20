@@ -125,36 +125,24 @@ const UserProfile = () => {
                         <div className="row">
                           <div className="col-md-6 col-sm-12">
                             <div className="ec-vendor-detail-block space-bottom-30">
-                              <h6>Email Address</h6>
-                              <ul>
-                                <li>
-                                  <strong>Email: </strong>
-                                  {user?.email}
-                                </li>
-                              </ul>
+                              <p className="mb-2">Email</p>
+                              <h6> {user?.email}</h6>
+                             
                             </div>
                           </div>
                           <div className="col-md-6 col-sm-12">
                             <div className="ec-vendor-detail-block space-bottom-30">
-                              <h6>Contact Number</h6>
-                              <ul>
-                                <li>
-                                  <strong>Phone: </strong>
-                                  {user?.mobileNo}
-                                </li>
-                              </ul>
+                                <p className="mb-2">Mobil NO.</p>
+                              <h6>{user?.mobileNo}</h6>
+                              
                             </div>
                           </div>
                           <div className="col-md-6 col-sm-12">
                             <div className="ec-vendor-detail-block">
-                              <h6>Address</h6>
-                              <ul>
-                                <li>
-                                  <strong>Home: </strong>
-                                  {user?.address}, {user?.city}, {user?.state} -{" "}
-                                  {user?.pincode}
-                                </li>
-                              </ul>
+                                <p className="mb-2">Address</p>
+                              <h6> {user?.address}, {user?.city}, {user?.state} -{" "}
+                                  {user?.pincode}</h6>
+                          
                             </div>
                           </div>
                         </div>

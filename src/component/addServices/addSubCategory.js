@@ -98,9 +98,10 @@ function AddSubCategory() {
                   <div className="input-field">
                     <label className="pt-3">Category*</label>
                     <select
-                      className="form-control"
+                      className="form-control border"
                       name="Category"
                       onChange={handleCategoryChange}
+                    
                     >
                       <option value="">Select Category</option>
 
@@ -137,6 +138,7 @@ function AddSubCategory() {
                       name="image"
                       onChange={handleFileChange}
                       className="form-control"
+                       required
                     />
                     <div className="file-preview">
                       <img id="uploadFile" src={previewImage} alt="Preview" />

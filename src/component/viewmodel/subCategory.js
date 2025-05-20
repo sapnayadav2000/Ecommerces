@@ -93,7 +93,7 @@ function SubCategory() {
                 <th scope="col">#</th>
                 <th scope="col">IMAGE</th>
                 <th scope="col">Category Name</th>
-                <th scope="col">Name</th>
+                <th scope="col">SubCategory Name</th>
                 <th scope="col"> Description</th>
                 <th scope="col">STATUS</th>
                 <th scope="col">EDIT</th>
@@ -103,7 +103,7 @@ function SubCategory() {
             <tbody>
               {currentProducts?.map((subcat, i) => (
                 <tr key={i}>
-                  <td>{i + 1}</td>
+                   <td>{startIndex + i + 1}</td>
                   <td>
                     <div className="product-img">
                       <img
@@ -130,7 +130,7 @@ function SubCategory() {
                   </td>
                   <td>
                     <button
-                      className="view-details-btn"
+                      className="view-details-btn  bg-primary"
                       onClick={() => handleEditDetails(subcat)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
@@ -138,7 +138,7 @@ function SubCategory() {
                   </td>
                   <td>
                     <button
-                      className="viewdelete"
+                      className="viewdelete bg-danger"
                       onClick={() => handleDelete(subcat)}
                     >
                       <FontAwesomeIcon icon={faTrash} />
