@@ -22,8 +22,8 @@ const TrackOrder = () => {
           setLoading(false);
           return;
         }
-console.log("orderId:", orderId);
-console.log("orderProductId:", orderProductId);
+        console.log("orderId:", orderId);
+        console.log("orderProductId:", orderProductId);
         const response = await orderServices.trackOrder(userId, orderId, orderProductId);
         const orders = response?.data;
 
@@ -94,6 +94,7 @@ if (Array.isArray(orders)) {
                       {new Date(order.createdAt).toLocaleDateString()}
                     </div>
                     <div>Order Status: {order.orderStatus}</div>
+                    
                     <div>Product Name: {order?.productId?.name}</div>
                     <div>Size: {order?.size}</div>
                     <div>Price: ₹{order?.price}</div>

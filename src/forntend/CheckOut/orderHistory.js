@@ -174,15 +174,16 @@ const OrderHistory = () => {
           </>
         )}
 
-        {item.orderStatus !== "Cancel" &&
-          item.orderStatus !== "Delivered" && (
-            <button
-              className="btn btn-primary btn-sm"
-              onClick={() => CancelOrder(order._id, item.productId._id)}
-            >
-              Cancel Order
-            </button>
-          )}
+     {item.orderStatus !== "Cancel" &&
+ item.orderStatus !== "Delivered" &&
+ item.orderStatus !== "Return" && (
+  <button
+    className="btn btn-primary btn-sm"
+    onClick={() => CancelOrder(order._id, item.productId._id)}
+  >
+    Cancel Order
+  </button>
+)}
       </div>
     </div>
   </div>

@@ -135,7 +135,7 @@ const handleFileChange = async (event) => {
             <div className="row">
             <div className="col-md-6">
           <div className="card shadow">
-            <div className="card-header bg-secondary text-white">
+            <div className="card-header text-white" style={{backgroundColor:'rgb(220, 246, 230)	'}}>
               <h5 className="mb-0">User Details</h5>
             </div>
             <div className="card-body">
@@ -195,14 +195,14 @@ const handleFileChange = async (event) => {
                     placeholder="Enter pincode"
                   />
                 </div>
-                <button className="btn btn-secondary w-100">Submit</button>
+                <button className="btn  w-100" style={{backgroundColor:'rgb(220, 246, 230)	'}}>Submit</button>
               </form>
             </div>
           </div>
         </div>
               <div className="col-md-6">
           <div className="card shadow">
-            <div className="card-header bg-info text-white">
+            <div className="card-header text-white" style={{backgroundColor:'rgb(220, 246, 230)	'}}>
               <h5 className="mb-0">Change Your Password</h5>
             </div>
             <div className="card-body">
@@ -240,7 +240,7 @@ const handleFileChange = async (event) => {
                     placeholder="Confirm new password"
                   />
                 </div>
-                <button className="btn btn-info w-100">Save Changes</button>
+                <button className="btn  w-100" style={{backgroundColor:'rgb(220, 246, 230)	'}}>Save Changes</button>
         
                   </form>
                 </div>

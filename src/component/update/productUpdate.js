@@ -29,9 +29,7 @@ function ProductUpdate({ product, onSuccess, closeModal }) {
       returnWindow: 30,
     },
   });
-  // console.log("Refund Policies Before Sending to Backend:", formValues.refundPolicies);
-  // console.log("Refund Policies After Sending to Backend:", formValues.refundPolicies);
-  // console.log("Form Values Before Submit:", formValues);
+
   const handleRefundPolicyChange = (e) => {
     const { name, value } = e.target;
   
@@ -68,32 +66,63 @@ function ProductUpdate({ product, onSuccess, closeModal }) {
   
   
   
-  useEffect(() => {
+useEffect(() => {
+  const loadInitialData = async () => {
     if (product) {
-      const refundData = 
-      typeof product.refundPolicies === "string" 
-        ? JSON.parse(product.refundPolicies) 
-        : product.refundPolicies;
+      const refundData =
+        typeof product.refundPolicies === "string"
+          ? JSON.parse(product.refundPolicies)
+          : product.refundPolicies;
+
+      const selectedCategoryId = Array.isArray(product?.category)
+        ? product.category[0]?._id
+        : product?.category;
+
+      const selectedSubCategoryId = Array.isArray(product?.subCategory)
+        ? product.subCategory[0]?._id
+        : product?.subCategory;
+
       setFormValues({
-        _id: product?._id || "", // ✅ Ensure _id is set
+        _id: product?._id || "",
         name: product?.name || "",
         description: product?.description || "",
-        Sortdescription:product?.Sortdescription||"",
+        Sortdescription: product?.Sortdescription || "",
         refundPolicies: refundData,
         price: product?.price || "",
         Originalprice: product?.Originalprice || "",
         brand: Array.isArray(product?.brand) ? product.brand[0] : product?.brand || "",
-        subCategory: Array.isArray(product?.subCategory) ? product.subCategory[0]?._id : product?.subCategory || "",
-        category: Array.isArray(product?.category) ? product.category[0]?._id : product?.category || "",
+        subCategory: selectedSubCategoryId || "",
+        category: selectedCategoryId || "",
         images: product?.images || [],
         productkey: product?.productkey || [],
       });
-  
+
       if (product.images && product.images.length > 0) {
-        setPreviewImages(product.images.map(img => `${process.env.REACT_APP_API_BASE_URL}/${img}`));
+        setPreviewImages(
+          product.images.map((img) => `${process.env.REACT_APP_API_BASE_URL}/${img}`)
+        );
+      }
+
+      // 👉 Fetch subcategories for the selected category
+      if (selectedCategoryId) {
+        try {
+          const subcatResponse = await SubCategoryServices.getSubCategoryByCategory(selectedCategoryId);
+          if (Array.isArray(subcatResponse)) {
+            setSubCategories(subcatResponse);
+          } else {
+            setSubCategories([]);
+          }
+        } catch (err) {
+          console.error("Error fetching subcategories on load", err);
+          setSubCategories([]);
+        }
       }
     }
-  }, [product]);
+  };
+
+  loadInitialData();
+}, [product]);
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -297,7 +326,7 @@ const handleSubmit = async (event) => {
                       
                      
                    {/* Category */}
-                  <div className="col-lg-4 col-md-6">
+                  <div className="col-lg-6 col-md-6">
                     <div className="input-field">
                       <label className="pt-3">Category</label>
                       <select
@@ -307,44 +336,44 @@ const handleSubmit = async (event) => {
                         onChange={handleCategoryChange}
                       >
                         <option value="">Select Category</option>
-                        {categories.map((category) => (
-                          <option key={category._id} value={category._id}>
-                            {category.name}
-                          </option>
-                        ))}
+                                              {categories
+  .filter(category => category.status && category.status.toLowerCase() === "active")
+  .map(category => (
+    <option key={category._id} value={category._id}>
+      {category.name}
+    </option>
+  ))
+}
                       </select>
                     </div>
                   </div>
                   {/* Subcategory */}
-                  <div className="col-lg-4 col-md-6">
+                  <div className="col-lg-6 col-md-6">
                     <div className="input-field">
                       <label className="pt-3">Subcategory</label>
-                      <select
-                        className="form-control border"
-                        onChange={handleSubCategoryChange1}
-                        value={formValues.subCategory || ""}
-                        disabled={
-                          !formValues.category || subcategories.length === 0
-                        }
-                      >
-                        <option value="">Select Subcategory</option>
-                        {subcategories.length > 0 ? (
-                          subcategories.map((subCategory) => (
-                            <option
-                              key={subCategory._id}
-                              value={subCategory._id}
-                            >
-                              {subCategory.name}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>No subcategories available</option>
-                        )}
-                      </select>
+                                           <select
+  className="form-select border mt-3"
+  onChange={handleSubCategoryChange1}
+  value={formValues.subCategory || ""}
+  disabled={!formValues.category || subcategories.length === 0}
+>
+  <option value="">Select Subcategory</option>
+  {subcategories && subcategories.length > 0 ? (
+    subcategories
+      .filter(subCategory => subCategory.status && subCategory.status.toLowerCase() === "active")
+      .map(subCategory => (
+        <option key={subCategory._id} value={subCategory._id}>
+          {subCategory.name}
+        </option>
+      ))
+  ) : (
+    <option disabled>No subcategories available</option>
+  )}
+</select>
                     </div>
                   </div>
                   {/* brand */}
-                  <div className="col-lg-4 col-md-6">
+                  <div className="col-lg-6 col-md-6">
                     <div className="input-field">
                       <label className="pt-3">Brand</label>
                       <select
@@ -354,16 +383,18 @@ const handleSubmit = async (event) => {
                         onChange={handleCategoryChange2}
                       >
                         <option value="">Select Brand</option>
-                        {brand.map((brand) => (
-                          <option key={brand._id} value={brand._id}>
-                            {brand.name}
-                          </option>
-                        ))}
+                                             {brand
+  .filter(b => b.status && b.status.toLowerCase() === "active")
+  .map((brand) => (
+    <option key={brand._id} value={brand._id}>
+      {brand.name}
+    </option>
+  ))}
                       </select>
                     </div>
                   </div>
                   {/* Name */}
-                  <div className="col-lg-4 col-md-6">
+                  <div className="col-lg-6 col-md-6">
                     <div className="input-field">
                       <label className="pt-3">Name*</label>
                       <input

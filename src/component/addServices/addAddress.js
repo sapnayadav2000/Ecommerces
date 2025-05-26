@@ -73,9 +73,9 @@ function AddUserAdress() {
         <div className="right_col" role="main">
           <Pagetitle></Pagetitle>
           <div className="container-box">
-            <div className="container-box-top-header justify-content-end">
+            <div className="container-box-top-header justify-content-end px-4">
               <div className="sub-title-box-right">
-                <Link className="site-btn-green me-4" to="/user-address">
+                <Link className="site-btn-green " to="/user-address">
                   User Address List
                 </Link>
               </div>

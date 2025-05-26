@@ -51,7 +51,7 @@ const Policy=()=>
           <div className="row page-details">
             <form   onSubmit={handleSubmit}>
             <div className="input-field">
-                  <label style={{paddingTop:'40px'}}>Tittle </label>
+                  <label >Tittle </label>
                   <input type="text" name="title" 
                          placeholder='Enter Title'
                          value={formValues.privacyPolicyTitle} 

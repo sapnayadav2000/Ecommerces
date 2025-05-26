@@ -82,7 +82,7 @@ function Banner() {
           </div>
 
           <div className="sub-title-box-right">
-            <Link className="Add-new-btn site-btn-green me-5" to="/add-banner">
+            <Link className="Add-new-btn site-btn-green " to="/add-banner">
               <img src="img/add-plus.svg" alt="" />
               <span className="ms-2">Add New</span>
             </Link>
@@ -114,9 +114,9 @@ function Banner() {
                         src={`${process.env.REACT_APP_API_BASE_URL}/${slider?.image}`}
                         alt="image"
                         style={{
-                          height: "70px",
-                          width: "70px",
-                          objectFit: "contain",
+                          height: "40px",
+                          width: "100px",
+                          objectFit: "cover",
                         }}
                       />
                     </div>
@@ -154,35 +154,41 @@ function Banner() {
             </tbody>
           </table>
         </div>
-        <div className="pagination-controls d-flex justify-content-center my-3">
-            <button
-              className="btn btn-sm btn-secondary mx-1"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              Prev
-            </button>
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index}
-                className={`btn btn-sm mx-1 ${
-                  currentPage === index + 1 ? "btn-primary" : "btn-outline-primary"
-                }`}
-                onClick={() => setCurrentPage(index + 1)}
-              >
-                {index + 1}
-              </button>
-            ))}
-            <button
-              className="btn btn-sm btn-secondary mx-1"
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
+     <div className="pagination-controls d-flex justify-content-center my-3">
+  <button
+    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+    disabled={currentPage === 1}
+  >
+    ← Prev
+  </button>
+
+{[...Array(totalPages)].map((_, index) => (
+  <button
+    key={index}
+    className={`btn rounded-pill px-3 mx-1 ${
+      currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
+    }`}
+    style={
+      currentPage === index + 1
+        ? { backgroundColor: "#96ba6e", border: "1px solid #96ba6e" } // light green
+        : {}
+    }
+    onClick={() => setCurrentPage(index + 1)}
+  >
+    {index + 1}
+  </button>
+))}
+
+  <button
+    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+    disabled={currentPage === totalPages}
+  >
+    Next →
+  </button>
+</div>
+
       </div>
       <Modal
         isOpen={isEditModalOpen}

@@ -270,7 +270,7 @@ const Kurti = () => {
                           {product.originalPrice || product.Originalprice}
                         </span>
 
-                        <span className="new-price ml-3">
+                        <span className="new-price">
                           {currency.symbol}
                           {selectedPrices[product._id] || product.price}
                         </span>
@@ -346,7 +346,7 @@ const Kurti = () => {
                       key={index}
                       src={`${process.env.REACT_APP_API_BASE_URL}/${img}`} // Actual image URL
                       alt={`Thumbnail ${index + 1}`}
-                      className={`img-thumbnail mx-1 ${
+                      className={`img-thumbnail mx-1 slider-image  ${
                         activeImageIndex[selectedProduct?._id] === index
                           ? "border border-dark"
                           : ""
@@ -368,7 +368,7 @@ const Kurti = () => {
             {/* Right Side - Product Details */}
             <div className="col-md-3 mt-4">
               <Link to={`/product-details/${selectedProduct?._id}`}>
-                <h5>{selectedProduct?.name}</h5>
+                <h5 className="text-danger fw-bold">{selectedProduct?.name}</h5>
               </Link>
               <h5 className="mt-2">{selectedProduct?.Sortdescription}</h5>
               <div className="d-flex align-items-center mt-3">

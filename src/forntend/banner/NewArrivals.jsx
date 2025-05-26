@@ -272,7 +272,7 @@ const NewArrivals = () => {
                           {product.originalPrice || product.Originalprice}
                         </span>
 
-                        <span className="new-price ml-3">
+                        <span className="new-price">
                           {currency.symbol}
                           {selectedPrices[product._id] || product.price}
                         </span>
@@ -370,7 +370,7 @@ const NewArrivals = () => {
             {/* Right Side - Product Details */}
             <div className="col-md-3 mt-4">
               <Link to={`/product-details/${selectedProduct?._id}`}>
-                <h5>{selectedProduct?.name}</h5>
+                <h5 className="text-danger fw-bold">{selectedProduct?.name}</h5>
               </Link>
               <h5 className="mt-2">{selectedProduct?.Sortdescription}</h5>
               <div className="d-flex align-items-center mt-3">

@@ -1511,7 +1511,8 @@
   }
   
   .form-check-input[type=radio] {
-    border-radius: 50%;
+    /* border-radius: 50%; */
+        border-radius: 25%
   }
   
   .form-check-input[disabled] ~ .form-check-label {
@@ -18176,7 +18177,7 @@
   }
   
   .ec-product-content {
-    padding: 15px;
+    padding: 5px;
   }
   
   .ec-pro-variation {
@@ -20716,7 +20717,7 @@
 /* Product Content */
 .ec-pro-content {
   padding: 15px;
-  text-align: center;
+  /* text-align: center; */
 }
 
 /* Product Title */

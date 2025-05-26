@@ -4,9 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import AdminServices from "../../services/adminServices";
 import SideBar from './sidebar'
 function Header() {
-
-
-
   const [admin, setAdmin] = useState({
     name: "",
     image: "",
@@ -88,7 +85,7 @@ function Header() {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content" style={{backgroundColor:'#f0f3ff'}}>
+          <div className="modal-content" style={{backgroundColor:'#f0f3ff',width:'auto'}}>
             <div className="modal-header">
               <h5 className="modal-title text-center">Support</h5>
               <button
@@ -102,11 +99,11 @@ function Header() {
               <div className="row align-items-center justify-content-center">
                 <div className="col-md-12">
                   <ul className="list-unstyled support-list">
-                    <li className="modalbodyli  ">
-                      <a href="tel:+91 98765 43210" >+91 98765 43210</a>
+                    <li className="modalbodyli  " >
+                      <a href="tel:+91 98765 43210"  >+91 98765 43210</a>
                       <a
                         href="tel:+91 98765 43210"
-                        className="contact-btn-right "
+                        className="contact-btn-right " 
                       >
                         <span>
                           <i className="fa fa-phone" />

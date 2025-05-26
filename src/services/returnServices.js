@@ -19,7 +19,10 @@ const Return={
     {
        
         return requests.patch(`/api/return/${id}`,body); 
-    }
+    },
+                getReturnByOrderProductId: async (orderProductId) => {
+                return requests.get(`/api/return/order-product/${orderProductId}`);
+                }
 
 }
 

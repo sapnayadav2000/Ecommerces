@@ -301,7 +301,7 @@ const AllSaree = () => {
           >
             <div
               style={{
-                backgroundColor: "#FDFAF6",
+                backgroundColor: " #f7f7f7",
                 height: "50px",
               
                 display: "flex",
@@ -363,7 +363,7 @@ const AllSaree = () => {
             <div
               className="mt-4"
               style={{
-                backgroundColor: "#FDFAF6",
+                backgroundColor: " #f7f7f7",
                 padding: "15px",
                 borderRadius: "5px",
                 display: "flex",
@@ -402,6 +402,7 @@ const AllSaree = () => {
               className="form-range"
               min="100"
               max="12099"
+              style={{backgroundColor:' #f7f7f7'}}
               step="1"
               value={priceRange.max}
               onChange={(e) =>
@@ -432,7 +433,7 @@ const AllSaree = () => {
                 padding: "10px",
                 marginLeft: "20px",
                 marginTop: "1%",
-                backgroundColor: " #FDFAF6",
+                backgroundColor: "  #f7f7f7",
               }}
             >
               <button
@@ -501,11 +502,7 @@ const AllSaree = () => {
                             }`}
                             alt={product.name}
                             className="main-image"
-                            style={{
-                              height: "400px",
-                              objectFit: "cover",
-                              borderRadius: "10px 10px 0 0",
-                            }}
+                           style={{ height: "303px", width:'100%', objectFit: "cover" }}
                           />
                           <div className="ec-pro-actions">
                             {/* Add to Cart Button */}
@@ -567,7 +564,7 @@ const AllSaree = () => {
                               {product.originalPrice || product.Originalprice}
                             </span>
 
-                            <span className="new-price ml-3">
+                            <span className="new-price ">
                               {currency.symbol}
                               {selectedPrices[product._id] || product.price}
                             </span>
@@ -598,7 +595,7 @@ const AllSaree = () => {
                 <p className="text-center">No recent arrivals available</p>
               )}
             </div>
-            <div className="ec-pro-pagination">
+            {/* <div className="ec-pro-pagination">
                     <span>
                       Showing {indexOfFirstProduct + 1}-
                       {Math.min(indexOfLastProduct, products.length)} of{" "}
@@ -648,7 +645,57 @@ const AllSaree = () => {
           </button>
         </li>
                     </ul>
-                  </div>
+                  </div> */}
+                                    <div className="custom-pagination-container mt-4">
+  <div className="custom-pagination-info">
+    Showing {indexOfFirstProduct + 1}-
+    {Math.min(indexOfLastProduct, products.length)} of {products.length} item(s)
+  </div>
+  <ul className="custom-pagination">
+    <li>
+      <button
+        className="pagination-button"
+        onClick={prevPage}
+        disabled={currentPage === 1}
+      >
+        ⬅ Prev
+      </button>
+    </li>
+
+    {Array.from({
+      length: Math.min(5, Math.ceil(products.length / productsPerPage)),
+    }).map((_, index) => (
+      <li key={index}>
+        <button
+          className={`pagination-number ${
+            currentPage === index + 1 ? "active" : ""
+          }`}
+          onClick={() => paginate(index + 1)}
+        >
+          {index + 1}
+        </button>
+      </li>
+    ))}
+
+    {Math.ceil(products.length / productsPerPage) > 5 && (
+      <li>
+        <button className="pagination-button" onClick={nextPage}>
+          Next ➡
+        </button>
+      </li>
+    )}
+
+    <li>
+      <button
+        className="pagination-button"
+        onClick={nextPage}
+        disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+      >
+        Next ➡
+      </button>
+    </li>
+  </ul>
+</div>
           </section>
           <Modal
             show={showModal}
@@ -710,8 +757,9 @@ const AllSaree = () => {
                 {/* Right Side - Product Details */}
                 <div className="col-md-3 mt-4">
                   <Link to={`/product-details/${selectedProduct?._id}`}>
-                    <h5>{selectedProduct?.name}</h5>
+                    <h5 className="text-danger fw-bold">{selectedProduct?.name}</h5>
                   </Link>
+                  <h5 className="mt-2">{selectedProduct?.Sortdescription}</h5>
                   <div className="d-flex align-items-center mt-3">
                     <span className="text-muted text-decoration-line-through me-2">
                       {currency.symbol}

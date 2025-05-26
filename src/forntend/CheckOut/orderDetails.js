@@ -534,7 +534,7 @@ const OrderDetails = () => {
                     <div className="ec-pay-desc">
                       Please select the preferred payment method.
                     </div>
-                    <div className="form-check">
+                    <div className="form-check d-flex align-items-center">
                       <input
                         type="radio"
                         className="form-check-input "
@@ -557,7 +557,7 @@ const OrderDetails = () => {
                       </label>
                     </div>
 
-                    <div className="form-check">
+                    <div className="form-check d-flex align-items-center">
                       <input
                         type="radio"
                         className="form-check-input"
@@ -584,7 +584,7 @@ const OrderDetails = () => {
                       className="form-control mt-3"
                       placeholder="Add comments about your order"
                     />
-                    <div className="form-check mt-2">
+                    <div className="form-check align-items-center mt-2">
                      <input
   className="form-check-input mt-1"
   type="checkbox"

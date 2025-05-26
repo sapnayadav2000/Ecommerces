@@ -128,11 +128,13 @@ function SubCategorynUpdate({ subcat, onSuccess, closeModal }) {
                           >
                             <option value="" >Select Category</option>
 
-                            {categories.map((category) => (
-                              <option key={category._id} value={category._id}>
-                                {category.name}
-                              </option>
-                            ))}
+                           {categories
+  .filter((category) => category.status === "Active")
+  .map((category) => (
+    <option key={category._id} value={category._id}>
+      {category.name}
+    </option>
+))}
                           </select>
                         </div>
                       </div>

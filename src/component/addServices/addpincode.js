@@ -13,34 +13,52 @@ function AddPincode() {
     status: "Active",
   });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+
+  if (name === "pincode") {
+    // Allow only digits, max length 6
+    if (/^\d{0,6}$/.test(value)) {
+      setFormValues({
+        ...formValues,
+        [name]: value,
+      });
+    }
+  } else {
     setFormValues({
       ...formValues,
       [name]: value,
     });
-  };
+  }
+};
+
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      // Send JSON directly
-      await Pincodeservices.createPincode(formValues);
-      alert("Pincode created successfully");
-      navigate("/pincode");
-    } catch (error) {
-      console.error("Failed to create Pincode", error);
-      alert("Failed to create Pincode");
-    }
-  };
+  event.preventDefault();
+
+  if (formValues.pincode.length !== 6) {
+    alert("Pincode must be exactly 6 digits");
+    return;
+  }
+
+  try {
+    await Pincodeservices.createPincode(formValues);
+    alert("Pincode created successfully");
+    navigate("/pincode");
+  } catch (error) {
+    console.error("Failed to create Pincode", error);
+    alert("Failed to create Pincode");
+  }
+};
+
 
   return (
     <div className="right_col" role="main">
       <Pagetitle />
       <div className="container-box">
-        <div className="container-box-top-header justify-content-end">
+        <div className="container-box-top-header justify-content-end px-4">
           <div className="sub-title-box-right">
-            <Link className="site-btn-green me-4" to="/Pincode">
+            <Link className="site-btn-green " to="/Pincode">
               <span>Pincode List</span>
             </Link>
           </div>
@@ -60,6 +78,8 @@ function AddPincode() {
                       required
                       placeholder="Enter pincode"
                       className="form-control"
+                        maxLength={6}  
+                      pattern="\d{6}"
                     />
                   </div>
                 </div>

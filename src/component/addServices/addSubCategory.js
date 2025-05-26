@@ -83,9 +83,9 @@ function AddSubCategory() {
     <div className="right_col" role="main">
       <Pagetitle />
       <div className="container-box">
-        <div className="container-box-top-header justify-content-end">
+        <div className="container-box-top-header justify-content-end px-4">
           <div className="sub-title-box-right">
-            <Link className="site-btn-green me-4" to="/sub-category">
+            <Link className="site-btn-green" to="/sub-category" style={{width:'160px'}}>
               Sub Category List
             </Link>
           </div>
@@ -98,22 +98,24 @@ function AddSubCategory() {
                   <div className="input-field">
                     <label className="pt-3">Category*</label>
                     <select
-                      className="form-control border"
+                      className="form-control border form-select"
                       name="Category"
                       onChange={handleCategoryChange}
                     
                     >
                       <option value="">Select Category</option>
 
-                      {categories.map((category) => (
-                        <option key={category._id} value={category._id}>
-                          {category.name}
-                        </option>
-                      ))}
+                     {categories
+  .filter((category) => category.status === "Active")
+  .map((category) => (
+    <option key={category._id} value={category._id}>
+      {category.name}
+    </option>
+))}
                     </select>
                   </div>
                 </div>
-                <div className="col-lg-6 col-md-7">
+                <div className="col-lg-6 col-md-6">
                   <div className="input-field">
                     <label className="pt-3">Name*</label>
                     <input
@@ -154,7 +156,7 @@ function AddSubCategory() {
                       onChange={handleInputChange}
                       required
                       placeholder="Enter description"
-                      className="form-control"
+                      className="form-control pt-3"
                     />
                   </div>
                 </div>

@@ -1,6 +1,26 @@
+
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
+
+// Import icons from react-icons
+import {
+  FaTachometerAlt,
+  FaUser,
+  FaImage,
+  FaBell,
+  FaBoxOpen,
+  FaCog,
+  FaFileAlt,
+  FaBlog,
+  FaShoppingCart,
+  FaUndo,
+  FaQuestionCircle,
+  FaStar,
+  FaTicketAlt,
+  FaMapPin,
+  FaArrowLeft
+} from "react-icons/fa";
 
 const SideBar = () => {
   const [openSubMenu, setOpenSubMenu] = useState(null);
@@ -8,7 +28,8 @@ const SideBar = () => {
   const role = localStorage.getItem("userRole");
 
   useEffect(() => {
-    const storedPermissions = JSON.parse(localStorage.getItem("userPermissions")) || {};
+    const storedPermissions =
+      JSON.parse(localStorage.getItem("userPermissions")) || {};
     setPermissions(storedPermissions);
   }, []);
 
@@ -30,14 +51,14 @@ const SideBar = () => {
   }, [isOpen]);
 
   const menuItems = [
-    { name: "Dashboard", key: "dashboard", img: "img/dashboard.svg" },
-    { name: "User Manger", key: "user-manger", path: "/user-manger", img: "/img/user-manager-img.png" },
-    { name: "App Banner", key: "banner", path: "/banner", img: "/admin/img/banner.svg" },
-    { name: "Notification", key: "notification", path: "/notification", img: "/admin/img/notification.svg" },
+    { name: "Dashboard", key: "dashboard", icon: <FaTachometerAlt /> },
+    { name: "User Manger", key: "user-manger", path: "/user-manger", icon: <FaUser /> },
+    { name: "App Banner", key: "banner", path: "/banner", icon: <FaImage /> },
+    { name: "Notification", key: "notification", path: "/notification", icon: <FaBell /> },
     {
       name: "Product",
       key: "product",
-      img: "/admin/img/cottage.svg",
+      icon: <FaBoxOpen />,
       subItems: [
         { name: "Category", key: "category", path: "/category" },
         { name: "SubCategory", key: "sub-category", path: "/sub-category" },
@@ -48,36 +69,36 @@ const SideBar = () => {
     {
       name: "Settings",
       key: "settings",
-      img: "/admin/img/setting.svg",
+      icon: <FaCog />,
       subItems: [{ name: "Profile", key: "profile", path: "/profile" }],
     },
     {
       name: "Pages",
       key: "pages",
-      img: "/admin/img/pages.svg",
+      icon: <FaFileAlt />,
       subItems: [
         { name: "Policy", key: "policy", path: "/policy" },
         { name: "AboutUs", key: "about-us", path: "/about-us" },
         { name: "Term & Conditions", key: "terms-and-conditions", path: "/terms-and-conditions" },
       ],
     },
-    { name: "Blog", key: "blog", path: "/blog", img: "/admin/img/blog.svg" },
-    { name: "Order", key: "order", path: "/order", img: "/admin/img/order.svg" },
-    { name: "Return Manager", key: "return", path: "/return", img: "/admin/img/blog.svg" },
-    { name: "Enquire", key: "enquire", path: "/enquire", img: "/img/help.svg" },
-    { name: "Manage Review", key: "review", path: "/review", img: "/img/review.svg" },
-    { name: "Ticket Manager", key: "ticket-manager", path: "/ticket-manager", img: "/img/tickets.png" },
-    { name: "Pincode", key: "pincode", path: "/pincode", img: "/img/pincode.svg" },
+    { name: "Blog", key: "blog", path: "/blog", icon: <FaBlog /> },
+    { name: "Order", key: "order", path: "/order", icon: <FaShoppingCart /> },
+    { name: "Return Manager", key: "return", path: "/return", icon: <FaUndo /> },
+    { name: "Enquire", key: "enquire", path: "/enquire", icon: <FaQuestionCircle /> },
+    { name: "Manage Review", key: "review", path: "/review", icon: <FaStar /> },
+    { name: "Ticket Manager", key: "ticket-manager", path: "/ticket-manager", icon: <FaTicketAlt /> },
+    { name: "Pincode", key: "pincode", path: "/pincode", icon: <FaMapPin /> },
   ];
 
-  const renderMenuItem = (name, key, img, subItems) => {
+  const renderMenuItem = (name, key, icon, subItems) => {
     if (role === "Admin" || permissions[key]) {
       return (
         <li key={key} className="sidebar-item">
           {subItems ? (
             <>
               <div onClick={() => handleToggleSubMenu(key)} className="sidebar-link toggle-submenu">
-                <img src={img} alt={name} className="sidebar-icon" />
+                <span className="sidebar-icon">{icon}</span>
                 {isOpen && <span className="sidebar-text">{name}</span>}
               </div>
               {openSubMenu === key && isOpen && (
@@ -104,7 +125,7 @@ const SideBar = () => {
                 `sidebar-link ${isActive ? "active-link" : ""}`
               }
             >
-              <img src={img} alt={name} className="sidebar-icon" style={{ width: "30px", height: "40px" }} />
+              <span className="sidebar-icon">{icon}</span>
               {isOpen && <span className="sidebar-text">{name}</span>}
             </NavLink>
           )}
@@ -117,13 +138,53 @@ const SideBar = () => {
   return (
     <div className="main-container">
       <motion.div className="sidebar" style={{ width: isOpen ? "325px" : "100px" }}>
-        <div className="toggle">
-          <button className="btn toggle-btn" onClick={toggle}>
-            <img src="img/arrow-1.svg" alt="Toggle" />
-          </button>
-        </div>
+      <div
+  className="toggle"
+  style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '90%', // Adjust width as needed
+ 
+  }}
+>
+  {isOpen && (
+    <img
+      src="/img/adminlogo.png"
+      alt="logo"
+      style={{
+        width: "70px",
+        height: "70px",
+        transition: "all 0.3s ease"
+      }}
+    />
+  )}
+
+  <button
+    className="btn toggle-btn"
+    onClick={toggle}
+    style={{
+      backgroundColor: 'transparent',
+      border: 'none',
+      padding: 0,
+      cursor: 'pointer'
+    }}
+  >
+    <img
+      src="/img/previous.svg"
+      alt="Toggle"
+      style={{
+        width: '24px',
+        height: '24px'
+      }}
+    />
+  </button>
+</div>
+
         <ul className="sidebar-menu">
-          {menuItems.map((item) => renderMenuItem(item.name, item.key, item.img, item.subItems))}
+          {menuItems.map((item) =>
+            renderMenuItem(item.name, item.key, item.icon, item.subItems)
+          )}
         </ul>
       </motion.div>
     </div>

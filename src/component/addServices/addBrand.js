@@ -58,9 +58,9 @@ function AddBrand() {
       <div className="right_col" role="main">
         <Pagetitle></Pagetitle>
         <div className="container-box">
-          <div className="container-box-top-header justify-content-end">
+          <div className="container-box-top-header justify-content-end px-4">
             <div className="sub-title-box-right">
-              <Link className="site-btn-green me-4" to="/brand">
+              <Link className="site-btn-green " to="/brand">
                 Brand List
               </Link>
             </div>
@@ -84,7 +84,7 @@ function AddBrand() {
                     </div>
                   </div>
                  
-                  <div className="col-lg-6 col-md-6">
+                  <div className="col-lg-5 col-md-6">
                     <div className="input-field">
                       <label className="pt-3">
                         Upload Image*<small>(Size should be 343 x 160)</small>

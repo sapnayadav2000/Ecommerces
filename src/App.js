@@ -56,7 +56,7 @@ import HomeCategory from "./forntend/category/HomeCategory";
 
 // Banner
 import HomeBanner from "./forntend/banner/HomeBanner";
-import NewArrivals from "./forntend/banner/NewArrivals";
+
 import AllNewArrivals from "./forntend/banner/AllNewArrivals";
 import Kurti from "./forntend/banner/AllKurti";
 import AllSaree from "./forntend/banner/AllSaree";
@@ -230,7 +230,7 @@ function App() {
               path="/signup"
               element={
                 isAuthenticated ? (
-                  <Navigate to="/admin/dashboard" />
+                  <Navigate to="/dashboard" />
                 ) : (
                   <SignUp
                     setIsAuthenticated={setIsAuthenticated}
@@ -580,7 +580,7 @@ function App() {
             <Route path="/fornt-category" element={<HomeCategory />} />
             <Route path="/fornt-banner" element={<HomeBanner />} />
             <Route path="/home-product" element={<Products />} />
-            <Route path="/new-arrivals" element={<NewArrivals />} />
+            
 
             <Route path="/all-new-arrivals" element={<AllNewArrivals />} />
             <Route path="/kurti" element={<Kurti />} />

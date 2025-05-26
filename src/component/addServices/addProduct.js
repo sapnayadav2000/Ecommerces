@@ -217,9 +217,9 @@ function AddProduct() {
       <div className="right_col" role="main">
         <Pagetitle />
         <div className="container-box">
-          <div className="container-box-top-header justify-content-end">
+          <div className="container-box-top-header justify-content-end px-4">
             <div className="sub-title-box-right">
-              <Link className="site-btn-green me-4" to="/product">
+              <Link className="site-btn-green " to="/product">
                 Product List
               </Link>
             </div>
@@ -238,11 +238,15 @@ function AddProduct() {
                         value={formValues.category}
                       >
                         <option value="">Select Category</option>
-                        {categories.map((category) => (
-                          <option key={category._id} value={category._id}>
-                            {category.name}
-                          </option>
-                        ))}
+                       {categories
+  .filter(category => category.status && category.status.toLowerCase() === "active")
+  .map(category => (
+    <option key={category._id} value={category._id}>
+      {category.name}
+    </option>
+  ))
+}
+
                       </select>
                     </div>
                   </div>
@@ -250,23 +254,26 @@ function AddProduct() {
                   <div className="col-lg-4 col-md-6">
                     <div className="input-field">
                       <label className="pt-3">Subcategory*</label>
-                      <select
-                        className=" form-select border"
-                        onChange={handleSubCategoryChange1}
-                        value={formValues.subCategory || ""}
-                        disabled={!formValues.category || subcategories.length === 0}
-                      >
-                        <option value="">Select Subcategory</option>
-                        {subcategories && subcategories.length > 0 ? (
-                          subcategories.map((subCategory) => (
-                            <option key={subCategory._id} value={subCategory._id}>
-                              {subCategory.name}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>No subcategories available</option>
-                        )}
-                      </select>
+                     <select
+  className="form-select border"
+  onChange={handleSubCategoryChange1}
+  value={formValues.subCategory || ""}
+  disabled={!formValues.category || subcategories.length === 0}
+>
+  <option value="">Select Subcategory</option>
+  {subcategories && subcategories.length > 0 ? (
+    subcategories
+      .filter(subCategory => subCategory.status && subCategory.status.toLowerCase() === "active")
+      .map(subCategory => (
+        <option key={subCategory._id} value={subCategory._id}>
+          {subCategory.name}
+        </option>
+      ))
+  ) : (
+    <option disabled>No subcategories available</option>
+  )}
+</select>
+
 
                     </div>
                   </div>
@@ -280,11 +287,14 @@ function AddProduct() {
                         onChange={handleCategoryChange2}
                       >
                         <option value="">Select Brand</option>
-                        {brand.map((brand) => (
-                          <option key={brand._id} value={brand._id}>
-                            {brand.name}
-                          </option>
-                        ))}
+                       {brand
+  .filter(b => b.status && b.status.toLowerCase() === "active")
+  .map((brand) => (
+    <option key={brand._id} value={brand._id}>
+      {brand.name}
+    </option>
+  ))}
+
                       </select>
                     </div>
                   </div>
@@ -489,7 +499,7 @@ function AddProduct() {
                         <div className="col-md-2 d-flex align-items-center">
                           <button
                             type="button"
-                            className="btn btn-danger"
+                            className="btn btn-danger mt-5"
                             onClick={() => remove(index)}
                           >
                             Remove

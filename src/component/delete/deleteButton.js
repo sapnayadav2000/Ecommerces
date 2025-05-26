@@ -170,7 +170,7 @@ function DeleteBanner({ data, page, closeModal, onSuccess }) {
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content modal-bg-light-green">
-          <div className="modal-body py-4 px-5 text-center">
+          <div className="modal-body py-4 px-5 text-center " style={{backgroundColor:'#e3ffe9'}}>
             <h4>Delete this Item?</h4>
             <p className="desc my-2">
               Are you sure you want to delete this Item? This action cannot be

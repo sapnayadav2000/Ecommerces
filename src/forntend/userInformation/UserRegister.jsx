@@ -34,6 +34,11 @@ const UserRegister = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+   if (!/^\d{6}$/.test(pincode)) {
+    alert("Pincode must be exactly 6 digits.");
+    return;
+  }
     try {
       const response = await UserServices.getRegister(userData);
       setData(response.data);
@@ -130,6 +135,8 @@ const UserRegister = () => {
                           placeholder="Enter your pincode"
                           value={pincode}
                           onChange={(e) => setPincode(e.target.value)}
+                            maxLength={6}  // max 6 characters
+                            pattern="\d{6}"
                           required
                         />
                       </span>

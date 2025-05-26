@@ -83,6 +83,7 @@ function PincodeUpdate({ pincode, onSuccess, closeModal }) {
                             value={formValues.pincode}
                             onChange={handleInputChange}
                             placeholder="pincode"
+                             maxLength="6"
                           />
                         </div>
                       </div>

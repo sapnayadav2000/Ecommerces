@@ -60,7 +60,7 @@ function TicketManager() {
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const currentProducts = filteredTickets.slice(startIndex, endIndex);
-  // Update ticket list when data changes
+  // Update ticket list when data change
   useEffect(() => {
     if (data) {
       setTickets(data);
@@ -188,29 +188,29 @@ function TicketManager() {
                       style={{
                         backgroundColor:
                           ticket.priority === "Low"
-                            ? "rgb(249, 184, 66)"
+                            ? "rgb(243 205 152)"
                             : ticket.priority === "Medium"
-                            ? "rgb(105, 152, 54)"
-                            : "rgb(255, 51, 51)", // High
-                        color: "#fff",
+                            ? "  rgb(150 223 150)"
+                            : "rgb(244 141 138)", // High
+                        color: "#000",
                       }}
                       className="form-select"
                     >
                       <option
                         value="Low"
-                        style={{ backgroundColor: "rgb(249, 184, 66)" }}
+                        style={{ backgroundColor: "rgb(243 205 152)" }}
                       >
                         Low
                       </option>
                       <option
                         value="Medium"
-                        style={{ backgroundColor: "rgb(105, 152, 54)" }}
+                        style={{ backgroundColor: "  rgb(150 223 150)" }}
                       >
                         Medium
                       </option>
                       <option
                         value="High"
-                        style={{ backgroundColor: "rgb(255, 51, 51)" }}
+                        style={{ backgroundColor: "rgb(244 141 138)" }}
                       >
                         High
                       </option>
@@ -225,29 +225,29 @@ function TicketManager() {
                       style={{
                         backgroundColor:
                           ticket.status === "In Progress"
-                            ? "rgb(249, 184, 66)"
+                            ? "rgb(243 205 152)"
                             : ticket.status === "Resolved"
-                            ? "rgb(105, 152, 54)"
-                            : "rgb(255, 51, 51)", // Closed
-                        color: "#fff",
+                            ? "  rgb(150 223 150)"
+                            : "rgb(244 141 138)", // Closed
+                        color: "#000",
                       }}
                       className="form-select"
                     >
                       <option
                         value="In Progress"
-                        style={{ backgroundColor: "rgb(249, 184, 66)" }}
+                        style={{ backgroundColor: "rgb(243 205 152)" }}
                       >
                         In Progress
                       </option>
                       <option
                         value="Resolved"
-                        style={{ backgroundColor: "rgb(105, 152, 54)" }}
+                        style={{ backgroundColor: "  rgb(150 223 150)" }}
                       >
                         Resolved
                       </option>
                       <option
                         value="Closed"
-                        style={{ backgroundColor: "rgb(255, 51, 51)" }}
+                        style={{ backgroundColor: "rgb(244 141 138)" }}
                       >
                         Closed
                       </option>
@@ -270,35 +270,40 @@ function TicketManager() {
           </table>
         </div>
             {/* Pagination Controls */}
-            <div className="pagination-controls d-flex justify-content-center my-3">
-            <button
-              className="btn btn-sm btn-secondary mx-1"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              Prev
-            </button>
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index}
-                className={`btn btn-sm mx-1 ${
-                  currentPage === index + 1 ? "btn-primary" : "btn-outline-primary"
-                }`}
-                onClick={() => setCurrentPage(index + 1)}
-              >
-                {index + 1}
-              </button>
-            ))}
-            <button
-              className="btn btn-sm btn-secondary mx-1"
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
+               <div className="pagination-controls d-flex justify-content-center my-3">
+  <button
+    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+    disabled={currentPage === 1}
+  >
+    ← Prev
+  </button>
+
+{[...Array(totalPages)].map((_, index) => (
+  <button
+    key={index}
+    className={`btn rounded-pill px-3 mx-1 ${
+      currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
+    }`}
+    style={
+      currentPage === index + 1
+        ? { backgroundColor: "#96ba6e", border: "1px solid #96ba6e" } // light green
+        : {}
+    }
+    onClick={() => setCurrentPage(index + 1)}
+  >
+    {index + 1}
+  </button>
+))}
+
+  <button
+    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+    disabled={currentPage === totalPages}
+  >
+    Next →
+  </button>
+</div>
       </div>
 
       {/* Edit Ticket Modal */}

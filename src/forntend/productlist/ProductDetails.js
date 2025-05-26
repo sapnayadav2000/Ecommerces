@@ -300,161 +300,120 @@ const rating = getAverageRatingByProductId(reviews, product._id);
       <HomeHeader />
       <div className="container-fluid py-5">
         <div className="row justify-content bg-white">
-        <div className="col-lg-5 mt-5">
-  <div className="position-relative">
-    <img
-      src={product.images[activeImageIndex]}
-      alt={product.name}
-      className="product-card-img img-fluid mb-3 ml-5 rounded shadow-sm"
-      onError={handleImageError}
-      style={{ width: "100%", height: "auto", objectFit: "cover" }}
-    />
-    <Slider {...sliderSettings} className="image-thumbnails">
-      {product?.images?.map((img, index) => (
-        <div key={index} className="image-wrapper">
-          <img
-            src={img}
-            alt={`Thumbnail ${index + 1}`}
-            className={`img-thumbnail mx-3 rounded-circle shadow-sm ${
-              activeImageIndex === index ? "border border-dark" : ""
-            }`}
-            style={{
-              width: "80%",
-              height: "auto",
-              cursor: "pointer",
-              objectFit: "cover",
-            }}
-            onClick={() => setActiveImageIndex(index)}
-          />
-        </div>
-      ))}
-    </Slider>
-  </div>
-</div>
-
-<div className="col-lg-6 mt-5 ml-5">
-  <h5 className="font-weight-bold" style={{ fontSize: "2.5rem" }}>
-    {product.name}
-  </h5>
-  <h5 className="mt-3" style={{ fontSize: "1.75rem", color: "#6c757d" }}>
-    {product.Sortdescription}
-  </h5>
-  <hr />
-
-  <div className="price mt-4" style={{ fontSize: "1.5rem" }}>
-    <span className="text-muted text-decoration-line-through me-2">
-      {currency.symbol}
-      {product.Originalprice}
-    </span>
-    <span className="text-danger fw-bold ml-2">
-      {currency.symbol}
-      {currentPrice}
-    </span>
-    {rating && (
-      <div className="mb-2 mt-3">
-        <strong>Rating: </strong>
-        <span style={{ color: "#f39c12" }}>{rating} / 5</span>
-      </div>
-    )}
-  </div>
-
-  <div className="sizes mt-4" style={{ fontSize: "1.5rem" }}>
-    <strong>Size:</strong>
-    <br />
-    {product.productkey?.length > 0 ? (
-      product.productkey.map((item, index) => (
-        <button
-          key={index}
-          className='btn mt-2 me-2'  style={{
-      border: '2px solid',
-      borderColor:
-        selectedSizes[product._id] === item.Size ? 'pink' : 'black',
-    }}
-          onClick={() => onSizeClick(product, item.Size)}
-        >
-          {item.Size}
-        </button>
-      ))
-    ) : (
-      <p className="text-muted">No sizes available</p>
-    )}
-  </div>
-
-  <div className="container mt-3">
-    <div className="row">
-      <div className="col-lg-3">
-        {/* Quantity Selector */}
-        <div className="d-flex align-items-center" style={{ border: "1px solid #ccc", borderRadius: "5px" }}>
-          <button
-            className="btn btn-outline-dark"
-            onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            style={{ borderRadius: "50%" }}
-          >
-            -
-          </button>
-          <span className="mx-3">{quantity}</span>
-          <button
-            className="btn btn-outline-dark"
-            onClick={() => setQuantity(quantity + 1)}
-            style={{ borderRadius: "50%" }}
-          >
-            +
-          </button>
+<div className="container mt-5 product-detail-container">
+  <div className="row">
+    {/* Product Image + Thumbnails */}
+    <div className="col-lg-5">
+      <div className="position-relative">
+        <img
+          src={product.images[activeImageIndex]}
+          alt={product.name}
+          className="img-fluid main-image rounded-4 shadow"
+          onError={handleImageError}
+        />
+        <div className="d-flex mt-3 overflow-auto thumb-container">
+          {product.images.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt={`Thumbnail ${index + 1}`}
+              className={`thumbnail-img mx-2 ${activeImageIndex === index ? 'active-thumb' : ''}`}
+              onClick={() => setActiveImageIndex(index)}
+              style={{height:'100%'}}
+            />
+          ))}
         </div>
       </div>
-
-      <div className="col-lg-3">
-        <button
-          className="btn btn-primary w-100"
-          onClick={() => handleAddToCart(product, selectedSizes[product._id])}
-          style={{ borderRadius: "25px", fontSize: "1.2rem" }}
-        >
-          + Add to Cart
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div className="p-4 mt-3">
-    <div className="d-flex gap-4 mb-4">
-      <button
-        onClick={() => setActiveTab("details")}
-        className={`px-4  rounded-pill btn btn-primary  ${
-          activeTab === "details" ? "bg-blue-500 text-white" : "bg-light text-white"
-        }`}
-        style={{ transition: "all 0.3s ease" }}
-      >
-        Details
-      </button>
-      <button
-        onClick={() => setActiveTab("data")}
-        className={`px-4  rounded-pill btn btn-primary ${
-          activeTab === "data" ? "bg-blue-500 text-white" : "bg-light text-white"
-        }`}
-        style={{ transition: "all 0.3s ease" }}
-      >
-        Data Information
-      </button>
     </div>
 
-    {activeTab === "details" && (
-      <div className="bg-gray-100 p-4 rounded shadow">
-        <h2 className="text-lg font-semibold mb-2">Details</h2>
-        <p>{product.description}</p>
-      </div>
-    )}
+    {/* Product Info */}
+    <div className="col-lg-7">
+      <div className="product-info-card p-4 rounded-4 shadow-sm">
+        <h2 className="fw-bold">{product.name}</h2>
+        <p className="text-muted fs-5">{product.Sortdescription}</p>
 
-    {activeTab === "data" && (
-      <div className="bg-gray-100 p-4 rounded shadow" >
-        <h2 className="text-lg font-semibold mb-2">Data Information</h2>
-        <p>{product.Sortdescription}</p>
-        <p className="mt-2">
-          Return: {product.refundPolicies?.returnable === true ? `${product.refundPolicies.returnWindow} Days` : "No Refund Policy"}
-        </p>
-      </div>
-    )}
-  </div>
-</div>
+        <div className="price-section my-3">
+          <span className="text-muted text-decoration-line-through me-2">
+            {currency.symbol}{product.Originalprice}
+          </span>
+          <span className="text-danger fs-4 fw-bold">
+            {currency.symbol}{currentPrice}
+          </span>
+        </div>
+
+        {rating && (
+          <div className="mb-2 text-warning fw-bold">⭐ {rating} / 5</div>
+        )}
+
+        {/* Size Buttons */}
+        <div className="mt-4">
+          <strong>Size:</strong>
+          <div className="mt-2">
+            {product.productkey?.length > 0 ? (
+              product.productkey.map((item, index) => (
+                <button
+                  key={index}
+                  className={`btn size-btn me-2 border ${selectedSizes[product._id] === item.Size ? 'selected-size' : ''}`}
+                  onClick={() => onSizeClick(product, item.Size)}
+                >
+                  {item.Size}
+                </button>
+              ))
+            ) : (
+              <p className="text-muted">No sizes available</p>
+            )}
+          </div>
+        </div>
+
+        {/* Quantity and Add to Cart */}
+        <div className="d-flex align-items-center mt-4">
+          <div className="quantity-box me-3">
+            <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
+            <span>{quantity}</span>
+            <button onClick={() => setQuantity(quantity + 1)}>+</button>
+          </div>
+          <button
+            className="btn btn-primary rounded-pill px-4"
+            onClick={() => handleAddToCart(product, selectedSizes[product._id])}
+          >
+            + Add to Cart
+          </button>
+        </div>
+
+        {/* Tabs */}
+        <div className="mt-4">
+          <div className="btn-group" role="group">
+            <button
+              className={`btn tab-btn ${activeTab === "details" ? "active-tab" : ""}`}
+              onClick={() => setActiveTab("details")}
+            >
+              Details
+            </button>
+            <button
+              className={`btn tab-btn ${activeTab === "data" ? "active-tab" : ""}`}
+              onClick={() => setActiveTab("data")}
+            >
+              Data Information
+            </button>
+          </div>
+
+          <div className="tab-content-box mt-3">
+            {activeTab === "details" && (
+              <div>
+                <h5 className="fw-semibold mb-2">Details</h5>
+                <p>{product.description}</p>
+              </div>
+            )}
+            {activeTab === "data" && (
+              <div>
+                <h5 className="fw-semibold mb-2">Data Information</h5>
+                <p>{product.Sortdescription}</p>
+                <p>Return: {product.refundPolicies?.returnable ? `${product.refundPolicies.returnWindow} Days` : "No Refund Policy"}</p>
+              </div>
+            )}
+          </div>
+        </div>
+        </div></div></div></div>
 
           <div className="text-center mb-5 mt-5">
             <h2 className="fw-bold">Customer Reviews</h2>
@@ -619,7 +578,7 @@ const rating = getAverageRatingByProductId(reviews, product._id);
                             {currency.symbol}
                             {related.originalPrice || related.Originalprice}
                           </span>
-                          <span className="new-price ml-3">
+                          <span className="new-price ">
                             {currency.symbol}
                             {(() => {
                               const selectedSize = selectedSizes[related._id];
@@ -740,9 +699,11 @@ const rating = getAverageRatingByProductId(reviews, product._id);
             {/* Right Side - Product Details */}
             <div className="col-md-3 mt-4">
               <Link to={`/product-details/${selectedProduct?._id}`}>
-                <h5>{selectedProduct?.name}</h5>
+                <h5 className="text-danger fw-bold">{selectedProduct?.name}</h5>
               </Link>
-
+  <h5 className="mt-2">
+                        {selectedProduct?.Sortdescription}
+                      </h5>
               <div className="d-flex align-items-center mt-3">
                 <span className="text-muted text-decoration-line-through me-2">
                   {currency.symbol}
@@ -776,7 +737,7 @@ const rating = getAverageRatingByProductId(reviews, product._id);
               {/* Quantity Selection */}
               <div
                 className="mt-3 d-flex align-items-center"
-                style={{ border: "1px solid black" }}
+                 style={{ border: "1px solid black",width: '88%' }}
               >
                 <button
                   className="btn btn-outline-dark "
@@ -784,7 +745,7 @@ const rating = getAverageRatingByProductId(reviews, product._id);
                 >
                   -
                 </button>
-                <span className="mx-3">{quantity}</span>
+                <span className="mx-4">{quantity}</span>
                 <button
                   className="btn btn-outline-dark"
                   onClick={() => setQuantity(quantity + 1)}

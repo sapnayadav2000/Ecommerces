@@ -120,7 +120,7 @@ useEffect(() => {
                   </div>
 
                   {/* Pagination Controls */}
-                  {!loading && totalPages > 1 && (
+                  {/* {!loading && totalPages > 1 && (
                     <div className="pagination mt-4 d-flex justify-content-center">
                       {Array.from({ length: totalPages }, (_, index) => (
                         <button
@@ -134,7 +134,47 @@ useEffect(() => {
                         </button>
                       ))}
                     </div>
-                  )}
+                  )} */}
+                  {!loading && totalPages > 1 && (
+  <div className="pagination mt-4 d-flex justify-content-center align-items-center">
+    <button
+      className="btn btn-sm mx-1"
+      onClick={() => handlePageChange(currentPage - 1)}
+      disabled={currentPage === 1}
+    >
+      ⬅ Prev
+    </button>
+
+    {Array.from({ length: totalPages })
+      .slice(
+        Math.max(0, currentPage - 3),
+        Math.min(totalPages, currentPage + 2)
+      )
+      .map((_, index, arr) => {
+        const pageNumber = Math.max(1, currentPage - 2) + index;
+        return (
+          <button
+            key={pageNumber}
+            className={`btn btn-sm mx-1 ${
+              currentPage === pageNumber ? "btn-primary" : "btn-outline-primary"
+            }`}
+            onClick={() => handlePageChange(pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        );
+      })}
+
+    <button
+      className="btn btn-sm mx-1"
+      onClick={() => handlePageChange(currentPage + 1)}
+      disabled={currentPage === totalPages}
+    >
+      Next ➡
+    </button>
+  </div>
+)}
+
                 </div>
               </div>
             </div>

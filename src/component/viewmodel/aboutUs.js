@@ -40,12 +40,12 @@ const AboutUs=()=>
         <>
         <div className="right_col" role="main">
         <Pagetitle></Pagetitle>
-      <div className="container-box p-0 profile-container py-0">
-        <div className="container-box-inner p-5">
+      <div className="container-box p-4 profile-container ">
+        <div className="container-box-inner ">
           <div className="row">
             <form  onSubmit={handleSubmit}>
               <div className="input-field">
-                <label style={{paddingTop:'40px'}}><b>English</b></label>
+                <label ><b>English</b></label>
                 <textarea
                   type="text"
                   name="aboutUs"

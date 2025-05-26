@@ -40,6 +40,11 @@ const UserProfileEdit = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+     if (!/^\d{6}$/.test(editUser.pincode)) {
+    toast.error("Pincode must be exactly 6 digits.");
+    return;
+  }
+    
     try {
       const userId = JSON.parse(localStorage.getItem("user"))._id;
       const formData = new FormData();
@@ -111,14 +116,31 @@ const UserProfileEdit = () => {
                     ].map(({ label, key }) => (
                       <div className="col-12" key={key}>
                         <label className="form-label">{label}</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={editUser[key]}
-                          onChange={(e) =>
-                            setEditUser({ ...editUser, [key]: e.target.value })
-                          }
-                        />
+                       {label === "Pincode" ? (
+  <input
+    type="text"
+    className="form-control"
+    value={editUser.pincode}
+    maxLength={6}
+    onChange={(e) => {
+      const val = e.target.value;
+      // Allow only digits and max length 6
+      if (/^\d{0,6}$/.test(val)) {
+        setEditUser({ ...editUser, pincode: val });
+      }
+    }}
+  />
+) : (
+  <input
+    type="text"
+    className="form-control"
+    value={editUser[key]}
+    onChange={(e) =>
+      setEditUser({ ...editUser, [key]: e.target.value })
+    }
+  />
+)}
+
                       </div>
                     ))}
                   </div>
