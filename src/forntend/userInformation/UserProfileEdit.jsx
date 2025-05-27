@@ -146,7 +146,7 @@ const UserProfileEdit = () => {
                   </div>
 
                   <div className="mt-4">
-                    <button type="submit" className="btn btn-primary w-100">
+                    <button type="submit" className="btn  w-80"  style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))'}}>
                       Update Profile
                     </button>
                   </div>

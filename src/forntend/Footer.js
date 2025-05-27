@@ -78,7 +78,7 @@ export default function Footer() {
                   </ul>
 
                   {/* Social Links */}
-                  <div className="ecs-footer-social mt-3">
+                  {/* <div className="ecs-footer-social mt-3">
                     <ul className="d-flex justify-content-start">
                       <li className="ml-3">
                         <a href="#">
@@ -101,7 +101,7 @@ export default function Footer() {
                         </a>
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

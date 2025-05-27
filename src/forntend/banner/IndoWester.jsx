@@ -194,7 +194,7 @@ const IndoWestern = () => {
     <>
       <section className="ec-banner section py-3">
         <div className="container">
-          <h2 className="custom-heading mb-4 fw-bold text-center">Indo Western</h2>
+          <h2 className="custom-heading mb-4 fw-bold ">Indo Western</h2>
           <div className="row g-4">
             {loading ? (
               <div className="text-center">
@@ -286,8 +286,8 @@ const IndoWestern = () => {
                       {product.productkey?.map((item) => (
                         <button
                           key={item.Size}
-                          className="btn  m-2"  style={{
-      border: '2px solid',
+                          className="  m-2"  style={{
+      border: '1px solid',
       borderColor:
         selectedSizes[product._id] === item.Size ? 'pink' : 'black',
     }}
@@ -309,8 +309,8 @@ const IndoWestern = () => {
           {!loading && products.length > 4 && (
   <div className="text-center mt-4">
     <button
-      className="btn btn-primary"
-      onClick={() => navigate("/indo-western")}
+      className="btn "
+      onClick={() => navigate("/indo-western")}  style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))'}}
     >
       Explore All
     </button>
@@ -372,7 +372,7 @@ const IndoWestern = () => {
             </div>
 
             {/* Right Side - Product Details */}
-            <div className="col-md-3 mt-4">
+            <div className="col-md-4 mt-4">
               <Link to={`/product-details/${selectedProduct?._id}`}>
                 <h5 className="text-danger fw-bold" >{selectedProduct?.name}</h5>
               </Link>
@@ -410,7 +410,7 @@ const IndoWestern = () => {
               {/* Quantity Selection */}
               <div
                 className="mt-3 d-flex align-items-center"
-                style={{ border: "1px solid black",width: '86%' }}
+                style={{ border: "1px solid black",width: '62%' }}
               >
                 <button
                   className="btn btn-outline-dark "
@@ -429,7 +429,7 @@ const IndoWestern = () => {
 
               {/* Add to Cart Button */}
               <button
-                className="btn btn-dark mt-4 w-100"
+                className="btn btn-dark mt-4 w-95"
                 onClick={() =>
                   handleAddToCart(
                     selectedProduct,

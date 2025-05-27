@@ -73,102 +73,114 @@ function AddBanner() {
 
   return (
     <>
+ 
       <div className="right_col" role="main">
-        <Pagetitle></Pagetitle>
-        <div className="container-box">
-          <div className="container-box-top-header justify-content-end px-4">
+  <Pagetitle />
+  <div className="container-box shadow-sm rounded p-4 bg-white ">
+    
+     <div className="container-box-top-header justify-content-end px-4">
             <div className="sub-title-box-right">
               <Link className="site-btn-green " to="/banner">
-                Banner List
+               <i className="fa fa-arrow-left mr-2"></i> Banner List
               </Link>
             </div>
           </div>
-          <div className="container-box-inner px-4">
-            <div className="page-details">
-              <form onSubmit={handleSubmit}>
-                <div className="row ">
-                  <div className="col-lg-4 col-md-6">
-                    <div className="input-field">
-                      <label className="pt-3">Tittle*</label>
-                      <input
-                        type="text"
-                        name="title"
-                        value={formValues.title}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Enter Title"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
 
-                  <div className="col-lg-4 col-md-6">
-                    <div className="input-field">
-                      <label className="pt-3">Message*</label>
-                      <input
-                        type="text"
-                        name="message"
-                        value={formValues.message}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Enter  Message"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-               
-                  <div className="col-lg-6 col-md-6">
-                    <div className="input-field">
-                      <label  className="pt-3" for="">Select a StartDate*</label>
-                      <input
-                        type="date"
-                        class="form-control"
-                        name="startDate"
-                        placeholder="Pick a date"
-                        min={currentDate}
-                        value={startDate}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="input-field">
-                      <label className="pt-3" for="">Select a EndDate*</label>
-                      <input
-                        type="date"
-                        class="form-control"
-                        name="endDate"
-                        placeholder="Pick a date"
-                        min={startDate}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
+    <form onSubmit={handleSubmit}>
+      <div className="row g-4">
 
-                  <div className="col-lg-6 col-md-6">
-                    <div className="input-field">
-                      <label className="pt-3">
-                        Upload Image*<small>(Size should be 343 x 160)</small>
-                      </label>
-                      <input
-                        type="file"
-                        name="image"
-                        onChange={handleFileChange}
-                        className="form-control"
-                         required
-                      />
-                      <div className="file-preview">
-                        <img id="uploadFile" src={previewImage} alt=" " />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <button className="sited-btn">SUBMIT</button>
-              </form>
-            </div>
+        <div className="col-lg-4 col-md-6">
+          <div className="form-group">
+            <label className="form-label">Title *</label>
+            <input
+              type="text"
+              name="title"
+              value={formValues.title}
+              onChange={handleInputChange}
+              required
+              placeholder="Enter Title"
+              className="form-control"
+            />
           </div>
         </div>
+
+        <div className="col-lg-4 col-md-6">
+          <div className="form-group">
+            <label className="form-label">Message *</label>
+            <input
+              type="text"
+              name="message"
+              value={formValues.message}
+              onChange={handleInputChange}
+              required
+              placeholder="Enter Message"
+              className="form-control"
+            />
+          </div>
+        </div>
+
+        <div className="col-md-6 col-lg-6">
+          <div className="form-group">
+            <label className="form-label">Start Date *</label>
+            <input
+              type="date"
+              className="form-control"
+              name="startDate"
+              min={currentDate}
+              value={startDate}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
+        <div className="col-md-6 col-lg-6">
+          <div className="form-group">
+            <label className="form-label">End Date *</label>
+            <input
+              type="date"
+              className="form-control"
+              name="endDate"
+              min={startDate}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
+        <div className="col-md-6 col-lg-6">
+          <div className="form-group">
+            <label className="form-label">
+              Upload Image <small>(343 x 160)</small> *
+            </label>
+            <input
+              type="file"
+              name="image"
+              onChange={handleFileChange}
+              className="form-control"
+              required
+            />
+            {previewImage && (
+              <div className="mt-2">
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  className="img-thumbnail"
+                  style={{ maxWidth: "200px", height: "auto" }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="col-12">
+          <button type="submit" className="sited-btn">
+            Submit
+          </button>
+        </div>
       </div>
+    </form>
+  </div>
+</div>
+
     </>
   );
 }

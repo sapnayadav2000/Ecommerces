@@ -55,59 +55,80 @@ function AddBrand() {
 
   return (
     <>
-      <div className="right_col" role="main">
-        <Pagetitle></Pagetitle>
-        <div className="container-box">
-          <div className="container-box-top-header justify-content-end px-4">
-            <div className="sub-title-box-right">
-              <Link className="site-btn-green " to="/brand">
-                Brand List
-              </Link>
-            </div>
-          </div>
-          <div className="container-box-inner px-4">
-            <div className="page-details">
-              <form onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className="col-lg-4 col-md-6">
-                    <div className="input-field">
-                      <label className="pt-3">Name*</label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formValues.name}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Enter name"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                 
-                  <div className="col-lg-5 col-md-6">
-                    <div className="input-field">
-                      <label className="pt-3">
-                        Upload Image*<small>(Size should be 343 x 160)</small>
-                      </label>
-                      <input
-                        type="file"
-                        name="image"
-                        onChange={handleFileChange}
-                        className="form-control"
-                         required
-                      />
-                      <div className="file-preview">
-                        <img id="uploadFile" src={previewImage} alt=" " />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <button className="sited-btn">SUBMIT</button>
-              </form>
-            </div>
-          </div>
-        </div>
+     <div className="right_col" role="main">
+  <Pagetitle />
+
+  <div className="container-box">
+    <div className="container-box-top-header justify-content-end px-4">
+      <div className="sub-title-box-right">
+        <Link className="site-btn-green" to="/brand" style={{ width: '160px' }}>
+         <i className="fa fa-arrow-left mr-2"></i> Brand List
+        </Link>
       </div>
+    </div>
+
+    <div className="container-box-inner px-4">
+      <div className="page-details">
+        <form onSubmit={handleSubmit}>
+          <div className="row g-4">
+
+            {/* Brand Name */}
+            <div className="col-lg-4 col-md-6">
+              <div className="form-group">
+                <label className="form-label">Name *</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formValues.name}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Enter Brand Name"
+                  className="form-control"
+                />
+              </div>
+            </div>
+
+            {/* Image Upload */}
+            <div className="col-lg-5 col-md-6">
+              <div className="form-group">
+                <label className="form-label">
+                  Upload Image <small>(Size should be 343 x 160)</small> *
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  onChange={handleFileChange}
+                  className="form-control"
+                  required
+                />
+                {previewImage && (
+                  <div className="mt-2">
+                    <img
+                      id="uploadFile"
+                      src={previewImage}
+                      alt="Preview"
+                      className="img-thumbnail"
+                      style={{ maxWidth: '200px', height: 'auto' }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="col-12">
+              <button type="submit" className="sited-btn">
+                SUBMIT
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
     </>
   );
 }

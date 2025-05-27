@@ -32,6 +32,7 @@ function Order() {
   ) || [];
 
   const totalPages = Math.ceil(filteredOrders.length / productsPerPage);
+    const startIndex = (currentPage - 1) * productsPerPage;
   const currentOrders = filteredOrders.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
@@ -97,8 +98,8 @@ function Order() {
               style={{
                 padding: "9px 14px",
                 borderRadius: "0 6px 6px 0",
-                border: "1.5px solid #699836",
-                backgroundColor: "#699836",
+                border: "1.5px solid #96ba6e",
+                backgroundColor: "#96ba6e",
                 color: "white",
                 cursor: "pointer",
               }}
@@ -110,9 +111,10 @@ function Order() {
 
         {/* Orders Table */}
         <div className="table-responsive">
-          <table className="table table-bordered align-middle">
+          <table className="table align-middle">
             <thead className="">
               <tr>
+                <th>#</th>
                 <th>Order ID</th>
                 <th>User</th>
                 <th>Shipping Details</th>
@@ -124,8 +126,12 @@ function Order() {
               </tr>
             </thead>
             <tbody>
-              {currentOrders.map((order) => (
-                <tr key={order._id}>
+              {currentOrders.map((order,i) => (
+                 
+                    
+                  
+                <tr key={`${order._id}-${i}`}>
+                     <td>{startIndex + i + 1}</td>
                   <td>{order.orderId}</td>
                   <td>{order.userAddress ? `${order.userAddress.firstName} ${order.userAddress.lastName}` : "N/A"}</td>
 
@@ -135,7 +141,7 @@ function Order() {
                       <div
                         key={product._id}
                         className="d-flex align-items-center mb-2"
-                        style={{ borderBottom: "1px solid #eee", paddingBottom: "6px" }}
+                     
                       >
                         <img
                           src={
@@ -158,52 +164,57 @@ function Order() {
                             Qty: {product.quantity} | Size: {product.size}
                           </div>
                         </div>
-                        <select
-                          className="form-select form-select-sm"
-                          value={product.orderStatus}
-                          onChange={(e) =>
-                            handleOrderStatusChange(order._id, product._id, e.target.value)
-                          }
-                          style={{
-                            minWidth: "100px",
-                            backgroundColor: (() => {
-                              switch (product.orderStatus) {
-                                case "Pending": return "rgb(243 205 152)";
-                                case "Dispatch": return " rgb(166 220 236)";
-                                case "Shipped": return " rgb(151 197 238)";
-                                case "Delivered": return " rgb(150 223 150)";
-                                case "Cancel": return "rgb(244 141 138)";
-                                case "Return": return " rgb(244 141 138)";
-                                default: return "#6c757d";
-                              }
-                            })(),
-                            color: "#000",
-                          }}
-                        >
-                          {["Cancel", "Return"].includes(product.orderStatus) ? (
-                            <option value={product.orderStatus}>{product.orderStatus}</option>
-                          ) : (
-                            statusOrder
-                              .filter((s) => !["Cancel", "Return"].includes(s))
-                              .map((status) => (
-                                <option
-                                  key={status}
-                                  value={status}
-                                  disabled={isOptionDisabled(product.orderStatus, status)}
-                                >
-                                  {status}
-                                </option>
-                              ))
-                          )}
-                        </select>
+                      
                       </div>
                     ))}
                   </td>
-                  <td>{currency.symbol}{order.totalAmount?.toFixed(2)}</td>
+                  <td><b>{currency.symbol}{order.totalAmount?.toFixed(2)}</b></td>
                   <td>{order.paymentMethod}</td>
-                  <td>
-                    {[...new Set(order.orderProducts.map(p => p.orderStatus))].join(", ")}
-                  </td>
+                 <td>
+  {order.orderProducts?.map((product, idx) => (
+    <div key={product._id || idx} style={{ marginBottom: "8px" }}>
+      <select
+        className="form-select form-select-sm"
+        value={product.orderStatus}
+        onChange={(e) =>
+          handleOrderStatusChange(order._id, product._id, e.target.value)
+        }
+        style={{
+          minWidth: "100px",
+          backgroundColor: (() => {
+            switch (product.orderStatus) {
+              case "Pending": return "rgb(243 205 152)";
+              case "Dispatch": return "rgb(166 220 236)";
+              case "Shipped": return "rgb(151 197 238)";
+              case "Delivered": return "rgb(150 223 150)";
+              case "Cancel": return "rgb(244 141 138)";
+              case "Return": return "rgb(244 141 138)";
+              default: return "#6c757d";
+            }
+          })(),
+          color: "#000",
+        }}
+      >
+        {["Cancel", "Return"].includes(product.orderStatus) ? (
+          <option value={product.orderStatus}>{product.orderStatus}</option>
+        ) : (
+          statusOrder
+            .filter((s) => !["Cancel", "Return"].includes(s))
+            .map((status) => (
+              <option
+                key={status}
+                value={status}
+                disabled={isOptionDisabled(product.orderStatus, status)}
+              >
+                {status}
+              </option>
+            ))
+        )}
+      </select>
+    </div>
+  ))}
+</td>
+
                   <td>{new Date(order.createdAt).toLocaleString()}</td>
                 </tr>
               ))}
@@ -229,7 +240,7 @@ function Order() {
     }`}
     style={
       currentPage === index + 1
-        ? { backgroundColor: "#96ba6e", border: "1px solid #96ba6e" } // light green
+        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
         : {}
     }
     onClick={() => setCurrentPage(index + 1)}

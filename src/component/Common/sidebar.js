@@ -22,6 +22,7 @@ import {
   FaArrowLeft
 } from "react-icons/fa";
 
+
 const SideBar = () => {
   const [openSubMenu, setOpenSubMenu] = useState(null);
   const [permissions, setPermissions] = useState({});
@@ -58,10 +59,10 @@ const SideBar = () => {
     {
       name: "Product",
       key: "product",
-      icon: <FaBoxOpen />,
+      icon: <FaBoxOpen  />,
       subItems: [
         { name: "Category", key: "category", path: "/category" },
-        { name: "SubCategory", key: "sub-category", path: "/sub-category" },
+        { name: "Sub Category", key: "sub-category", path: "/sub-category" },
         { name: "Brand", key: "brand", path: "/brand" },
         { name: "Product", key: "product-item", path: "/product" },
       ],
@@ -99,10 +100,10 @@ const SideBar = () => {
             <>
               <div onClick={() => handleToggleSubMenu(key)} className="sidebar-link toggle-submenu">
                 <span className="sidebar-icon">{icon}</span>
-                {isOpen && <span className="sidebar-text">{name}</span>}
+                {isOpen && <span className="sidebar-text ">{name} <i class="fa fa-chevron-down ml-4"></i></span>}
               </div>
               {openSubMenu === key && isOpen && (
-                <ul className="submenu">
+                <ul className="submenu ">
                   {subItems.map((subItem) => (
                     <li key={subItem.key}>
                       <NavLink
@@ -141,10 +142,13 @@ const SideBar = () => {
       <div
   className="toggle"
   style={{
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '90%', // Adjust width as needed
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "90%",
+    maxWidth: "300px", // Optional: limit width for smaller sidebars
+    padding: "0 10px",  // Optional: add horizontal padding
+    height: "80px",
  
   }}
 >
@@ -174,8 +178,8 @@ const SideBar = () => {
       src="/img/previous.svg"
       alt="Toggle"
       style={{
-        width: '24px',
-        height: '24px'
+        width: '30px',
+        height: '30px'
       }}
     />
   </button>

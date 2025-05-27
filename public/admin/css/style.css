@@ -38,7 +38,7 @@ a{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #000132;
+  background: #940870;
   border-radius: 10px;
   position: relative;}
 .login-left {
@@ -346,7 +346,7 @@ a:focus {
 footer {
     padding: 20px 30px;
     bottom: 0px;
-    background: rgba(96, 113, 175, 0.1);
+    /* background: rgba(96, 113, 175, 0.1); */
     width: calc(100% - 325px);
     display: flex;
     justify-content: space-between;
@@ -536,8 +536,8 @@ body.nav-md.sidebar-closed  footer {
     cursor: pointer;
     transition: 0.4s;}
 .status-toggle input:checked[type="checkbox"] {
-    border: 2px solid #3FBE12;
-    background: #3FBE12;}
+    border: 2px solid #bbe4cb;
+    background: #bbe4cb;}
 .status-toggle input[type="checkbox"]::after {
     position: absolute;
     content: "";
@@ -654,7 +654,7 @@ thead {
 .sited-btn
 {
     margin-top: 30px;
-    background-color: rgb(40, 139, 40);
+    background-color: var(--light-green);
     color: #F0F3FF;
     padding: 15px;
     border-radius: 9px;
@@ -722,7 +722,7 @@ a {
 .form-group .fa {
   position: absolute;
   left: 5px;
-  background-color: #699836;
+  background-color: #9d0c83 ;
   border-radius: 10px;
   width: 45px;
   font-size: 20px;
@@ -743,35 +743,27 @@ a {
   background-color: #fff;
   box-sizing: border-box;}
 .login-btn {
-  padding: 1px 32px;
-  background-color: #699836;
-  color: white;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 30%;
-  font-size: 20px;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;}
-.login-signup {
-  display: flex;
-  justify-content: space-between;}
-.signup-btn {
-  padding: 14px 32px;
-  background-color: #699836;
-  color: white;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 20px;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;}
+    padding: 1px 32px;
+    background-color: #fff;
+    color: #940870;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 30%;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
 .login-btn:hover {
-  background-color: #699836;}
+  background-color: #fff !important;
+    color: #940870;
+}
+
+
 .form-group {
   position: relative;}
 #togglePassword {
@@ -842,7 +834,8 @@ span.sidebar-icon svg {
 
 .modalbodyli .fa  {
  
-  background-color: #699836;
+  background-color: rgb(150, 186, 110);
+;
   font-size: 2em;
   color: #f2fff7;
   padding: 8px;
@@ -1000,23 +993,7 @@ border-radius: 5px ;}
   -webkit-transition: 0.4s;
   transition: 0.4s;}
 /* footer csss */
-footer {
-  padding: 20px 30px;
-  bottom: 0px;
-  /* background: rgba(96, 113, 175, 0.1); */
-    background: rgba(194, 195, 198, 0.1);
-  width: calc(100% - 325px);
-  display: flex;
-  justify-content: space-between;
-  margin-inline-start: 325px;
-    margin-block-end: 0;}
-footer p {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #000000;
- margin-block-end: 0;}
+
 body.nav-md.sidebar-closed .top_nav,
 body.nav-md.sidebar-closed .right_col {
   margin-left: 100px !important;}
@@ -1161,8 +1138,8 @@ body.nav-md.sidebar-closed footer {
   cursor: pointer;
   transition: 0.4s;}
 .status-toggle input:checked[type="checkbox"] {
-  border: 2px solid #3fbe12;
-  background: #3fbe12;}
+  border: 2px solid#f46f6f;
+  background:#f46f6f;}
 .status-toggle input[type="checkbox"]::after {
   position: absolute;
   content: "";
@@ -1187,14 +1164,14 @@ body.nav-md.sidebar-closed footer {
   border-radius: 4px;}
 .view-details-btn {
   border: none;
-  background-color: blue;
+  background-color: #80aaf4;
   border-radius: 3em;
   color: white;
   padding: 6%;
   width: 3em;}
 .viewdelete {
   border: none;
-  background-color: red;
+  background-color: #f46f6f;
   border-radius: 2em;
   color: white;
   padding: 6%;
@@ -1240,7 +1217,7 @@ body.nav-md.sidebar-closed footer {
 .container-box-top-header .search-btn {
   width: 50px;
   height: 50px;
-  background: var(--dark-green);
+  background:#96ba6e;
   border-radius: 4px;
   border: none;
   color: #fff;
@@ -1278,7 +1255,7 @@ border:1px solid rgb(238, 238, 238)}
   width: 15%;}
 .sited-btn {
   margin-top: 30px;
-  background-color: rgb(40, 139, 40);
+  background-color: var(--light-green);
   color: #f0f3ff;
   padding: 15px;
   border-radius: 9px;

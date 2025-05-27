@@ -80,32 +80,48 @@ useEffect(() => {
                     ) : currentBlogs.length > 0 ? (
                       currentBlogs.map((blog) => (
                         <div key={blog._id} className="col-lg-4 col-md-6 col-sm-12 mb-6 ec-blog-block" >
-                          <div className="ec-blog-inner text-center pt-4 pb-4" style={{backgroundColor:'#f7f7f7'}}>
-                            <div className="ec-blog-image">
-                              <img
-                                className="blog-image"
-                                src={`${process.env.REACT_APP_API_BASE_URL}/${blog?.image}`}
-                                alt={blog.title || "Blog Image"}
-                                onError={(e) =>
-                                  (e.target.src = "/assets/images/default-blog.jpg")
-                                }
-                              />
-                            </div>
-                            <div className="ec-blog-content">
+                          <div className="ec-blog-inner pt-4 pb-4"  >
+                          <div className="ec-blog-image" style={{ width: '100%', maxHeight: '250px', overflow: 'hidden' }}>
+                            <img
+                              className="blog-image"
+                              src={`${process.env.REACT_APP_API_BASE_URL}/${blog?.image}`}
+                              alt={blog.title || "Blog Image"}
+                              onError={(e) => (e.target.src = "/assets/images/default-blog.jpg")}
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                
+                              }}
+                            />
+                          </div>
+
+                            <div className="ec-blog-content" >
                               <h5 className="ec-blog-title">{blog.title}</h5>
                               <div className="ec-blog-date">
                                 By <span>{blog.author}</span> Date:{" "}
                                 {new Date(blog.createdAt).toLocaleString()}
                               </div>
-                              <div className="ec-blog-desc">
-                                {blog.content.substring(0, 40)}...
-                              </div>
+                             <div
+                                      className="ec-blog-desc"
+                                      style={{
+                                        overflow: 'visible',
+                                        maxHeight: 'none',
+                                        textOverflow: 'unset',
+                                        whiteSpace: 'normal',
+                                        lineHeight: '1.6',
+                                        wordBreak: 'break-word',
+                                      }}
+                                    >
+                                      {blog.content.substring(0, 200)}...
+                                    </div>
+
                               <div className="ec-blog-btn">
                                 <Link
                                   to={`/blog/${btoa(blog._id)
                                     .replace(/\//g, "_")
                                     .replace(/\+/g, "-")}`}
-                                  className="btn btn-primary"
+                                  className="btn"   style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))'}}
                                 >
                                   Read More
                                 </Link>

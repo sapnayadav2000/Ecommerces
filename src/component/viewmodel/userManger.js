@@ -104,7 +104,7 @@ function UserManager() {
                   </td>
                   <td>
                     <button
-                      className="view-details-btn bg-primary"
+                      className="view-details-btn"
                       onClick={() => handleEditDetails(user)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
@@ -112,7 +112,7 @@ function UserManager() {
                   </td>
                   <td>
                     <button
-                      className="viewdelete bg-danger"
+                      className="viewdelete "
                       onClick={() => handleDelete(user)}
                     >
                       <FontAwesomeIcon icon={faTrash} />
@@ -141,7 +141,7 @@ function UserManager() {
     }`}
     style={
       currentPage === index + 1
-        ? { backgroundColor: "#96ba6e", border: "1px solid #96ba6e" } // light green
+        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
         : {}
     }
     onClick={() => setCurrentPage(index + 1)}

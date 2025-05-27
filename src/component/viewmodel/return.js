@@ -117,9 +117,9 @@ Returnservices.updateReturn(returnId, updatedData)
           <div className="container-box-top-header-right-2">
             <select onChange={handleStatusChange} value={statusFilter} className="form-select border">
               <option value="" >Filter by Status</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
+              <option value="Pending">Pending</option>
+              <option value="Approve">Approve</option>
+              <option value="Reject">Reject</option>
             </select>
           </div>
         </div>
@@ -196,13 +196,13 @@ Returnservices.updateReturn(returnId, updatedData)
                         handlePriorityChange(returns._id, e.target.value)
                       }>
   
-    <option value="Pending" style={{ backgroundColor: "rgb(249, 184, 66)" }}>
+    <option value="Pending" style={{ backgroundColor: "rgb(243 205 152)" }}>
       Pending
     </option>
-    <option value="Approve" style={{ backgroundColor: "rgb(105, 152, 54)" }}>
+    <option value="Approve" style={{ backgroundColor: "rgb(150 223 150)" }}>
       Approve
     </option>
-    <option value="Reject" style={{ backgroundColor: "rgb(255, 51, 51)" }}>
+    <option value="Reject" style={{ backgroundColor: "rgb(244 141 138)" }}>
       Reject
     </option>
   </select>
@@ -249,7 +249,7 @@ Returnservices.updateReturn(returnId, updatedData)
     }`}
     style={
       currentPage === index + 1
-        ? { backgroundColor: "#96ba6e", border: "1px solid #96ba6e" } // light green
+        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
         : {}
     }
     onClick={() => setCurrentPage(index + 1)}

@@ -149,8 +149,8 @@ const UserProfile = () => {
 
                         <div className="text-center mt-3">
                           <button
-                            className="btn btn-danger"
-                            onClick={handleLogout}
+                            className="btn"
+                            onClick={handleLogout}  style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))'}}
                           >
                             Logout
                           </button>

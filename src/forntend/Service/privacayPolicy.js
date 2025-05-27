@@ -19,78 +19,53 @@ const PrivacyPolicy = () => {
     fetchPolicy();
   }, []);
 
-  const getContent = () => {
-    const text = privacyPolicyData?.English;
-    return text?.replace(/\n/g, "<br />");
-  };
-
   return (
     <>
       <HomeHeader />
 
-      <div className="sticky-header-next-sec ec-breadcrumb section-space-mb">
+      {/* Unique Hero Section with overlay */}
+      <div
+        className="policy-hero-section"
+        style={{
+          background: `linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url("/assets/images/offer-image/1.jpg") center/cover no-repeat`,
+          padding: "100px 0",
+          color: "#fff",
+          textAlign: "center",
+        }}
+      >
         <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="row ec_breadcrumb_inner p-3">
-                <div className="col-md-6 col-sm-12">
-                  <h2 className="ec-breadcrumb-title">Privacy Policy</h2>
-                </div>
-                <div className="col-md-6 col-sm-12">
-                  <ul className="ec-breadcrumb-list">
-                    <li className="ec-breadcrumb-item">
-                      <a href="/">Home</a>
-                    </li>
-                    <li className="ec-breadcrumb-item active">
-                      Privacy Policy
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          <h1 style={{ fontWeight: "800", fontSize: "48px",  color: "#fff" }}>Privacy Policy</h1>
+          <p style={{ fontSize: "18px", opacity: 0.9 }}>
+            Empowering transparency — how we handle your data with care.
+          </p>
         </div>
       </div>
 
-      <section className="ec-page-content section-space-p">
+      {/* Policy Content with glassmorphism */}
+      <section className="policy-content-section py-5" >
         <div className="container">
-          <div className="row">
-            <div className="col-md-12 text-center">
-              <div className="section-title">
-                <p className="sub-title mb-3">About our business firm</p>
-              </div>
-            </div>
-
-            <div className="ec-common-wrapper">
-              <div className="row">
-                <div className="col-md-6 ec-cms-block ec-abcms-block text-center">
-                  <div className="ec-cms-block-inner">
-                    <img
-                      className="a-img"
-                      src="assets/images/offer-image/1.jpg"
-                      alt="about"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-md-6 ec-cms-block ec-abcms-block text-center">
-                  <div className="ec-cms-block-inner">
-                    <h3
-                      className="ec-cms-block-title mt-4"
-                      style={{ fontSize: "15px" }}
-                    >
-                      {privacyPolicyData?.Title}
-                    </h3>
-                    {privacyPolicyData ? (
-                      <div
-                        style={{ textAlign: "left" }}
-                        dangerouslySetInnerHTML={{ __html: getContent() }}
-                      />
-                    ) : (
-                      <p>Loading content...</p>
-                    )}
-                  </div>
-                </div>
+          <div className="row justify-content-center">
+            <div className="col-lg-10">
+              <div
+                className="policy-content-wrapper p-5"
+                style={{
+                  backdropFilter: "blur(10px)",
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  borderRadius: "16px",
+                  boxShadow: "0 4px 24px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <h2 className="mb-4" style={{ fontWeight: "700" }}>
+                  {privacyPolicyData?.Title || "Privacy Policy"}
+                </h2>
+                {privacyPolicyData ? (
+                  <div
+                    style={{ lineHeight: "1.8", fontSize: "16px", color: "#333" }}
+                    dangerouslySetInnerHTML={{ __html: privacyPolicyData.English }}
+                  />
+                ) : (
+                  <p style={{ color: "#888" }}>Loading content...</p>
+                )}
               </div>
             </div>
           </div>

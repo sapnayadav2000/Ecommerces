@@ -287,7 +287,7 @@ function TicketManager() {
     }`}
     style={
       currentPage === index + 1
-        ? { backgroundColor: "#96ba6e", border: "1px solid #96ba6e" } // light green
+        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
         : {}
     }
     onClick={() => setCurrentPage(index + 1)}

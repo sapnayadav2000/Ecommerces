@@ -313,8 +313,8 @@ const handleAddToWishlist = async (product) => {
                     {product.productkey?.map((item) => (
                       <button
                         key={item.Size}
-                        className="btn  m-2"  style={{
-      border: '2px solid',
+                        className="m-2"  style={{
+      border: '1px solid',
       borderColor:
         selectedSizes[product._id] === item.Size ? 'pink' : 'black',
     }}
@@ -441,7 +441,7 @@ const handleAddToWishlist = async (product) => {
             </div>
 
             {/* Right Side - Product Details */}
-            <div className="col-md-3 mt-4">
+            <div className="col-md-4 mt-4">
               <Link to={`/product-details/${selectedProduct?._id}`}>
                 <h5 className="text-danger fw-bold">{selectedProduct?.name}</h5>
               </Link>
@@ -480,7 +480,7 @@ const handleAddToWishlist = async (product) => {
               {/* Quantity Selection */}
               <div
                 className="mt-3 d-flex align-items-center"
-                style={{ border: "1px solid black",width: '86%' }}
+                style={{ border: "1px solid black",width: '62%' }}
               >
                 <button
                   className="btn btn-outline-dark"
@@ -499,7 +499,7 @@ const handleAddToWishlist = async (product) => {
 
               {/* Add to Cart Button */}
               <button
-                className="btn btn-dark mt-4 w-100"
+                className="btn btn-dark mt-4 w-95"
                 onClick={() =>
                   handleAddToCart(
                     selectedProduct,

@@ -220,7 +220,7 @@ function AddProduct() {
           <div className="container-box-top-header justify-content-end px-4">
             <div className="sub-title-box-right">
               <Link className="site-btn-green " to="/product">
-                Product List
+               <i className="fa fa-arrow-left mr-2"></i> Product List
               </Link>
             </div>
           </div>

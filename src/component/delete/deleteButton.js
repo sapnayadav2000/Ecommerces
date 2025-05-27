@@ -161,37 +161,95 @@ function DeleteBanner({ data, page, closeModal, onSuccess }) {
   };
 
   return (
+<div
+  className="modal fade show d-block"
+  id="deleteACModel"
+  tabIndex="-1"
+  aria-labelledby="deleteACModelLabel"
+  aria-hidden="true"
+>
+  <div className="modal-dialog modal-dialog-centered">
     <div
-      className="modal fade show d-block"
-      id="deleteACModel"
-      tabIndex="-1"
-      aria-labelledby="deleteACModelLabel"
-      aria-hidden="true"
+      className="modal-content"
+      style={{
+        borderRadius: "12px",
+        overflow: "hidden",
+        boxShadow: "0 5px 15px rgba(0,0,0,0.2)",
+        position: "relative",
+         width:'80%',
+            marginInline:'auto'
+    
+      }}
     >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content modal-bg-light-green">
-          <div className="modal-body py-4 px-5 text-center " style={{backgroundColor:'#e3ffe9'}}>
-            <h4>Delete this Item?</h4>
-            <p className="desc my-2">
-              Are you sure you want to delete this Item? This action cannot be
-              undone.
-            </p>
-            <div className="footer-btn-grp text-center py-4">
-              <button className="sites-btn btn-o" onClick={closeModal}>
-                Cancel
-              </button>
-              <button
-                className="sites-btn  delete-btn"
-                onClick={handleDelete}
-                style={{ backgroundColor: "red" }}
-              >
-                Delete{" "}
-              </button>
-            </div>
-          </div>
+      {/* Close (X) Button */}
+      <button
+        type="button"
+        onClick={closeModal}
+        className="btn-close"
+        aria-label="Close"
+        style={{
+          position: "absolute",
+          top: "15px",
+          right: "15px",
+          background: "transparent",
+          border: "none",
+          fontSize: "1.4rem",
+          color: "#000",
+          zIndex: 10,
+        }}
+      >
+        &times;
+      </button>
+
+      <div
+        className="modal-body text-center"
+        style={{
+          backgroundColor: "#f9f9f9",
+          padding: "2rem 2.5rem",
+         
+        }}
+      >
+        <div style={{ marginBottom: "1.5rem" }}>
+
+          <h4 style={{ fontWeight: "600", color: "#333" }}>Delete this Item?</h4>
+          <p style={{ color: "#666", marginTop: "0.5rem", fontSize: "15px" }}>
+            Are you sure you want to delete this item? This action cannot be undone.
+          </p>
+        </div>
+
+        <div className="d-flex justify-content-center gap-3">
+          <button
+            className="btn"
+            onClick={closeModal}
+            style={{
+              minWidth: "100px",
+           border:'1px solid rgb(150, 186, 110)',
+              borderRadius: "6px",
+              backgroundColor:'rgb(150, 186, 110)',
+            }}
+          >
+            Cancel
+          </button>
+
+          <button
+            className="btn "
+            onClick={handleDelete}
+            style={{
+              minWidth: "100px",
+             backgroundColor:"#f46f6f",
+              borderRadius: "6px",
+              border:'1px solid #f46f6f'
+            }}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+
   );
 }
 

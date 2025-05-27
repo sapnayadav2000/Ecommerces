@@ -105,11 +105,11 @@ const handleLogin = async (event) => {
                 </span>
                 {error && <p className="error-message">{error}</p>}
                 <span className="ec-login-wrap ec-login-btn">
-                  <button className="btn btn-primary" type="submit">
+                  <button className="btn border" style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))',borderRadius:'10px'}} type="submit">
                     Login
                   </button>
                   <Link to="/register">
-                    <button className="btn btn-secondary">Register</button>
+                  <p className="text-center mt-3">Don't have  an account?<span style={{color:'#e5106f '}}> Register Now</span></p>
                   </Link>
                 </span>
               </form>

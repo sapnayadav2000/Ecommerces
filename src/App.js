@@ -25,7 +25,7 @@ import Brand from "./component/viewmodel/brand";
 import AddBrand from "./component/addServices/addBrand";
 import Product from "./component/viewmodel/product";
 import AddProduct from "./component/addServices/addProduct";
-import SignUp from "./component/Auth/signUp";
+
 import TermsAndCondition from "./component/viewmodel/termsandConditons";
 import Policy from "./component/viewmodel/policy";
 import AboutUs from "./component/viewmodel/aboutUs";
@@ -226,19 +226,7 @@ function App() {
                 )
               }
             />
-            <Route
-              path="/signup"
-              element={
-                isAuthenticated ? (
-                  <Navigate to="/dashboard" />
-                ) : (
-                  <SignUp
-                    setIsAuthenticated={setIsAuthenticated}
-                    setRole={setRole}
-                  />
-                )
-              }
-            />
+        
             <Route
               path="/dashboard"
               element={

@@ -65,7 +65,7 @@ function AddBlog() {
           <div className="container-box-top-header justify-content-end px-4">
             <div className="sub-title-box-right">
               <Link className="site-btn-green " to="/blog">
-                Blog List
+               <i className="fa fa-arrow-left mr-2"></i> Blog List
               </Link>
             </div>
           </div>

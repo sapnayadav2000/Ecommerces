@@ -86,7 +86,7 @@ useEffect(() => {
                           onClick={() =>
                             handleSubCategoryClick(category._id, category.slug)
                           }
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: "pointer",color:'rgb(193, 38, 97)' }}
                         >
                           {category.name}
                         </span>

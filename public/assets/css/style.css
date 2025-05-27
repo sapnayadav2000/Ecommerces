@@ -14035,7 +14035,7 @@ body {
 
 /*----  Section Title ----*/
 .section-title {
-  margin-bottom: 30px;
+
   position: relative;
 }
 .section-title .ec-title {
@@ -16273,9 +16273,9 @@ body {
       -ms-flex-pack: center;
           justify-content: center;
   font-size: 15px;
-  background: #f7f7f7;
-  border: 1px solid #eeeeee;
-  color: #777;
+  /* background: #f7f7f7; */
+  /* border: 1px solid #eeeeee; */
+  /* color: #777; */
 }
 .header-top-social ul li a:hover {
   color: #fff;
@@ -16511,8 +16511,8 @@ body {
 }
 .ec-header-bottons .ec-header-btn.ec-header-wishlist {
   padding-bottom: 0;
-  padding-right: 8px;
-  margin-left: 34px;
+  padding-right: 0;
+  margin-left: 15px;
 }
 .ec-header-bottons .ec-header-btn.ec-header-wishlist .header-icon {
   margin-top: 3px;
@@ -17808,7 +17808,7 @@ button.btn-close.qty_close {
   transition: all 0.3s ease-in-out;
   position: relative;
   overflow: hidden;
-  border: 1px solid #eeeeee;
+  /* border: 1px solid #eeeeee; */
 }
 .ec-product-inner .ec-pro-image .image {
   position: relative;
@@ -32015,8 +32015,9 @@ input[type=email]:focus::-webkit-input-placeholder {
 }
 
 
-.custom-heading {
-  font-family: 'Lora', serif;  /* Custom font */
+.custom-heading {font-family: "Montserrat";
+    font-size: 40px;
+    font-weight: 900;
    background: linear-gradient(to right, #ff79c6, #f06292); 
   -webkit-background-clip: text;
   color: transparent;  /* Makes the gradient applied only to text */
@@ -32026,9 +32027,7 @@ input[type=email]:focus::-webkit-input-placeholder {
   transition: transform 0.3s ease; /* Animation on hover */
 }
 
-.custom-heading:hover {
-  transform: scale(1.1);  /* Slightly enlarges the text when hovered */
-}
+
 
 
 
@@ -32166,12 +32165,12 @@ input[type=email]:focus::-webkit-input-placeholder {
 .pagination-number:hover {
   background-color: rgb(247, 247, 247);
   color: #000;
-  border: 2px solid black;
+  border: 1px solid black;
 }
 
 .pagination-number.active {
   background-color: rgb(247, 247, 247);
   color: black;
   font-weight: bold;
-  border:2px solid black;
+  border:1px solid black;
 }

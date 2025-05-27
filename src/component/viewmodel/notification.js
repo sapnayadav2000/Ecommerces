@@ -118,7 +118,7 @@ function Notification() {
                     </td>
                     <td>
                       <button
-                        className="view-details-btn  bg-primary"
+                        className="view-details-btn "
                         onClick={() => handleEditDetails(slider)}
                       >
                         <FontAwesomeIcon icon={faEdit} />
@@ -126,7 +126,7 @@ function Notification() {
                     </td>
                     <td>
                       <button
-                        className="viewdelete bg-danger"
+                        className="viewdelete "
                         onClick={() => handleDelete(slider)}
                       >
                         <FontAwesomeIcon icon={faTrash} />
@@ -154,7 +154,7 @@ function Notification() {
     }`}
     style={
       currentPage === index + 1
-        ? { backgroundColor: "#96ba6e", border: "1px solid #96ba6e" } // light green
+        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
         : {}
     }
     onClick={() => setCurrentPage(index + 1)}

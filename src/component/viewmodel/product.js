@@ -218,7 +218,7 @@ function Product() {
     >
       <li>
         <button
-          className="dropdown-item d-flex align-items-center gap-2 text-primary fw-semibold rounded-2"
+          className="dropdown-item d-flex align-items-center gap-2 fw-semibold rounded-2"
           onClick={() => handleEditDetails(product)}
         >
           <FontAwesomeIcon icon={faEdit} />
@@ -227,7 +227,7 @@ function Product() {
       </li>
       <li>
         <button
-          className="dropdown-item d-flex align-items-center gap-2 text-danger fw-semibold rounded-2"
+          className="dropdown-item d-flex align-items-center gap-2  fw-semibold rounded-2"
           onClick={() => handleDelete(product)}
         >
           <FontAwesomeIcon icon={faTrash} />
@@ -262,7 +262,7 @@ function Product() {
     }`}
     style={
       currentPage === index + 1
-        ? { backgroundColor: "#96ba6e", border: "1px solid #96ba6e" } // light green
+        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
         : {}
     }
     onClick={() => setCurrentPage(index + 1)}
