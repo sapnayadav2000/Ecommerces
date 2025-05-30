@@ -64,7 +64,7 @@ const Serach = () => {
                 >
                   <input
                     className="form-control"
-                    placeholder="Search by category..."
+                    placeholder="I'm searching for..."
                     type="text"
                     onChange={handleInputChange}
                     value={category_name}

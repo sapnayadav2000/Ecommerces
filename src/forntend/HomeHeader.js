@@ -19,13 +19,13 @@ import { useCurrency } from "../forntend/CurrencyContent";
 
 
 import { useWishlist } from "../Store/whislist";
-import{useCart} from "../Store/addtoCart"
+import { useCart } from "../Store/addtoCart"
 import { toast } from "react-toastify";
 const HomeHeader = () => {
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
   const { wishlistCount } = useWishlist();
-    const { CartCount } = useCart();
+  const { CartCount } = useCart();
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
 
@@ -75,7 +75,7 @@ const HomeHeader = () => {
               {/* Phone Number */}
               <div className="col header-top-center">
                 <div className="header-top-call">
-                  <FontAwesomeIcon icon={faPhone}className="p-2" /> Phone:+91 1234567801
+                  <FontAwesomeIcon icon={faPhone} className="p-2" /> Phone:+91 1234567801
                 </div>
               </div>
 
@@ -118,14 +118,14 @@ const HomeHeader = () => {
                           href="#"
                           target="_blank"
                           rel="noopener noreferrer"
-                       
+
                         >
-                        
-                      <img
-                        src="/assets/images/logo/instagram.png"
-                        alt=""
-                      />
-                   
+
+                          <img
+                            src="/assets/images/logo/instagram.png"
+                            alt=""
+                          />
+
                         </a>
                       </li>
                       <li className="list-inline-item">
@@ -133,13 +133,13 @@ const HomeHeader = () => {
                           href="#"
                           target="_blank"
                           rel="noopener noreferrer"
-                        
+
                         >
-                             
-                      <img
-                        src="/assets/images/logo/facebook.png"
-                        alt=""
-                      />
+
+                          <img
+                            src="/assets/images/logo/facebook.png"
+                            alt=""
+                          />
                         </a>
                       </li>
                       <li className="list-inline-item">
@@ -147,13 +147,13 @@ const HomeHeader = () => {
                           href="https://www.instagram.com/"
                           target="_blank"
                           rel="noopener noreferrer"
-                         
+
                         >
-                             
-                      <img
-                        src="/assets/images/logo/twitter.png"
-                        alt=""
-                      />
+
+                          <img
+                            src="/assets/images/logo/twitter.png"
+                            alt=""
+                          />
                         </a>
                       </li>
                       <li className="list-inline-item">
@@ -161,12 +161,12 @@ const HomeHeader = () => {
                           href="#"
                           target="_blank"
                           rel="noopener noreferrer"
-                          
+
                         >
-                           <img
-                        src="/assets/images/logo/linkedin.png"
-                        alt=""
-                      />
+                          <img
+                            src="/assets/images/logo/linkedin.png"
+                            alt=""
+                          />
                         </a>
                       </li>
                     </ul>
@@ -208,7 +208,7 @@ const HomeHeader = () => {
                             data-bs-toggle="dropdown"
                           >
 
-                            <FontAwesomeIcon  icon={faUser}/>
+                            <FontAwesomeIcon icon={faUser} />
                           </button>
                           <ul className="dropdown-menu dropdown-menu-right">
                             <li>
@@ -277,7 +277,7 @@ const HomeHeader = () => {
                       className="ec-header-btn ec-side-toggle"
                     >
                       <div className="header-icon">
-                        <BsBasket  style={{ fontSize: '18px' }}/>
+                        <BsBasket style={{ fontSize: '18px' }} />
                       </div>
                       <span className="ec-header-count ec-cart-count">
                         {CartCount}
@@ -298,13 +298,13 @@ const HomeHeader = () => {
               <div className="col-sm-12 ec-main-menu-block align-self-center d-none d-lg-block">
                 <div className="ec-main-menu">
                   <ul>
-                    <Link to="/"   className={({ isActive }) => (isActive ? "active" : "")}>
+                    <Link to="/" className={({ isActive }) => (isActive ? "active" : "")}>
                       <li>
                         <a href="#">Home</a>
                       </li>
                     </Link>
                     <AllCategory />
-                    <Link to="/home-product"  className={({ isActive }) => (isActive ? "active" : "")}>
+                    <Link to="/home-product" className={({ isActive }) => (isActive ? "active" : "")}>
                       <li className="dropdown">
                         <a href="#">Products</a>
                       </li>
@@ -329,7 +329,7 @@ const HomeHeader = () => {
                         </Link>
                       </ul>
                     </li>
-                    <Link to="/blogs"  className={({ isActive }) => (isActive ? "active" : "")}>
+                    <Link to="/blogs" className={({ isActive }) => (isActive ? "active" : "")}>
                       <li className="dropdown" >
                         <a href="#">Blog</a>
                       </li>

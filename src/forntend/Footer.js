@@ -48,7 +48,7 @@ export default function Footer() {
                     <li>
                       <a href="/about">About us</a>
                     </li>
-                   
+
                     <li>
                       <a href="/Your-Orders">Delivery Information</a>
                     </li>
@@ -65,14 +65,14 @@ export default function Footer() {
                   <h4 className="ecs-footer-heading">Location</h4>
                   <ul className="ec-footer-links">
                     <li>
-                      <i  className="fas fa-map-marker-alt" /> 71 Pilgrim Avenue
+                      <i className="fas fa-map-marker-alt" /> 71 Pilgrim Avenue
                       Chevy Chase, MD 20815, USA
                     </li>
                     <li>
-                      <i  className="fas fa-phone" /> +91 5241234589
+                      <i className="fas fa-phone" /> +91 5241234589
                     </li>
                     <li>
-                      <i className="fas fa-envelope"/>{" "}
+                      <i className="fas fa-envelope" />{" "}
                       example123@gmail.com
                     </li>
                   </ul>
@@ -114,18 +114,18 @@ export default function Footer() {
             <div className="row align-items-center">
               {/* Copyright */}
               <div className="col-md-6 text-center text-md-start footer-copy">
-  <p className="m-0" style={{ color: 'white' }}>
-    Copyright © {new Date().getFullYear()}{" "}
-     <a
-      className="site-name text-upper"
-      href="index.html"
-      style={{ color: 'black', textDecoration: 'none' }}
-    >
-      Websuntech
-    </a>{" "}
-    . All Rights Reserved.
-  </p>
-</div>
+                <p className="m-0" style={{ color: 'white' }}>
+                  Copyright © {new Date().getFullYear()}{" "}
+                  <a
+                    className="site-name text-upper"
+                    href="index.html"
+                    style={{ color: 'black', textDecoration: 'none' }}
+                  >
+                    Websuntech
+                  </a>{" "}
+                  . All Rights Reserved.
+                </p>
+              </div>
 
 
               {/* Payment Icons */}

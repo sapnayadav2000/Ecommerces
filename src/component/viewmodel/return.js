@@ -148,7 +148,7 @@ Returnservices.updateReturn(returnId, updatedData)
     
        <td>{startIndex + i + 1}</td>
       <td>{returns.orderId?.orderId || "N/A"}</td>
-       <td>{returns.userId?.name || "N/A"}</td>
+       <td>{returns.userId?.firstName || "N/A"} {returns.userId?.lastName || "N/A"}</td>
       <td> {currency.symbol}{returns.orderId.totalAmount || "N/A"}</td>
        <td>{returns.orderId.paymentMethod || "N/A"}</td>
 

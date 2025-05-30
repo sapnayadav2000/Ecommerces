@@ -95,7 +95,8 @@ function UserManager() {
                 <tr key={user._id}>
                   <td>{startIndex + i + 1}</td>
                  
-                  <td>{user.name}</td>
+                  <td>{user.firstName} {user.lastName}</td>
+
                   <td>{user.email}</td>
                   <td>{user.mobileNo}</td>
                   <td style={{width:'250px'}}>{user.address},{user.city},{user.state},{user.pincode}</td>

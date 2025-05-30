@@ -540,7 +540,7 @@ const Products = () => {
                               <div className="ec-pro-content">
                                 <h5 className="ec-pro-title">
                                   <Link to={`/product-details/${product._id}`}>
-                                    {product.name}
+                                    {product.name.toUpperCase()}
                                   </Link>
                                 </h5>
                                 <span className="ec-price">
@@ -646,134 +646,132 @@ const Products = () => {
 
               {/* Modal Popup */}
               <Modal
-                show={showModal}
-                onHide={() => setShowModal(false)}
-                centered
-                size="lg"
-                backdropClassName="modal-backdrop show"
-              >
-                <Modal.Header
-                  closeButton
-                ></Modal.Header>
-                <Modal.Body style={{ backgroundColor: "white" }}>
-                  <div className="row">
-                    {/* Left Side - Product Images */}
-                    <div className="col-md-5">
-                      <img
-                        src={`${process.env.REACT_APP_API_BASE_URL}/${
-                          selectedProduct?.images?.[
-                            activeImageIndex[selectedProduct?._id]
-                          ]
-                        }`} // Use active index for this product
-                        alt={selectedProduct?.name}
-                        className="w-100 mb-2"
-                        style={{
-                          borderRadius: "10px",
-                          height: "80%",
-                          width: "100%",
-                        }} // Fixed width typo
-                      />
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        size="lg"
+        backdropClassName="modal-backdrop show"
+      >
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "white" }}
+        ></Modal.Header>
+        <Modal.Body style={{ backgroundColor: "white" }}>
+          <div className="row">
+            {/* Left Side - Product Images */}
+            <div className="col-md-5"  style={{ height: '460px' }}>
+              {/* Main Image */}
+              <img
+                src={`${process.env.REACT_APP_API_BASE_URL}/${
+                  selectedProduct?.images?.[
+                    activeImageIndex[selectedProduct?._id]
+                  ]
+                }`} // Use active index for this product
+                alt={selectedProduct?.name}
+                className="w-100 mb-2"
+                style={{ borderRadius: "10px", height: "79%", width: "100%" }} // Fixed width typo
+              />
 
-                      {/* Thumbnails */}
-                      <Slider {...sliderSettings}>
-                        {selectedProduct?.images?.map((img, index) => (
-                          <div key={index} className="image-wrapper">
-                            <img
-                              key={index}
-                              src={`${process.env.REACT_APP_API_BASE_URL}/${img}`} // Actual image URL
-                              alt={`Thumbnail ${index + 1}`}
-                              className={`img-thumbnail mx-1 ${
-                                activeImageIndex[selectedProduct?._id] === index
-                                  ? "border border-dark"
-                                  : ""
-                              }`} // Add border if active
-                              style={{
-                                width: "70px",
-                                height: "90px",
-                                cursor: "pointer",
-                              }}
-                              onClick={() =>
-                                handleImageClick(selectedProduct?._id, index)
-                              } // Update active image index for the specific product
-                            />
-                          </div>
-                        ))}
-                      </Slider>
-                    </div>
+              {/* Thumbnails */}
+             <Slider {...sliderSettings}>
+  {selectedProduct?.images?.map((img, index) => (
+    <div key={index} className="image-wrapper">
+      <img
+        src={`${process.env.REACT_APP_API_BASE_URL}/${img}`}
+        alt={`Thumbnail ${index + 1}`}
+        className={`img-thumbnail mx-1 ${
+          activeImageIndex[selectedProduct?._id] === index
+            ? "border border-dark"
+            : ""
+        }`}
+        style={{
+          width: "70px",
+          height: "90px",
+          cursor: "pointer",
+        }}
+        onClick={() =>
+          handleImageClick(selectedProduct?._id, index)
+        }
+      />
+    </div>
+  ))}
+</Slider>
 
-                    {/* Right Side - Product Details */}
-                    <div className="col-md-4 mt-4">
-                      <Link to={`/product-details/${selectedProduct?._id}`}>
-                        <h5 className="text-danger fw-bold">{selectedProduct?.name}</h5>
-                      </Link>
-                      <h5 className="mt-2">
-                        {selectedProduct?.Sortdescription}
-                      </h5>
-                      <div className="d-flex align-items-center mt-3">
-                        <span className="text-muted text-decoration-line-through me-2">
-                          {currency.symbol}
-                          {selectedProduct?.Originalprice}
-                        </span>
-                        <span className="fs-4 fw-bold text-dark">
-                          {currency.symbol}
-                          {selectedPrices[selectedProduct?._id] ||
-                            selectedProduct?.price}
-                        </span>
-                      </div>
-                      <div className="mt-3">
-                        <h6>Select Size:</h6>
-                        {selectedProduct?.productkey?.map((size) => (
-                          <button
-                            key={size.Size}
-                            className="btn  m-1 mt-4"    style={{
+            </div>
+
+            {/* Right Side - Product Details */}
+            <div className="col-md-4 mt-4">
+              <Link to={`/product-details/${selectedProduct?._id}`}>
+                <h5 className="text-danger fw-bold" style={{fontSize:'30px'}}>{selectedProduct?.name?.toUpperCase()}</h5>
+              </Link>
+              <h5 className="mt-2">{selectedProduct?.Sortdescription}</h5>
+
+              <div className="d-flex align-items-center mt-3">
+                <span className="text-muted text-decoration-line-through me-2">
+                  {currency.symbol}
+                  {selectedProduct?.Originalprice}
+                </span>
+                <span className="fs-4 fw-bold text-dark">
+                  {currency.symbol}
+                  {selectedPrices[selectedProduct?._id] ||
+                    selectedProduct?.price}
+                </span>
+              </div>
+
+              {/* Size Selection */}
+              <div className="mt-3">
+                <h6>Select Size:</h6>
+                {selectedProduct?.productkey?.map((size) => (
+                  <button
+                    key={size.Size}
+                    className=" m-1 "  style={{
       border: '2px solid',
       borderColor:
-        selectedSizes[selectedProduct._id] === size.Size ? 'pink' : 'black',
+        selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
     }}
-                            onClick={() =>
-                              onSizeClick(selectedProduct._id, size.Size)
-                            }
-                          >
-                            {size.Size}
-                          </button>
-                        ))}
-                      </div>
-                      <div
-                        className="mt-3 d-flex align-items-center"
-                         style={{ border: "1px solid black",width: '62%' }}
-                      >
-                        <button
-                          className="btn btn-outline-dark "
-                          onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        >
-                          -
-                        </button>
-                        <span className="mx-4">{quantity}</span>
-                        <button
-                          className="btn btn-outline-dark"
-                          onClick={() => setQuantity(quantity + 1)}
-                        >
-                          +
-                        </button>
-                      </div>
+                    onClick={() => onSizeClick(selectedProduct._id, size.Size)}
+                  >
+                    {size.Size}
+                  </button>
+                ))}
+              </div>
 
-                      <div className="mt-3">
-                        <button
-                          className="btn btn-primary"
-                          onClick={() =>
-                            handleAddToCart(
-                              selectedProduct,
-                              selectedSizes[selectedProduct?._id]
-                            )
-                          }
-                        >
-                         + Add to Cart
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Modal.Body>
-              </Modal>
+              {/* Quantity Selection */}
+              <div
+                className="mt-3 d-flex align-items-center"
+                style={{ border: "1px solid black",width: '62%' }}
+              >
+                <button
+                  className="btn btn-outline-dark"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                >
+                  -
+                </button>
+                <span className="mx-4">{quantity}</span>
+                <button
+                  className="btn btn-outline-dark"
+                  onClick={() => setQuantity(quantity + 1)}
+                >
+                  +
+                </button>
+              </div>
+
+              {/* Add to Cart Button */}
+              <button
+                className="btn btn-dark mt-4 w-95"
+                onClick={() =>
+                  handleAddToCart(
+                    selectedProduct,
+                    selectedSizes[selectedProduct?._id]
+                  )
+                }
+              >
+                + Add to Cart
+              </button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
             </section>
           </div>
         </div>

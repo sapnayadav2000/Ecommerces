@@ -565,7 +565,7 @@ const ProductList = () => {
                                 to={`/product-details/${product._id}`}
                                 className=" text-decoration-none" style={{color:'#777'}}
                               >
-                                {product.name}
+                                {product.name.toUpperCase()}
                               </Link>
                             </h5>
                             <div className="mb-3">
@@ -583,10 +583,10 @@ const ProductList = () => {
                               {product.productkey?.map((sizeObj) => (
                                 <button
                                   key={sizeObj.Size}
-                                  className="me-2"    style={{
+                                  className="me-1"    style={{
       border: '1px solid',
       borderColor:
-        selectedSizes[product._id] === sizeObj.Size ? 'pink' : 'black',
+        selectedSizes[product._id] === sizeObj.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
     }}
                                   onClick={() =>
                                     onSizeClick(product._id, sizeObj.Size)
@@ -672,7 +672,7 @@ const ProductList = () => {
                 <Modal.Body style={{ backgroundColor: "white" }}>
                   <div className="row">
                     {/* Left Side - Product Images */}
-                    <div className="col-md-5">
+                    <div className="col-md-5" style={{ height: '500px' }}>
                       <img
                         src={`${process.env.REACT_APP_API_BASE_URL}/${
                           selectedProduct?.images?.[
@@ -718,7 +718,7 @@ const ProductList = () => {
                     {/* Right Side - Product Details */}
                     <div className="col-md-4 mt-4">
                       <Link to={`/product-details/${selectedProduct?._id}`}>
-                        <h5 className="text-danger fw-bold">{selectedProduct?.name}</h5>
+                        <h5 className="text-danger fw-bold "style={{fontSize:'30px'}}>{selectedProduct?.name?.toUpperCase()}</h5>
                       </Link>
                       <h5 className="mt-2">
                         {selectedProduct?.Sortdescription}
@@ -741,10 +741,10 @@ const ProductList = () => {
                         {selectedProduct?.productkey?.map((size) => (
                           <button
                             key={size.Size}
-                             className="btn m-1 mt-4"   style={{
+                             className=" m-1 "   style={{
       border: '2px solid',
       borderColor:
-        selectedSizes[selectedProduct._id] === size.Size ? 'pink' : 'black',
+        selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
     }}
                             onClick={() =>
                               onSizeClick(selectedProduct._id, size.Size)

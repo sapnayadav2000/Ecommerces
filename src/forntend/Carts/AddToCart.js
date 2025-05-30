@@ -8,12 +8,12 @@ import { useCurrency } from "../CurrencyContent";
 import { toast } from "react-toastify";
 import { useCart } from "../../Store/addtoCart";
 const AddToCart = () => {
-   const { fetchCartCount } = useCart();
+  const { fetchCartCount } = useCart();
   const [cart, setCart] = useState(null);
   const { currency } = useCurrency();
   const navigate = useNavigate();
-const [showConfirmModal, setShowConfirmModal] = useState(false);
-const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
   const items = cart?.items || [];
   const subTotal = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -25,77 +25,77 @@ const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
 
 
 
-    const fetchCart = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        let sessionId = localStorage.getItem("sessionId");
-  
-        // Generate new session ID if not found
-        if (!sessionId) {
-          sessionId = crypto.randomUUID(); // or use uuidv4()
-       
-        }
-  
-        // Decode JWT to get userId
-        const tokenPayload = token ? JSON.parse(atob(token.split('.')[1])) : null;
-        const userId = tokenPayload?._id || tokenPayload?.id || null;
-  
-        console.log("Session ID:", sessionId);
-        console.log("User ID:", userId);
-  
-        let response;
-  
-        if (userId) {
-          // Merge cart and then clear session ID
-          const mergeResponse = await AddtoCartServices.mergeCartToUser(sessionId, userId);
-          if (mergeResponse?.status) {
-            console.log("Cart merged successfully");
-  
-            // ✅ Clear session cart reference to prevent future re-merges
-         
-          } else {
-            console.log("No cart merge needed or failed");
-          }
-  
-          response = await AddtoCartServices.getAllCart(userId);
-        } else {
-          // Not logged in: fetch session cart
-          response = await AddtoCartServices.getAllCart(null, sessionId);
-        }
-  
-        const cartData = response?.data;
-        if (cartData && typeof cartData === "object" && cartData.items?.length){
-          setCart(cartData);
-           fetchCartCount();
-        } else {
-          setCart(null);
-        }
-  
-      } catch (error) {
-        console.error("Failed to fetch or merge cart:", error.message || error);
+  const fetchCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      let sessionId = localStorage.getItem("sessionId");
+
+      // Generate new session ID if not found
+      if (!sessionId) {
+        sessionId = crypto.randomUUID(); // or use uuidv4()
+
       }
-    };
-    
+
+      // Decode JWT to get userId
+      const tokenPayload = token ? JSON.parse(atob(token.split('.')[1])) : null;
+      const userId = tokenPayload?._id || tokenPayload?.id || null;
+
+      console.log("Session ID:", sessionId);
+      console.log("User ID:", userId);
+
+      let response;
+
+      if (userId) {
+        // Merge cart and then clear session ID
+        const mergeResponse = await AddtoCartServices.mergeCartToUser(sessionId, userId);
+        if (mergeResponse?.status) {
+          console.log("Cart merged successfully");
+
+          // ✅ Clear session cart reference to prevent future re-merges
+
+        } else {
+          console.log("No cart merge needed or failed");
+        }
+
+        response = await AddtoCartServices.getAllCart(userId);
+      } else {
+        // Not logged in: fetch session cart
+        response = await AddtoCartServices.getAllCart(null, sessionId);
+      }
+
+      const cartData = response?.data;
+      if (cartData && typeof cartData === "object" && cartData.items?.length) {
+        setCart(cartData);
+        fetchCartCount();
+      } else {
+        setCart(null);
+      }
+
+    } catch (error) {
+      console.error("Failed to fetch or merge cart:", error.message || error);
+    }
+  };
+
   useEffect(() => {
     fetchCart();
   }, []);
-  
-  
-  
-  
-// 
-   const handleRemove = async (cartId, itemId) => {
+
+
+
+
+  // 
+  const handleRemove = async (cartId, itemId) => {
     try {
       await AddtoCartServices.removeFromCartItem(cartId, itemId);
-  
+
       toast.success("Item removed from cart");
-       await fetchCart();
+      await fetchCart();
     } catch (err) {
       console.error("Failed to remove item", err);
       toast.error("Failed to remove item");
     }
   };
-  
+
 
   const handleMove = () => {
     const token = localStorage.getItem("token"); // Adjust key if different
@@ -104,7 +104,7 @@ const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
       navigate("/login");
       return;
     }
-  
+
     navigate("/order-details", {
       state: {
         cartId: cart?._id,
@@ -115,7 +115,7 @@ const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
       },
     });
   };
-  
+
 
   const handleQuantityChange = async (cartId, itemId, newQuantity) => {
     if (newQuantity < 1) return;
@@ -133,7 +133,7 @@ const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
   return (
     <>
       <HomeHeader />
-      <section className="ec-page-content section-space-p">
+      <section className="ec-page-content section-space-p mt-5">
         <div className="container">
           <div className="row">
             <div className="ec-cart-leftside col-lg-12 col-md-12">
@@ -166,7 +166,7 @@ const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
                                       <span>
                                         <img
                                           className="ec-cart-pro-img mr-4"
-                                          src={ 
+                                          src={
                                             item?.productId?.images?.[0]
                                               ? `${process.env.REACT_APP_API_BASE_URL}/${item.productId.images[0]}`
                                               : "https://via.placeholder.com/50"
@@ -225,61 +225,61 @@ const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
                                     <td className="ec-cart-pro-remove">
                                       <button
                                         type="button"
-                                        className="btn "style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))'}}
-                                          onClick={() => {
-    // Set the item to be removed and show the confirmation modal
-    setSelectedWishlistItem({ cartId: cart._id, productId: item._id });
-    setShowConfirmModal(true);
-  }}
-                                        
+                                        className="btn fw-bold " style={{ background: 'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))' }}
+                                        onClick={() => {
+                                          // Set the item to be removed and show the confirmation modal
+                                          setSelectedWishlistItem({ cartId: cart._id, productId: item._id });
+                                          setShowConfirmModal(true);
+                                        }}
+
                                       >
                                         Remove
                                       </button>
                                       {showConfirmModal && (
-  <div
-    className="modal-backdrop"
-    style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      zIndex: 1050,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    <div
-      className="modal-content p-4 bg-white rounded shadow"
-      style={{ width: "450px", textAlign:'center' }} // Smaller modal width
-    >
-      <h6 className="mb-2">Are you sure?</h6>
-      <p style={{ fontSize: "14px" }}>Do you want to remove this item from your cart?</p>
-      <div className="d-flex justify-content-end gap-2">
-        <button
-          className="btn btn-sm btn-secondary mt-2"
-          onClick={() => setShowConfirmModal(false)}
-        >
-          Cancel
-        </button>
-        <button
-          className="btn btn-sm btn-danger mt-2"
-          onClick={() => {
-            if (selectedWishlistItem) {
-              // Call remove function when user confirms
-              handleRemove(selectedWishlistItem.cartId, selectedWishlistItem.productId);
-            }
-            setShowConfirmModal(false);
-          }}
-        >
-          OK
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+                                        <div
+                                          className="modal-backdrop"
+                                          style={{
+                                            position: "fixed",
+                                            top: 0,
+                                            left: 0,
+                                            width: "100%",
+                                            height: "100%",
+                                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                            zIndex: 1050,
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                        >
+                                          <div
+                                            className="modal-content p-4 bg-white rounded shadow"
+                                            style={{ width: "450px", textAlign: 'center',height:'150px' }} // Smaller modal width
+                                          >
+                                            <h6 className="mb-2">Are you sure?</h6>
+                                            <p style={{ fontSize: "14px" }}>Do you want to remove this item from your cart?</p>
+                                            <div className="d-flex justify-content-end gap-2">
+                                              <button
+                                                className="btn btn-sm btn-secondary mt-2"
+                                                onClick={() => setShowConfirmModal(false)}
+                                              >
+                                                Cancel
+                                              </button>
+                                              <button
+                                                className="btn btn-sm btn-danger mt-2"
+                                                onClick={() => {
+                                                  if (selectedWishlistItem) {
+                                                    // Call remove function when user confirms
+                                                    handleRemove(selectedWishlistItem.cartId, selectedWishlistItem.productId);
+                                                  }
+                                                  setShowConfirmModal(false);
+                                                }}
+                                              >
+                                                OK
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      )}
                                     </td>
                                   </tr>
                                 );
@@ -301,7 +301,7 @@ const [selectedWishlistItem, setSelectedWishlistItem] = useState(null);
                             <a href="/">Continue Shopping</a>
                             <button
                               type="submit"
-                              className="btn " style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))'}}
+                              className="btn fw-bold " style={{ background: 'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))',color:'black' }}
                               onClick={(e) => {
                                 e.preventDefault();
                                 handleMove();

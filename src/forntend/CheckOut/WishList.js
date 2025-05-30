@@ -68,6 +68,7 @@ const AllWishlists = () => {
     const fetchAllWishlists = async () => {
       try {
         const response = await wishListServices.getAllWishList(token);
+        console.log('whislist ',response);
 
         if (response?.data?.products) {
           setWishlists([response.data]); // Wrap the response in an array
@@ -297,35 +298,35 @@ const AllWishlists = () => {
                         )}
                       </div>
 
-                      <div className="card-body text-center">
-                        <h6 className="card-title text-truncate">
+                      <div className="card-body ">
+                        <h6 className="card-title text-truncate" style={{fontSize:'20px'}}>
                           <Link to={`/product-details/${product._id}`}>
-                            {product.name}
+                            {product.name.toUpperCase()}
                           </Link>
                         </h6>
-                        <p className="mb-1">
+                        <p className="mb-1 mt-3">
                           <span className="text-muted text-decoration-line-through me-2">
                             {currency.symbol}
                             {Number(
-                              product.originalPrice || product.price * 1.2
-                            ).toFixed(2)}
+                              product.Originalprice || product.price * 1.2
+                            ).toFixed()}
                           </span>
                           <span className="fw-bold text-danger">
                             {currency.symbol}
                             {selectedPrices[product._id]
                               ? selectedPrices[product._id].toFixed(2)
-                              : Number(product.price).toFixed(2)}
+                              : Number(product.price).toFixed()}
                           </span>
                         </p>
 
-                        <div>
+                        <div>Size:
                           {product.productkey?.map((item) => (
                             <button
                               key={item.Size}
-                                 className=" m-2" style={{
+                                 className="m-1" style={{
                               border: '1px solid',
                               borderColor:
-                                selectedSizes[product._id] === item.Size ? 'pink' : 'black',
+                                selectedSizes[product._id] === item.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
                             }}
                               onClick={() => onSizeClick(product, item.Size)}
                             >
@@ -339,7 +340,7 @@ const AllWishlists = () => {
                         onClick={() =>
                           removeWishlist(wishlist.userId._id, product._id)
                         }
-                        className="btn mt-1" style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))'}}
+                        className="btn mt-2 fw-bold" style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))'}}
                       >
                         Remove
                       </button>
@@ -417,7 +418,7 @@ const AllWishlists = () => {
             {/* Right Side - Product Details */}
             <div className="col-md-4 mt-4">
               <Link to={`/product-details/${selectedProduct?._id}`}>
-                <h5 className="text-danger fw-bold">{selectedProduct?.name}</h5>
+                <h5 className="text-danger fw-bold">{selectedProduct?.name?.toUpperCase()}</h5>
               </Link>
               <h5 className="mt-2">{selectedProduct?.Sortdescription}</h5>
 
@@ -439,12 +440,12 @@ const AllWishlists = () => {
                 {selectedProduct?.productkey?.map((size) => (
                   <button
                     key={size.Size}
-                    className="btn  m-1 mt-4"  style={{
-      border: '2px solid',
+                    className="m-1 "  style={{
+      border: '1px solid',
       borderColor:
-        selectedSizes[selectedProduct._id] === size.Size ? 'pink' : 'black',
-    }}
-                    onClick={() => onSizeClick(selectedProduct._id, size.Size)}
+        selectedSizes[selectedProduct._id] === size.Size ?'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
+    }} 
+                    onClick={() => onSizeClick(selectedProduct, size.Size)}
                   >
                     {size.Size}
                   </button>

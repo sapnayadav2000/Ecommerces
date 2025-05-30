@@ -5054,6 +5054,7 @@
         -ms-flex-direction: column;
             flex-direction: column;
     width: 100%;
+        height: 500px;
     pointer-events: auto;
     background-color: #ffffff;
     background-clip: padding-box;
@@ -14826,7 +14827,7 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    border: 1px solid #eeeeee;
+    border: 1px solid #ced4da;
     /* border-radius: 23px; */
     overflow: hidden;
   }
@@ -15335,7 +15336,7 @@
   .ec-footer {
      background-image: url('/img/fotter-scaled.jpg'); 
     color: white;
-    padding: 40px 0;
+    padding: 0px 0;
     font-size: 14px;
     width: 100%;
     margin-left: 0px;
@@ -15658,7 +15659,7 @@
   
   /*-----  Section Space  -----*/
   .section-space-p {
-    padding: 50px 0;
+    padding: 0px 0;
   }
   
   .section-space-pb {
@@ -15685,9 +15686,7 @@
     margin-bottom: 50px;
   }
   
-  .section-space-footer-p {
-    padding: 50px 0;
-  }
+ 
   
   /*-----  Margin  -----*/
   .margin-bottom-30 {
@@ -18408,13 +18407,13 @@
     margin: 2px 0 5px 0;
   }
   .ec-product-inner .ec-pro-content .ec-pro-title a {
-    text-decoration: none;
+      text-decoration: none;
     color: #777;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 18px;
     font-weight: 400;
     letter-spacing: 0.7px;
@@ -18715,7 +18714,7 @@
   .slick-arrow.slick-prev:before {
     content: "\f104";
     font-family: 'FontAwesome';
-    color: #000;
+    color: #777777;
     font-size: 24px;
     position: absolute;
     top: 0;
@@ -18730,7 +18729,7 @@
   .slick-arrow.slick-next:before {
     content: "\f105";
     font-family: 'FontAwesome';
-    color: #000;
+    color: #777777;
     font-size: 24px;
     position: absolute;
     top: 0;

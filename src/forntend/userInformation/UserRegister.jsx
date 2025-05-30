@@ -9,7 +9,8 @@ const UserRegister = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setfirstName] = useState("");
+    const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +21,8 @@ const UserRegister = () => {
   const [code, setCode] = useState("");
 
   const userData = {
-    name,
+    firstName,
+    lastName,
     email,
     mobileNo,
     password,
@@ -101,8 +103,18 @@ const UserRegister = () => {
                         <input
                           type="text"
                           placeholder="Enter your name"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          value={firstName}
+                          onChange={(e) => setfirstName(e.target.value)}
+                          required
+                        />
+                      </span>
+                       <span className="ec-register-wrap ec-register-half">
+                        <label>Last Name*</label>
+                        <input
+                          type="text"
+                          placeholder="Enter your name"
+                          value={lastName}
+                          onChange={(e) => setlastName(e.target.value)}
                           required
                         />
                       </span>

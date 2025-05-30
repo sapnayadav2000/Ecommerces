@@ -48,7 +48,7 @@ useEffect(() => {
   };
 
   return (
-    <section className="section ec-category-section section-space-p">
+    <section className="section ec-category-section section-space-p mt-5">
       <div className="container">
         <div className="row">
           <div className="col-md-12 section-title-block">

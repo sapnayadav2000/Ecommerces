@@ -177,7 +177,8 @@ const OrderDetails = () => {
     orderStatus: cart.paymentStatus,
     orderDate: new Date(),
 
-    firstName: user.name.split(" ")[0],
+    firstName: user.firstName,
+    lastName:user.lastName,
     country: selectedShippingAddress.country,
     address: selectedShippingAddress.address,
     city: selectedShippingAddress.city,
