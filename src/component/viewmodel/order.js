@@ -32,7 +32,7 @@ function Order() {
   ) || [];
 
   const totalPages = Math.ceil(filteredOrders.length / productsPerPage);
-    const startIndex = (currentPage - 1) * productsPerPage;
+  const startIndex = (currentPage - 1) * productsPerPage;
   const currentOrders = filteredOrders.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
@@ -126,12 +126,12 @@ function Order() {
               </tr>
             </thead>
             <tbody>
-              {currentOrders.map((order,i) => (
-                 
-                    
-                  
+              {currentOrders.map((order, i) => (
+
+
+
                 <tr key={`${order._id}-${i}`}>
-                     <td>{startIndex + i + 1}</td>
+                  <td>{startIndex + i + 1}</td>
                   <td>{order.orderId}</td>
                   <td>{order.userAddress ? `${order.userAddress.firstName} ${order.userAddress.lastName}` : "N/A"}</td>
 
@@ -141,7 +141,7 @@ function Order() {
                       <div
                         key={product._id}
                         className="d-flex align-items-center mb-2"
-                     
+
                       >
                         <img
                           src={
@@ -164,56 +164,56 @@ function Order() {
                             Qty: {product.quantity} | Size: {product.size}
                           </div>
                         </div>
-                      
+
                       </div>
                     ))}
                   </td>
                   <td><b>{currency.symbol}{order.totalAmount?.toFixed(2)}</b></td>
                   <td>{order.paymentMethod}</td>
-                 <td>
-  {order.orderProducts?.map((product, idx) => (
-    <div key={product._id || idx} style={{ marginBottom: "8px" }}>
-      <select
-        className="form-select form-select-sm"
-        value={product.orderStatus}
-        onChange={(e) =>
-          handleOrderStatusChange(order._id, product._id, e.target.value)
-        }
-        style={{
-          minWidth: "100px",
-          backgroundColor: (() => {
-            switch (product.orderStatus) {
-              case "Pending": return "rgb(243 205 152)";
-              case "Dispatch": return "rgb(166 220 236)";
-              case "Shipped": return "rgb(151 197 238)";
-              case "Delivered": return "rgb(150 223 150)";
-              case "Cancel": return "rgb(244 141 138)";
-              case "Return": return "rgb(244 141 138)";
-              default: return "#6c757d";
-            }
-          })(),
-          color: "#000",
-        }}
-      >
-        {["Cancel", "Return"].includes(product.orderStatus) ? (
-          <option value={product.orderStatus}>{product.orderStatus}</option>
-        ) : (
-          statusOrder
-            .filter((s) => !["Cancel", "Return"].includes(s))
-            .map((status) => (
-              <option
-                key={status}
-                value={status}
-                disabled={isOptionDisabled(product.orderStatus, status)}
-              >
-                {status}
-              </option>
-            ))
-        )}
-      </select>
-    </div>
-  ))}
-</td>
+                  <td>
+                    {order.orderProducts?.map((product, idx) => (
+                      <div key={product._id || idx} style={{ marginBottom: "8px" }}>
+                        <select
+                          className="form-select form-select-sm"
+                          value={product.orderStatus}
+                          onChange={(e) =>
+                            handleOrderStatusChange(order._id, product._id, e.target.value)
+                          }
+                          style={{
+                            minWidth: "100px",
+                            backgroundColor: (() => {
+                              switch (product.orderStatus) {
+                                case "Pending": return "rgb(243 205 152)";
+                                case "Dispatch": return "rgb(166 220 236)";
+                                case "Shipped": return "rgb(151 197 238)";
+                                case "Delivered": return "rgb(150 223 150)";
+                                case "Cancel": return "rgb(244 141 138)";
+                                case "Return": return "rgb(244 141 138)";
+                                default: return "#6c757d";
+                              }
+                            })(),
+                            color: "#000",
+                          }}
+                        >
+                          {["Cancel", "Return"].includes(product.orderStatus) ? (
+                            <option value={product.orderStatus}>{product.orderStatus}</option>
+                          ) : (
+                            statusOrder
+                              .filter((s) => !["Cancel", "Return"].includes(s))
+                              .map((status) => (
+                                <option
+                                  key={status}
+                                  value={status}
+                                  disabled={isOptionDisabled(product.orderStatus, status)}
+                                >
+                                  {status}
+                                </option>
+                              ))
+                          )}
+                        </select>
+                      </div>
+                    ))}
+                  </td>
 
                   <td>{new Date(order.createdAt).toLocaleString()}</td>
                 </tr>
@@ -223,40 +223,39 @@ function Order() {
         </div>
 
         {/* Pagination */}
-                    <div className="pagination-controls d-flex justify-content-center my-3">
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-    disabled={currentPage === 1}
-  >
-    ← Prev
-  </button>
+        <div className="pagination-controls d-flex justify-content-center my-3">
+          <button
+            className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            ← Prev
+          </button>
 
-{[...Array(totalPages)].map((_, index) => (
-  <button
-    key={index}
-    className={`btn rounded-pill px-3 mx-1 ${
-      currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
-    }`}
-    style={
-      currentPage === index + 1
-        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
-        : {}
-    }
-    onClick={() => setCurrentPage(index + 1)}
-  >
-    {index + 1}
-  </button>
-))}
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              className={`btn rounded-pill px-3 mx-1 ${currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
+                }`}
+              style={
+                currentPage === index + 1
+                  ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
+                  : {}
+              }
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
 
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-    disabled={currentPage === totalPages}
-  >
-    Next →
-  </button>
-</div>
+          <button
+            className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next →
+          </button>
+        </div>
       </div>
     </div>
   );

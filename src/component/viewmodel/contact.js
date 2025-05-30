@@ -22,7 +22,7 @@ function Conatct() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10;
-  
+
   const handleEditDetails = (contact) => {
     setSelectedEdit(contact);
     setIsEditModalOpen(true);
@@ -52,7 +52,7 @@ function Conatct() {
     `$ ${contact.email} ${contact.mobileno}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
-  )||[];
+  ) || [];
   const totalProducts = filteredData.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
   const startIndex = (currentPage - 1) * productsPerPage;
@@ -104,12 +104,12 @@ function Conatct() {
                     <td>{contact.mobileno}</td>
                     <td>{contact.description}</td>
                     <td className="status-toggle">
-                    <HelpTogal
-                      help={contact}
-                      page="contact"
-                      onSuccess={() => run()}
-                    />
-                  </td>
+                      <HelpTogal
+                        help={contact}
+                        page="contact"
+                        onSuccess={() => run()}
+                      />
+                    </td>
                     {/* <td>
                       <button
                         className="view-details-btn"
@@ -131,40 +131,39 @@ function Conatct() {
               </tbody>
             </table>
           </div>
-             <div className="pagination-controls d-flex justify-content-center my-3">
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-    disabled={currentPage === 1}
-  >
-    ← Prev
-  </button>
+          <div className="pagination-controls d-flex justify-content-center my-3">
+            <button
+              className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              ← Prev
+            </button>
 
-{[...Array(totalPages)].map((_, index) => (
-  <button
-    key={index}
-    className={`btn rounded-pill px-3 mx-1 ${
-      currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
-    }`}
-    style={
-      currentPage === index + 1
-        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
-        : {}
-    }
-    onClick={() => setCurrentPage(index + 1)}
-  >
-    {index + 1}
-  </button>
-))}
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn rounded-pill px-3 mx-1 ${currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
+                  }`}
+                style={
+                  currentPage === index + 1
+                    ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
+                    : {}
+                }
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
 
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-    disabled={currentPage === totalPages}
-  >
-    Next →
-  </button>
-</div>
+            <button
+              className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              Next →
+            </button>
+          </div>
         </div>
 
         {/* Uncomment and implement modals below if needed */}

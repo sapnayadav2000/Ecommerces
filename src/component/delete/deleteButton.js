@@ -131,7 +131,7 @@ function DeleteBanner({ data, page, closeModal, onSuccess }) {
         closeModal();
       }
     }
-    
+
     else if (page === "returns") {
       const res = await ReturnServices.DeleteReturn(data._id);
 
@@ -155,99 +155,99 @@ function DeleteBanner({ data, page, closeModal, onSuccess }) {
         closeModal();
       }
     }
-  
-   
+
+
 
   };
 
   return (
-<div
-  className="modal fade show d-block"
-  id="deleteACModel"
-  tabIndex="-1"
-  aria-labelledby="deleteACModelLabel"
-  aria-hidden="true"
->
-  <div className="modal-dialog modal-dialog-centered">
     <div
-      className="modal-content"
-      style={{
-        borderRadius: "12px",
-        overflow: "hidden",
-        boxShadow: "0 5px 15px rgba(0,0,0,0.2)",
-        position: "relative",
-         width:'80%',
-            marginInline:'auto'
-    
-      }}
+      className="modal fade show d-block"
+      id="deleteACModel"
+      tabIndex="-1"
+      aria-labelledby="deleteACModelLabel"
+      aria-hidden="true"
     >
-      {/* Close (X) Button */}
-      <button
-        type="button"
-        onClick={closeModal}
-        className="btn-close"
-        aria-label="Close"
-        style={{
-          position: "absolute",
-          top: "15px",
-          right: "15px",
-          background: "transparent",
-          border: "none",
-          fontSize: "1.4rem",
-          color: "#000",
-          zIndex: 10,
-        }}
-      >
-        &times;
-      </button>
+      <div className="modal-dialog modal-dialog-centered">
+        <div
+          className="modal-content"
+          style={{
+            borderRadius: "12px",
+            overflow: "hidden",
+            boxShadow: "0 5px 15px rgba(0,0,0,0.2)",
+            position: "relative",
+            width: '80%',
+            marginInline: 'auto'
 
-      <div
-        className="modal-body text-center"
-        style={{
-          backgroundColor: "#f9f9f9",
-          padding: "2rem 2.5rem",
-         
-        }}
-      >
-        <div style={{ marginBottom: "1.5rem" }}>
-
-          <h4 style={{ fontWeight: "600", color: "#333" }}>Delete this Item?</h4>
-          <p style={{ color: "#666", marginTop: "0.5rem", fontSize: "15px" }}>
-            Are you sure you want to delete this item? This action cannot be undone.
-          </p>
-        </div>
-
-        <div className="d-flex justify-content-center gap-3">
+          }}
+        >
+          {/* Close (X) Button */}
           <button
-            className="btn"
+            type="button"
             onClick={closeModal}
+            className="btn-close"
+            aria-label="Close"
             style={{
-              minWidth: "100px",
-           border:'1px solid rgb(150, 186, 110)',
-              borderRadius: "6px",
-              backgroundColor:'rgb(150, 186, 110)',
+              position: "absolute",
+              top: "15px",
+              right: "15px",
+              background: "transparent",
+              border: "none",
+              fontSize: "1.4rem",
+              color: "#000",
+              zIndex: 10,
             }}
           >
-            Cancel
+            &times;
           </button>
 
-          <button
-            className="btn "
-            onClick={handleDelete}
+          <div
+            className="modal-body text-center"
             style={{
-              minWidth: "100px",
-             backgroundColor:"#f46f6f",
-              borderRadius: "6px",
-              border:'1px solid #f46f6f'
+              backgroundColor: "#f9f9f9",
+              padding: "2rem 2.5rem",
+
             }}
           >
-            Delete
-          </button>
+            <div style={{ marginBottom: "1.5rem" }}>
+
+              <h4 style={{ fontWeight: "600", color: "#333" }}>Delete this Item?</h4>
+              <p style={{ color: "#666", marginTop: "0.5rem", fontSize: "15px" }}>
+                Are you sure you want to delete this item? This action cannot be undone.
+              </p>
+            </div>
+
+            <div className="d-flex justify-content-center gap-3">
+              <button
+                className="btn"
+                onClick={closeModal}
+                style={{
+                  minWidth: "100px",
+                  border: '1px solid rgb(150, 186, 110)',
+                  borderRadius: "6px",
+                  backgroundColor: 'rgb(150, 186, 110)',
+                }}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="btn "
+                onClick={handleDelete}
+                style={{
+                  minWidth: "100px",
+                  backgroundColor: "#f46f6f",
+                  borderRadius: "6px",
+                  border: '1px solid #f46f6f'
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
 
   );

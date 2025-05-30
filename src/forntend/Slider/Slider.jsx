@@ -7,25 +7,25 @@ const Slider = () => {
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  const fetchBanners = async () => {
-    try {
-      const response = await BannerServices.getBanner();
-      const allBanners = response.data;
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const response = await BannerServices.getBanner();
+        const allBanners = response.data;
 
-      // Filter only banners with status === 'Active'
-      const activeBanners = allBanners.filter(banner => banner.status === "Active");
+        // Filter only banners with status === 'Active'
+        const activeBanners = allBanners.filter(banner => banner.status === "Active");
 
-      setBanners(activeBanners); // ✅ Only set active banners
-    } catch (error) {
-      console.error("Error fetching banners:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        setBanners(activeBanners); // ✅ Only set active banners
+      } catch (error) {
+        console.error("Error fetching banners:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchBanners();
-}, []);
+    fetchBanners();
+  }, []);
 
 
   return (

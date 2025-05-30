@@ -19,22 +19,22 @@ const HomeCategory = () => {
     ],
   };
 
-useEffect(() => {
-  const getCategory = async () => {
-    try {
-      const response = await CategoryServices.getCategory();
-      const allCategories = response.data;
+  useEffect(() => {
+    const getCategory = async () => {
+      try {
+        const response = await CategoryServices.getCategory();
+        const allCategories = response.data;
 
-      // Filter to only active categories
-      const activeCategories = allCategories.filter(cat => cat.status === "Active");
+        // Filter to only active categories
+        const activeCategories = allCategories.filter(cat => cat.status === "Active");
 
-      setCategories(activeCategories);
-    } catch (error) {
-      console.error("Failed to fetch Category", error);
-    }
-  };
-  getCategory();
-}, []);
+        setCategories(activeCategories);
+      } catch (error) {
+        console.error("Failed to fetch Category", error);
+      }
+    };
+    getCategory();
+  }, []);
 
 
   const handleSubCategoryClick = (subCategoryId, subCategorySlug) => {
@@ -86,7 +86,7 @@ useEffect(() => {
                           onClick={() =>
                             handleSubCategoryClick(category._id, category.slug)
                           }
-                          style={{ cursor: "pointer",color:'rgb(193, 38, 97)' }}
+                          style={{ cursor: "pointer", color: 'rgb(193, 38, 97)' }}
                         >
                           {category.name}
                         </span>

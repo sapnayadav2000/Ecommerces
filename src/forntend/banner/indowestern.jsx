@@ -17,7 +17,7 @@ import { useCart } from "../../Store/addtoCart";
 const IndoWestern = () => {
   const [priceRange, setPriceRange] = useState({ min: 100, max: 7285 });
   const { fetchCartCount } = useCart();
-    const {
+  const {
     wishlistItems,
     setWishlistItems,
     fetchWishlistCount,
@@ -64,15 +64,15 @@ const IndoWestern = () => {
         const res = await productServices.getproduct();
         const allProducts = res.data;
         console.log('All Products', allProducts);
-  
+
         const normalize = (str) => str.toLowerCase().replace(/\s+/g, ' ').trim();
-  
+
         const Products = allProducts.filter((product) => {
           return product.subCategoryname?.some(
             (name) => normalize(name) === "indo western"
           );
         });
-  
+
         console.log('Indo Western Products', Products);
         setProducts(Products);
       } catch (err) {
@@ -81,7 +81,7 @@ const IndoWestern = () => {
         setLoading(false);
       }
     };
-  
+
     fetchProducts();
   }, []);
   const onSizeClick = (productId, size) => {
@@ -106,7 +106,7 @@ const IndoWestern = () => {
       [productId]: size,
     }));
   };
-const handleAddToWishlist = async (product) => {
+  const handleAddToWishlist = async (product) => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
@@ -139,17 +139,17 @@ const handleAddToWishlist = async (product) => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
-  
+
     // Generate or get existing sessionId for guest user
     if (!localStorage.getItem("sessionId")) {
       localStorage.setItem("sessionId", crypto.randomUUID());
     }
     const sessionId = localStorage.getItem("sessionId");
-  
+
     if (!selectedSize) return toast.error("Please select a size.");
-  
+
     const selectedPrice = selectedPrices[product._id] || product.price;
-  
+
     const body = {
       userId: userId || null, // send null if not logged in
       sessionId,
@@ -158,16 +158,16 @@ const handleAddToWishlist = async (product) => {
       selectedSize,
       price: selectedPrice,
     };
-  
+
     try {
       const response = await AddtoCartServices.addToCart(body, token);
-  
+
       if (response?.status === 409) {
         toast.error("This product is already in your cart.");
       } else {
         toast.success("Product added to cart successfully.");
-      }fetchCartCount();
-  
+      } fetchCartCount();
+
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
@@ -180,21 +180,21 @@ const handleAddToWishlist = async (product) => {
     setShowModal(true);
   };
   const sliderSettings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-   slidesToShow:
-    selectedProduct && selectedProduct.images?.length >= 4
-      ? 4
-      : selectedProduct?.images?.length || 1,
-  slidesToScroll: 1,
-  beforeChange: (oldIndex, newIndex) => {
-    setActiveImageIndex((prev) => ({
-      ...prev,
-      [selectedProduct._id]: newIndex,
-    }));
-  },
-};
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow:
+      selectedProduct && selectedProduct.images?.length >= 4
+        ? 4
+        : selectedProduct?.images?.length || 1,
+    slidesToScroll: 1,
+    beforeChange: (oldIndex, newIndex) => {
+      setActiveImageIndex((prev) => ({
+        ...prev,
+        [selectedProduct._id]: newIndex,
+      }));
+    },
+  };
   const handleSizeChange = (size) => {
     SetSelectedSizes((prev) =>
       prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
@@ -276,7 +276,7 @@ const handleAddToWishlist = async (product) => {
   );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-   const nextPage = () => {
+  const nextPage = () => {
     if (currentPage < Math.ceil(products.length / productsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
@@ -292,55 +292,55 @@ const handleAddToWishlist = async (product) => {
   return (
     <>
       <HomeHeader />
-       <div style={{ display: "flex", width: "100%" }}>
+      <div style={{ display: "flex", width: "100%" }}>
+        <div
+          style={{
+            flex: 3,
+            padding: "10px",
+            marginLeft: "20px",
+            marginTop: "1%",
+          }}
+        >
           <div
             style={{
-              flex: 3,
-              padding: "10px",
-              marginLeft: "20px",
-              marginTop: "1%",
+              backgroundColor: "#f7f7f7",
+              height: "50px",
+
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            <div
+            <p
               style={{
-                backgroundColor: "#f7f7f7",
-                height: "50px",
-              
+                fontSize: "20px",
+                marginLeft: "15px",
+                marginBottom: "0",
+              }}
+            >
+              Filter Products By
+            </p>
+          </div>
+
+          <div
+            style={{
+              padding: "15px",
+              marginTop: "10px",
+              backgroundColor: "#fff",
+              border: '1px solid #eeeeee'
+            }}
+          >
+            <h6 style={{ fontWeight: "bold", marginBottom: "10px" }}>
+              Size:
+            </h6>
+
+            <div className="sizeChart"
+              style={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection: "column",
+                marginBottom: "15px",
+
               }}
             >
-              <p
-                style={{
-                  fontSize: "20px",
-                  marginLeft: "15px",
-                  marginBottom: "0",
-                }}
-              >
-                Filter Products By
-              </p>
-            </div>
-
-            <div
-               style={{
-                padding: "15px",
-                marginTop: "10px",
-                backgroundColor: "#fff",
-                 border:'1px solid #eeeeee' 
-              }}
-            >
-              <h6 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                Size:
-              </h6>
-
-              <div className="sizeChart"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  marginBottom: "15px",
-                  
-                }}
-              >
               {sizeRows.map((row, rowIndex) => (
                 <div key={rowIndex} style={{ display: "flex" }}>
                   {row.map((size) => (
@@ -373,7 +373,7 @@ const handleAddToWishlist = async (product) => {
                 display: "flex",
                 gap: "10px",
                 alignItems: "center",
-                
+
               }}
             >
               <input
@@ -444,9 +444,9 @@ const handleAddToWishlist = async (product) => {
                 className="btn mt-2"
                 style={{ backgroundColor: "#FF0B55" }}
               >
-                                <a href="/">
-  <img src="/img/dashboard.svg" alt="Dashboard" />
-</a>
+                <a href="/">
+                  <img src="/img/dashboard.svg" alt="Dashboard" />
+                </a>
               </button>
 
               <div
@@ -501,15 +501,14 @@ const handleAddToWishlist = async (product) => {
                       <div className="card h-100 shadow-sm border-0  ec-product-inner ">
                         <div className="ec-pro-image">
                           <img
-                            src={`${process.env.REACT_APP_API_BASE_URL}/${
-                              product.images?.[0] || "default.jpg"
-                            }`}
+                            src={`${process.env.REACT_APP_API_BASE_URL}/${product.images?.[0] || "default.jpg"
+                              }`}
                             alt={product.name}
                             className="main-image"
                             style={{
                               height: "400px",
                               objectFit: "cover",
-                            
+
                             }}
                           />
                           <div className="ec-pro-actions">
@@ -582,11 +581,11 @@ const handleAddToWishlist = async (product) => {
                           {product.productkey?.map((item) => (
                             <button
                               key={item.Size}
-                              className="m-2"  style={{
-      border: '1px solid',
-      borderColor:
-        selectedSizes[product._id] === item.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
-    }}
+                              className="m-2" style={{
+                                border: '1px solid',
+                                borderColor:
+                                  selectedSizes[product._id] === item.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
+                              }}
                               onClick={() =>
                                 onSizeClick(product._id, item.Size)
                               }
@@ -654,56 +653,55 @@ const handleAddToWishlist = async (product) => {
         </li>
                     </ul>
                   </div> */}
-                                    <div className="custom-pagination-container mt-4">
-  <div className="custom-pagination-info">
-    Showing {indexOfFirstProduct + 1}-
-    {Math.min(indexOfLastProduct, products.length)} of {products.length} item(s)
-  </div>
-  <ul className="custom-pagination">
-    <li>
-      <button
-        className="pagination-button"
-        onClick={prevPage}
-        disabled={currentPage === 1}
-      >
-        ⬅ Prev
-      </button>
-    </li>
+            <div className="custom-pagination-container mt-4">
+              <div className="custom-pagination-info">
+                Showing {indexOfFirstProduct + 1}-
+                {Math.min(indexOfLastProduct, products.length)} of {products.length} item(s)
+              </div>
+              <ul className="custom-pagination">
+                <li>
+                  <button
+                    className="pagination-button"
+                    onClick={prevPage}
+                    disabled={currentPage === 1}
+                  >
+                    ⬅ Prev
+                  </button>
+                </li>
 
-    {Array.from({
-      length: Math.min(5, Math.ceil(products.length / productsPerPage)),
-    }).map((_, index) => (
-      <li key={index}>
-        <button
-          className={`pagination-number ${
-            currentPage === index + 1 ? "active" : ""
-          }`}
-          onClick={() => paginate(index + 1)}
-        >
-          {index + 1}
-        </button>
-      </li>
-    ))}
+                {Array.from({
+                  length: Math.min(5, Math.ceil(products.length / productsPerPage)),
+                }).map((_, index) => (
+                  <li key={index}>
+                    <button
+                      className={`pagination-number ${currentPage === index + 1 ? "active" : ""
+                        }`}
+                      onClick={() => paginate(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
 
-    {Math.ceil(products.length / productsPerPage) > 5 && (
-      <li>
-        <button className="pagination-button" onClick={nextPage}>
-          Next ➡
-        </button>
-      </li>
-    )}
+                {Math.ceil(products.length / productsPerPage) > 5 && (
+                  <li>
+                    <button className="pagination-button" onClick={nextPage}>
+                      Next ➡
+                    </button>
+                  </li>
+                )}
 
-    <li>
-      <button
-        className="pagination-button"
-        onClick={nextPage}
-        disabled={currentPage === Math.ceil(products.length / productsPerPage)}
-      >
-        Next ➡
-      </button>
-    </li>
-  </ul>
-</div>
+                <li>
+                  <button
+                    className="pagination-button"
+                    onClick={nextPage}
+                    disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+                  >
+                    Next ➡
+                  </button>
+                </li>
+              </ul>
+            </div>
           </section>
           <Modal
             show={showModal}
@@ -719,13 +717,12 @@ const handleAddToWishlist = async (product) => {
             <Modal.Body style={{ backgroundColor: "white" }}>
               <div className="row">
                 {/* Left Side - Product Images */}
-                <div className="col-md-5"  style={{ height: '460px' }}>
+                <div className="col-md-5" style={{ height: '460px' }}>
                   <img
-                    src={`${process.env.REACT_APP_API_BASE_URL}/${
-                      selectedProduct?.images?.[
-                        activeImageIndex[selectedProduct?._id]
+                    src={`${process.env.REACT_APP_API_BASE_URL}/${selectedProduct?.images?.[
+                      activeImageIndex[selectedProduct?._id]
                       ]
-                    }`} // Use active index for this product
+                      }`} // Use active index for this product
                     alt={selectedProduct?.name}
                     className="w-100 mb-2"
                     style={{
@@ -743,11 +740,10 @@ const handleAddToWishlist = async (product) => {
                           key={index}
                           src={`${process.env.REACT_APP_API_BASE_URL}/${img}`} // Actual image URL
                           alt={`Thumbnail ${index + 1}`}
-                          className={`img-thumbnail mx-1 ${
-                            activeImageIndex[selectedProduct?._id] === index
+                          className={`img-thumbnail mx-1 ${activeImageIndex[selectedProduct?._id] === index
                               ? "border border-dark"
                               : ""
-                          }`} // Add border if active
+                            }`} // Add border if active
                           style={{
                             width: "70px",
                             height: "90px",
@@ -765,7 +761,7 @@ const handleAddToWishlist = async (product) => {
                 {/* Right Side - Product Details */}
                 <div className="col-md-4 mt-4">
                   <Link to={`/product-details/${selectedProduct?._id}`}>
-                    <h5 className="text-danger fw-bold"style={{fontSize:'30px'}}>{selectedProduct?.name?.toUpperCase()}</h5>
+                    <h5 className="text-danger fw-bold" style={{ fontSize: '30px' }}>{selectedProduct?.name?.toUpperCase()}</h5>
                   </Link>
                   <h5 className="mt-2 text-">{selectedProduct?.Sortdescription}</h5>
                   <div className="d-flex align-items-center mt-3">
@@ -786,11 +782,11 @@ const handleAddToWishlist = async (product) => {
                     {selectedProduct?.productkey?.map((size) => (
                       <button
                         key={size.Size}
-                          className="m-1"   style={{
-      border: '2px solid',
-      borderColor:
-        selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
-    }}
+                        className="m-1" style={{
+                          border: '2px solid',
+                          borderColor:
+                            selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
+                        }}
                         onClick={() =>
                           onSizeClick(selectedProduct._id, size.Size)
                         }
@@ -803,7 +799,7 @@ const handleAddToWishlist = async (product) => {
                   {/* Quantity Selection */}
                   <div
                     className="mt-3 d-flex align-items-center"
-                    style={{ border: "1px solid black",width: '62%' }}
+                    style={{ border: "1px solid black", width: '62%' }}
                   >
                     <button
                       className="btn btn-outline-dark "

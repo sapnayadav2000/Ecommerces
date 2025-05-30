@@ -83,113 +83,112 @@ const Review = () => {
     <>
       <HomeHeader />
       <div className="container py-5">
-  <div className="p-4 rounded-4 shadow-lg bg-white">
-    <h2 className="text-center mb-4 fw-bold">Leave a Review</h2>
+        <div className="p-4 rounded-4 shadow-lg bg-white">
+          <h2 className="text-center mb-4 fw-bold">Leave a Review</h2>
 
-    {/* Image Upload Section */}
-    <div className="mb-4">
-      <label className="form-label fw-semibold">Upload Images</label>
-      <input
-        type="file"
-        name="images"
-        multiple
-        className="form-control rounded-3 shadow-sm"
-        onChange={handleFileChange}
-      />
-    </div>
-
-    {/* Image Preview Section */}
-    <div className="file-preview d-flex flex-wrap mb-4 gap-3">
-      {previewimages.length > 0 ? (
-        previewimages.map((imgSrc, index) => (
-          <div
-            key={index}
-            className="position-relative rounded-3 border"
-            style={{ width: "100px", height: "100px", overflow: "hidden" }}
-          >
-            <img
-              src={imgSrc}
-              alt={`Preview ${index}`}
-              className="img-fluid"
-              style={{ objectFit: "cover", width: "100%", height: "100%" }}
+          {/* Image Upload Section */}
+          <div className="mb-4">
+            <label className="form-label fw-semibold">Upload Images</label>
+            <input
+              type="file"
+              name="images"
+              multiple
+              className="form-control rounded-3 shadow-sm"
+              onChange={handleFileChange}
             />
-            <button
-              type="button"
-              className="btn btn-sm btn-danger rounded-circle position-absolute"
-              style={{
-                top: "-8px",
-                right: "-8px",
-                padding: "0 6px",
-                fontSize: "12px",
-                zIndex: 2,
-              }}
-              onClick={() => handleDeleteImage(index)}
-            >
-              ×
-            </button>
           </div>
-        ))
-      ) : (
-        <img
-          src="/img/placeholder-img.svg"
-          alt="Placeholder"
-          className="img-thumbnail"
-          style={{ width: "100px", height: "100px", objectFit: "cover" }}
-        />
-      )}
-    </div>
 
-    {/* Review Form */}
-    <form onSubmit={handleSubmit}>
-      {/* Rating */}
-      <div className="mb-4">
-        <label className="form-label fw-semibold">Your Rating</label>
-        <div className="d-flex align-items-center gap-2">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <i
-              key={star}
-              className={`fa-star fa-2x ${
-                rating >= star ? "fas text-warning" : "far text-secondary"
-              }`}
-              onClick={() => handleClick(star)}
-              style={{ cursor: "pointer", transition: "color 0.2s ease" }}
-            />
-          ))}
+          {/* Image Preview Section */}
+          <div className="file-preview d-flex flex-wrap mb-4 gap-3">
+            {previewimages.length > 0 ? (
+              previewimages.map((imgSrc, index) => (
+                <div
+                  key={index}
+                  className="position-relative rounded-3 border"
+                  style={{ width: "100px", height: "100px", overflow: "hidden" }}
+                >
+                  <img
+                    src={imgSrc}
+                    alt={`Preview ${index}`}
+                    className="img-fluid"
+                    style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-danger rounded-circle position-absolute"
+                    style={{
+                      top: "-8px",
+                      right: "-8px",
+                      padding: "0 6px",
+                      fontSize: "12px",
+                      zIndex: 2,
+                    }}
+                    onClick={() => handleDeleteImage(index)}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))
+            ) : (
+              <img
+                src="/img/placeholder-img.svg"
+                alt="Placeholder"
+                className="img-thumbnail"
+                style={{ width: "100px", height: "100px", objectFit: "cover" }}
+              />
+            )}
+          </div>
+
+          {/* Review Form */}
+          <form onSubmit={handleSubmit}>
+            {/* Rating */}
+            <div className="mb-4">
+              <label className="form-label fw-semibold">Your Rating</label>
+              <div className="d-flex align-items-center gap-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <i
+                    key={star}
+                    className={`fa-star fa-2x ${rating >= star ? "fas text-warning" : "far text-secondary"
+                      }`}
+                    onClick={() => handleClick(star)}
+                    style={{ cursor: "pointer", transition: "color 0.2s ease" }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Comment */}
+            <div className="mb-4">
+              <label className="form-label fw-semibold">Your Comment</label>
+              <textarea
+                className="form-control rounded-3 shadow-sm"
+                rows="4"
+                placeholder="Tell us about your experience..."
+                value={description}
+                onChange={(e) => setComment(e.target.value)}
+                required
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="text-center">
+              <button
+                type="submit"
+                className="btn btn-lg px-5  text-white"
+                style={{
+                  background: "linear-gradient(to right, #6a11cb, #2575fc)",
+                  border: "none",
+                  borderRadius: "12px",
+                  fontWeight: "600",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                }}
+              >
+                Submit Review
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-
-      {/* Comment */}
-      <div className="mb-4">
-        <label className="form-label fw-semibold">Your Comment</label>
-        <textarea
-          className="form-control rounded-3 shadow-sm"
-          rows="4"
-          placeholder="Tell us about your experience..."
-          value={description}
-          onChange={(e) => setComment(e.target.value)}
-          required
-        />
-      </div>
-
-      {/* Submit Button */}
-      <div className="text-center">
-        <button
-          type="submit"
-          className="btn btn-lg px-5  text-white"
-          style={{
-            background: "linear-gradient(to right, #6a11cb, #2575fc)",
-            border: "none",
-            borderRadius: "12px",
-            fontWeight: "600",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-          }}
-        >
-          Submit Review
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
 
       <Footer />
     </>

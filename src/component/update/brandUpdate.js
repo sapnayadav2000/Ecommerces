@@ -103,7 +103,7 @@ function BrandUpdate({ brand, onSuccess, closeModal }) {
                       </div>
                       <div className="col-md-8">
                         <div className="input-field">
-                          <label className="pt-3"> 
+                          <label className="pt-3">
                             Upload<span className="red">*</span>
                           </label>
                           <input

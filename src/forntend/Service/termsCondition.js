@@ -66,7 +66,7 @@ const TermCondition = () => {
                 <h2 className="mb-4" style={{ fontWeight: "700" }}>
                   {getTitle()}
                 </h2>
-                <p className="text-muted mb-4"  style={{ fontSize: "20px", }}>About our business firm</p>
+                <p className="text-muted mb-4" style={{ fontSize: "20px", }}>About our business firm</p>
                 {TermConditionData ? (
                   <div
                     style={{ lineHeight: "1.8", fontSize: "16px", textAlign: "justify" }}

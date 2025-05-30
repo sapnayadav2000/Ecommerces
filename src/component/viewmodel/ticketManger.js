@@ -53,7 +53,7 @@ function TicketManager() {
     (ticket) =>
       ticket?.Issue_type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       ticket?.mobileno?.toString().includes(searchTerm)
-  )||[];
+  ) || [];
 
   const totalProducts = filteredTickets.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
@@ -190,8 +190,8 @@ function TicketManager() {
                           ticket.priority === "Low"
                             ? "rgb(243 205 152)"
                             : ticket.priority === "Medium"
-                            ? "  rgb(150 223 150)"
-                            : "rgb(244 141 138)", // High
+                              ? "  rgb(150 223 150)"
+                              : "rgb(244 141 138)", // High
                         color: "#000",
                       }}
                       className="form-select"
@@ -227,8 +227,8 @@ function TicketManager() {
                           ticket.status === "In Progress"
                             ? "rgb(243 205 152)"
                             : ticket.status === "Resolved"
-                            ? "  rgb(150 223 150)"
-                            : "rgb(244 141 138)", // Closed
+                              ? "  rgb(150 223 150)"
+                              : "rgb(244 141 138)", // Closed
                         color: "#000",
                       }}
                       className="form-select"
@@ -269,41 +269,40 @@ function TicketManager() {
             </tbody>
           </table>
         </div>
-            {/* Pagination Controls */}
-               <div className="pagination-controls d-flex justify-content-center my-3">
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-    disabled={currentPage === 1}
-  >
-    ← Prev
-  </button>
+        {/* Pagination Controls */}
+        <div className="pagination-controls d-flex justify-content-center my-3">
+          <button
+            className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            ← Prev
+          </button>
 
-{[...Array(totalPages)].map((_, index) => (
-  <button
-    key={index}
-    className={`btn rounded-pill px-3 mx-1 ${
-      currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
-    }`}
-    style={
-      currentPage === index + 1
-        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
-        : {}
-    }
-    onClick={() => setCurrentPage(index + 1)}
-  >
-    {index + 1}
-  </button>
-))}
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              className={`btn rounded-pill px-3 mx-1 ${currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
+                }`}
+              style={
+                currentPage === index + 1
+                  ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
+                  : {}
+              }
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
 
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-    disabled={currentPage === totalPages}
-  >
-    Next →
-  </button>
-</div>
+          <button
+            className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next →
+          </button>
+        </div>
       </div>
 
       {/* Edit Ticket Modal */}

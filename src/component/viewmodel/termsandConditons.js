@@ -8,21 +8,21 @@ import 'react-quill/dist/quill.snow.css';
 
 function TermCondition() {
   const { data, error, isLoading } = useAsync(UserServices.getTermCondition);
-  const [formValues, setFormValues] = useState({ 
-    termsAndCondition: '', 
-    termsAndConditionTitle:'',
-   
+  const [formValues, setFormValues] = useState({
+    termsAndCondition: '',
+    termsAndConditionTitle: '',
 
-    data: "termCondition" 
+
+    data: "termCondition"
   });
 
   useEffect(() => {
     if (data) {
       setFormValues({
         termsAndConditionTitle: data?.data?.Title || '',
-      
+
         termsAndCondition: data?.data?.English || '',
-      
+
         data: "termsAndCondition"
       });
     }
@@ -51,29 +51,29 @@ function TermCondition() {
         <div className="container-box-inner">
           <div className="row page-details">
             <form
-             onSubmit={handleSubmit}
-             >
+              onSubmit={handleSubmit}
+            >
               <div className="input-field">
                 <label>Title (English)</label>
-                <input 
-                  type="text" 
-                  name="title" 
-                  value={formValues.termsAndConditionTitle} 
+                <input
+                  type="text"
+                  name="title"
+                  value={formValues.termsAndConditionTitle}
                   onChange={(e) => handleInputChange('termsAndConditionTitle', e.target.value)}
-                  placeholder='Enter Title' 
-                  className="form-control" 
+                  placeholder='Enter Title'
+                  className="form-control"
                 />
               </div>
-             
+
               <div className="input-field mt-3">
                 <label>Description </label>
-                <ReactQuill  className='mt-3'
+                <ReactQuill className='mt-3'
                   theme="snow"
                   value={formValues.termsAndCondition}
                   onChange={(value) => handleInputChange('termsAndCondition', value)}
                 />
               </div>
-           
+
               <button className="sited-btn-green">SUBMIT</button>
             </form>
           </div>

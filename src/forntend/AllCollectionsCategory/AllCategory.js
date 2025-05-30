@@ -95,9 +95,8 @@ const AllCategory = () => {
                         {subCategories[category._id].map((subCategory) => (
                           <li key={subCategory._id}>
                             <Link
-                              to={`/subcategory/${
-                                subCategory.slug || subCategory._id
-                              }`}
+                              to={`/subcategory/${subCategory.slug || subCategory._id
+                                }`}
                               onClick={(e) => {
                                 e.preventDefault();
                                 handleSubCategoryClick(

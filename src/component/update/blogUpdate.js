@@ -4,11 +4,11 @@ import BlogServices from "../../services/blogServices";
 function BlogUpdate({ blog, onSuccess, closeModal }) {
   const [formValues, setFormValues] = useState({
     title: "",
-    content:"",
-    author:"",
-    tags:"",
+    content: "",
+    author: "",
+    tags: "",
     image: "",
-    views:""
+    views: ""
   });
 
   useEffect(() => {
@@ -163,7 +163,7 @@ function BlogUpdate({ blog, onSuccess, closeModal }) {
                       </div>
                       <div className="col-md-8">
                         <div className="input-field">
-                          <label className="pt-3"> 
+                          <label className="pt-3">
                             Upload<span className="red">*</span>
                           </label>
                           <input

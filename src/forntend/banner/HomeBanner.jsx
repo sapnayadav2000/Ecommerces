@@ -10,9 +10,9 @@ const HomeBanner = () => {
       try {
         const response = await BannerServices.getBanner();
         const allBanners = response.data;
-        
-   
-      
+
+
+
 
         setBanners(allBanners);
       } catch (error) {

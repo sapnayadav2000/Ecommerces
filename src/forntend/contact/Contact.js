@@ -22,19 +22,19 @@ const Contact = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-  
+
 
       try {
          const res = await ContactServices.createContact({
             ...formData,
-          
+
          });
-           
-            toast.success( 'Your message has been sent successfully!');    
+
+         toast.success('Your message has been sent successfully!');
       } catch (err) {
          const errorMsg = err.response?.data?.message || 'Something went wrong.';
          toast.error(errorMsg);
-        
+
       }
    };
 
@@ -130,16 +130,16 @@ const Contact = () => {
                            <h1 className="ec_contact_info_head pt-3 pl-2">Contact us</h1>
                            <ul className="align-items-center">
                               <li className="ec-contact-item ">
-                              <i  className="fas fa-map-marker-alt ml-2" /> 
+                                 <i className="fas fa-map-marker-alt ml-2" />
                                  <span>Address:</span> 71 Pilgrim Avenue, Chevy Chase, East California, MD 20815, USA
                               </li>
                               <li className="ec-contact-item align-items-center">
-                              <i  className="fas fa-phone ml-2" /> 
+                                 <i className="fas fa-phone ml-2" />
                                  <span>Call Us:</span>
                                  <a href="tel:+91 5241234589">+91 5241234589</a>
                               </li>
                               <li className="ec-contact-item align-items-center ">
-                              <i className="fas fa-envelope ml-2"/>{" "}
+                                 <i className="fas fa-envelope ml-2" />{" "}
                                  <span>Email:</span>
                                  <a href="mailto:example@ec-email.com"> example123@gmail.com</a>
                               </li>

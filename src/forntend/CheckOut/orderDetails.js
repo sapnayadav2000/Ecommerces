@@ -112,108 +112,108 @@ const OrderDetails = () => {
     }
   };
 
- const handlePaymentSubmit = async () => {
-  const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const handlePaymentSubmit = async () => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-  if (selectedAddressIndex === null) {
-    toast.error("Please select a shipping address.");
-    return;
-  }
-
-  // ✅ Check agreement for COD
-  if (selectedPayment === "COD" && !agreeTerms) {
-    toast.error("Please agree to the Terms & Conditions before placing the order.");
-    return;
-  }
-
-  const selectedShippingAddress = addresses[selectedAddressIndex];
-
-  // ✅ Step: Check pincode via backend
-  try {
-    const pinRes = await Pincodeservices.checkPincode(
-      selectedShippingAddress.pincode.trim()
-    );
-
-    console.log("pinRes", pinRes);
-
-    if (!pinRes || typeof pinRes.status === "undefined") {
-      toast.error("Invalid response structure from pincode check.");
+    if (selectedAddressIndex === null) {
+      toast.error("Please select a shipping address.");
       return;
     }
 
-    if (pinRes.status === false) {
-      toast.error(pinRes.message || "This pincode is not serviceable.");
+    // ✅ Check agreement for COD
+    if (selectedPayment === "COD" && !agreeTerms) {
+      toast.error("Please agree to the Terms & Conditions before placing the order.");
       return;
     }
 
-    if (pinRes.status === true) {
-      console.log("Pincode is serviceable.");
+    const selectedShippingAddress = addresses[selectedAddressIndex];
+
+    // ✅ Step: Check pincode via backend
+    try {
+      const pinRes = await Pincodeservices.checkPincode(
+        selectedShippingAddress.pincode.trim()
+      );
+
+      console.log("pinRes", pinRes);
+
+      if (!pinRes || typeof pinRes.status === "undefined") {
+        toast.error("Invalid response structure from pincode check.");
+        return;
+      }
+
+      if (pinRes.status === false) {
+        toast.error(pinRes.message || "This pincode is not serviceable.");
+        return;
+      }
+
+      if (pinRes.status === true) {
+        console.log("Pincode is serviceable.");
+      }
+    } catch (err) {
+      console.error("Pincode check failed:", err);
+      toast.error("This pincode is not serviceable. Choose another one.");
+      return;
     }
-  } catch (err) {
-    console.error("Pincode check failed:", err);
-    toast.error("This pincode is not serviceable. Choose another one.");
-    return;
-  }
 
-  // ✅ Continue placing order
-  const txnId = `TXN_${Date.now()}`;
-  const shippingDetails = `${selectedShippingAddress.address}, ${selectedShippingAddress.city}, ${selectedShippingAddress.state}, ${selectedShippingAddress.country}, ${selectedShippingAddress.pincode}`;
+    // ✅ Continue placing order
+    const txnId = `TXN_${Date.now()}`;
+    const shippingDetails = `${selectedShippingAddress.address}, ${selectedShippingAddress.city}, ${selectedShippingAddress.state}, ${selectedShippingAddress.country}, ${selectedShippingAddress.pincode}`;
 
-  const orderData = {
-    txnId,
-    cartId: cart._id,
-    userId: cart.userId._id,
-    userAddressId: selectedShippingAddress._id,
-    totalProducts: cart.items.length,
-    totalAmount: cart.totalPrice,
-    gatewayAmount: cart.totalPrice,
-    shippingAmount: 0,
-    discountAmount: 0,
-    grandTotal: cart.totalPrice,
-    shippingDetails,
-    paymentMethod: selectedPayment,
-    paymentStatus: cart.paymentStatus,
-    orderStatus: cart.paymentStatus,
-    orderDate: new Date(),
+    const orderData = {
+      txnId,
+      cartId: cart._id,
+      userId: cart.userId._id,
+      userAddressId: selectedShippingAddress._id,
+      totalProducts: cart.items.length,
+      totalAmount: cart.totalPrice,
+      gatewayAmount: cart.totalPrice,
+      shippingAmount: 0,
+      discountAmount: 0,
+      grandTotal: cart.totalPrice,
+      shippingDetails,
+      paymentMethod: selectedPayment,
+      paymentStatus: cart.paymentStatus,
+      orderStatus: cart.paymentStatus,
+      orderDate: new Date(),
 
-    firstName: user.firstName,
-    lastName:user.lastName,
-    country: selectedShippingAddress.country,
-    address: selectedShippingAddress.address,
-    city: selectedShippingAddress.city,
-    pincode: selectedShippingAddress.pincode,
-    state: selectedShippingAddress.state,
-    email: user.email,
-    phone: user.mobileNo || "",
-    products: cart.items.map((item) => ({
-      productId: item.productId,
-      quantity: item.quantity,
-      Originalprice: item.originalPrice || item.price,
-      price: item.price,
-      size: item.selectedSize || item.size || "N/A",
-    })),
-    totalPrice: cart.totalPrice,
-    paymentMethod: selectedPayment,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      country: selectedShippingAddress.country,
+      address: selectedShippingAddress.address,
+      city: selectedShippingAddress.city,
+      pincode: selectedShippingAddress.pincode,
+      state: selectedShippingAddress.state,
+      email: user.email,
+      phone: user.mobileNo || "",
+      products: cart.items.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        Originalprice: item.originalPrice || item.price,
+        price: item.price,
+        size: item.selectedSize || item.size || "N/A",
+      })),
+      totalPrice: cart.totalPrice,
+      paymentMethod: selectedPayment,
+    };
+
+    try {
+      const res = await OrderServices.createOrder(orderData, token);
+      const orderId = res?.orderId || res?.order?._id;
+
+      if (orderId) {
+        toast.success(`Order successfully placed`);
+        navigate(`/`, {
+          state: { orderId, paymentMethod: selectedPayment },
+        });
+      } else {
+        console.log("Unexpected response from server.");
+      }
+    } catch (err) {
+      console.error("Order placement failed:", err);
+      toast.error("Order placement failed.");
+    }
   };
-
-  try {
-    const res = await OrderServices.createOrder(orderData, token);
-    const orderId = res?.orderId || res?.order?._id;
-
-    if (orderId) {
-      toast.success(`Order successfully placed`);
-      navigate(`/`, {
-        state: { orderId, paymentMethod: selectedPayment },
-      });
-    } else {
-      console.log("Unexpected response from server.");
-    }
-  } catch (err) {
-    console.error("Order placement failed:", err);
-    toast.error("Order placement failed.");
-  }
-};
 
 
   const handleDeleteAddress = async (id) => {
@@ -404,7 +404,7 @@ const OrderDetails = () => {
                                   }}
                                 />
                               </div>
-                              
+
                               <button
                                 className="btn btn-primary mt-3"
                                 onClick={() => handleEditClick(addr._id)}
@@ -417,7 +417,7 @@ const OrderDetails = () => {
                               >
                                 Delete
                               </button>
-                              
+
                             </div>
                           </div>
                         );
@@ -442,9 +442,8 @@ const OrderDetails = () => {
                   ].map(([field, label]) => (
                     <div
                       key={field}
-                      className={`${
-                        field === "address" ? "col-12" : "col-md-6"
-                      } mb-2`}
+                      className={`${field === "address" ? "col-12" : "col-md-6"
+                        } mb-2`}
                     >
                       <input
                         type="text"
@@ -579,26 +578,26 @@ const OrderDetails = () => {
                         Online
                       </label>
                     </div>
-                 
+
 
                     <textarea
                       className="form-control mt-3"
                       placeholder="Add comments about your order"
                     />
                     <div className="form-check align-items-center mt-2">
-                     <input
-  className="form-check-input mt-1"
-  type="checkbox"
-  checked={agreeTerms}
-  onChange={(e) => setAgreeTerms(e.target.checked)}
-  style={{
-    width: "10px",
-    height: "20px",
-    border: "2px solid #000",
-    appearance: "none",
-    position: "relative",
-  }}
-/>
+                      <input
+                        className="form-check-input mt-1"
+                        type="checkbox"
+                        checked={agreeTerms}
+                        onChange={(e) => setAgreeTerms(e.target.checked)}
+                        style={{
+                          width: "10px",
+                          height: "20px",
+                          border: "2px solid #000",
+                          appearance: "none",
+                          position: "relative",
+                        }}
+                      />
                       <Link to="/termscondition">
                         <label className="form-check-label ms-2 mt-2">
                           I agree to the Terms & Conditions

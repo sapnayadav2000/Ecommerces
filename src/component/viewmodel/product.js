@@ -25,8 +25,8 @@ function Product() {
   // Filter products by search term
   const filteredData = data?.data?.length
     ? data.data.filter((product) =>
-        product.name?.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      product.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
     : [];
 
   const totalProducts = filteredData.length;
@@ -144,32 +144,32 @@ function Product() {
                         )}
                       </div> */}
                       <div className="product-img">
-  {Array.isArray(product.images) && product.images.length > 0 ? (
-    <img
-      src={`${process.env.REACT_APP_API_BASE_URL}/${product.images[0]}`}
-      alt="product"
-      style={{
-        height: "70px",
-        width: "70px",
-        objectFit: "contain",
-        marginRight: "5px",
-        marginTop: "5px",
-      }}
-    />
-  ) : product.images ? (
-    <img
-      src={`${process.env.REACT_APP_API_BASE_URL}/${product.images}`}
-      alt="product"
-      style={{
-        height: "70px",
-        width: "70px",
-        objectFit: "contain",
-      }}
-    />
-  ) : (
-    <span>No Image</span>
-  )}
-</div>
+                        {Array.isArray(product.images) && product.images.length > 0 ? (
+                          <img
+                            src={`${process.env.REACT_APP_API_BASE_URL}/${product.images[0]}`}
+                            alt="product"
+                            style={{
+                              height: "70px",
+                              width: "70px",
+                              objectFit: "contain",
+                              marginRight: "5px",
+                              marginTop: "5px",
+                            }}
+                          />
+                        ) : product.images ? (
+                          <img
+                            src={`${process.env.REACT_APP_API_BASE_URL}/${product.images}`}
+                            alt="product"
+                            style={{
+                              height: "70px",
+                              width: "70px",
+                              objectFit: "contain",
+                            }}
+                          />
+                        ) : (
+                          <span>No Image</span>
+                        )}
+                      </div>
 
                     </td>
                     <td>{product.categoryname?.join(", ") || "N/A"}</td>
@@ -187,10 +187,10 @@ function Product() {
                     <td>
                       {product.productkey?.length
                         ? product.productkey.map((item) =>
-                            item.OfferPrice
-                              ? ` ${item.Size}: ${item.OfferPrice} `
-                              : "N/A"
-                          )
+                          item.OfferPrice
+                            ? ` ${item.Size}: ${item.OfferPrice} `
+                            : "N/A"
+                        )
                         : "N/A"}
                     </td>
                     <td className="status-toggle">
@@ -201,42 +201,42 @@ function Product() {
                       />
                     </td>
                     <td>
-  <div className="position-relative">
-    <button
-      className="btn btn-sm border-0 shadow-sm px-3 py-1 rounded-3 d-flex align-items-center gap-2"
-      type="button"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-      style={{backgroundColor:'#b5b6b7 '}}
-    >
-   
-      <span className="d-none d-md-inline">Actions</span>
-    </button>
-    <ul
-      className="dropdown-menu dropdown-menu-end p-2 rounded-4 shadow glass-dropdown"
-      style={{ minWidth: '140px' }}
-    >
-      <li>
-        <button
-          className="dropdown-item d-flex align-items-center gap-2 fw-semibold rounded-2"
-          onClick={() => handleEditDetails(product)}
-        >
-          <FontAwesomeIcon icon={faEdit} />
-          Edit
-        </button>
-      </li>
-      <li>
-        <button
-          className="dropdown-item d-flex align-items-center gap-2  fw-semibold rounded-2"
-          onClick={() => handleDelete(product)}
-        >
-          <FontAwesomeIcon icon={faTrash} />
-          Delete
-        </button>
-      </li>
-    </ul>
-  </div>
-</td>
+                      <div className="position-relative">
+                        <button
+                          className="btn btn-sm border-0 shadow-sm px-3 py-1 rounded-3 d-flex align-items-center gap-2"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                          style={{ backgroundColor: '#b5b6b7 ' }}
+                        >
+
+                          <span className="d-none d-md-inline">Actions</span>
+                        </button>
+                        <ul
+                          className="dropdown-menu dropdown-menu-end p-2 rounded-4 shadow glass-dropdown"
+                          style={{ minWidth: '140px' }}
+                        >
+                          <li>
+                            <button
+                              className="dropdown-item d-flex align-items-center gap-2 fw-semibold rounded-2"
+                              onClick={() => handleEditDetails(product)}
+                            >
+                              <FontAwesomeIcon icon={faEdit} />
+                              Edit
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              className="dropdown-item d-flex align-items-center gap-2  fw-semibold rounded-2"
+                              onClick={() => handleDelete(product)}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                              Delete
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
 
                   </tr>
                 ))}
@@ -245,42 +245,41 @@ function Product() {
           </div>
 
           {/* Pagination Controls */}
-             <div className="pagination-controls d-flex justify-content-center my-3">
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-    disabled={currentPage === 1}
-  >
-    ← Prev
-  </button>
+          <div className="pagination-controls d-flex justify-content-center my-3">
+            <button
+              className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              ← Prev
+            </button>
 
-{[...Array(totalPages)].map((_, index) => (
-  <button
-    key={index}
-    className={`btn rounded-pill px-3 mx-1 ${
-      currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
-    }`}
-    style={
-      currentPage === index + 1
-        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
-        : {}
-    }
-    onClick={() => setCurrentPage(index + 1)}
-  >
-    {index + 1}
-  </button>
-))}
-
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn rounded-pill px-3 mx-1 ${currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
+                  }`}
+                style={
+                  currentPage === index + 1
+                    ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
+                    : {}
+                }
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
 
 
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-    disabled={currentPage === totalPages}
-  >
-    Next →
-  </button>
-</div>
+
+            <button
+              className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              Next →
+            </button>
+          </div>
         </div>
 
         {/* Edit Product Modal */}

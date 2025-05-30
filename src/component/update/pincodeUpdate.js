@@ -7,18 +7,18 @@ function PincodeUpdate({ pincode, onSuccess, closeModal }) {
     city: "",
     state: "",
     country: "",
-   
+
   });
 
   useEffect(() => {
     if (pincode) {
       setFormValues({
-        pincode:pincode?.pincode||"",
+        pincode: pincode?.pincode || "",
         city: pincode?.city || "",
         state: pincode?.state || "",
         country: pincode?.country || "",
       });
-     
+
     }
   }, [pincode]);
 
@@ -45,7 +45,7 @@ function PincodeUpdate({ pincode, onSuccess, closeModal }) {
       alert("Failed to update pincode");
     }
   };
-  
+
 
   return (
     <div
@@ -83,7 +83,7 @@ function PincodeUpdate({ pincode, onSuccess, closeModal }) {
                             value={formValues.pincode}
                             onChange={handleInputChange}
                             placeholder="pincode"
-                             maxLength="6"
+                            maxLength="6"
                           />
                         </div>
                       </div>
@@ -130,10 +130,10 @@ function PincodeUpdate({ pincode, onSuccess, closeModal }) {
                           />
                         </div>
                       </div>
-                      
 
-                         
-                        
+
+
+
                     </div>
                     <button className="sited-btn-green">Update </button>
                   </form>

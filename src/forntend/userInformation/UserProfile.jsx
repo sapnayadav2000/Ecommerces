@@ -127,22 +127,22 @@ const UserProfile = () => {
                             <div className="ec-vendor-detail-block space-bottom-30">
                               <p className="mb-2">Email</p>
                               <h6> {user?.email}</h6>
-                             
+
                             </div>
                           </div>
                           <div className="col-md-6 col-sm-12">
                             <div className="ec-vendor-detail-block space-bottom-30">
-                                <p className="mb-2">Mobil NO.</p>
+                              <p className="mb-2">Mobil NO.</p>
                               <h6>{user?.mobileNo}</h6>
-                              
+
                             </div>
                           </div>
                           <div className="col-md-6 col-sm-12">
                             <div className="ec-vendor-detail-block">
-                                <p className="mb-2">Address</p>
+                              <p className="mb-2">Address</p>
                               <h6> {user?.address}, {user?.city}, {user?.state} -{" "}
-                                  {user?.pincode}</h6>
-                          
+                                {user?.pincode}</h6>
+
                             </div>
                           </div>
                         </div>
@@ -150,7 +150,7 @@ const UserProfile = () => {
                         <div className="text-center mt-3">
                           <button
                             className="btn"
-                            onClick={handleLogout}  style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))'}}
+                            onClick={handleLogout} style={{ background: 'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))' }}
                           >
                             Logout
                           </button>

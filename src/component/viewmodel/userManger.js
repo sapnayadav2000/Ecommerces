@@ -46,9 +46,9 @@ function UserManager() {
 
   // Filter data based on the search term
   const filteredUsers = data?.users?.filter((user) =>
-     user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  user?.mobileNo?.toLowerCase().includes(searchTerm.toLowerCase())
-  )||[];
+    user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user?.mobileNo?.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
   const totalProducts = filteredUsers.length;
   const productsPerPage = 10;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
@@ -72,7 +72,7 @@ function UserManager() {
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </div>
-       
+
         </div>
 
         <div className="container-box-inner" style={{ overflowX: "auto" }}>
@@ -80,7 +80,7 @@ function UserManager() {
             <thead>
               <tr className="trs">
                 <th>#</th>
-              
+
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile No</th>
@@ -94,12 +94,12 @@ function UserManager() {
               {currentProducts?.map((user, i) => (
                 <tr key={user._id}>
                   <td>{startIndex + i + 1}</td>
-                 
+
                   <td>{user.firstName} {user.lastName}</td>
 
                   <td>{user.email}</td>
                   <td>{user.mobileNo}</td>
-                  <td style={{width:'250px'}}>{user.address},{user.city},{user.state},{user.pincode}</td>
+                  <td style={{ width: '250px' }}>{user.address},{user.city},{user.state},{user.pincode}</td>
                   <td className="status-toggle">
                     <HelpTogal help={user} page="user" onSuccess={run} />
                   </td>
@@ -124,41 +124,40 @@ function UserManager() {
             </tbody>
           </table>
         </div>
-            {/* Pagination Controls */}
-              <div className="pagination-controls d-flex justify-content-center my-3">
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-    disabled={currentPage === 1}
-  >
-    ← Prev
-  </button>
+        {/* Pagination Controls */}
+        <div className="pagination-controls d-flex justify-content-center my-3">
+          <button
+            className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            ← Prev
+          </button>
 
-{[...Array(totalPages)].map((_, index) => (
-  <button
-    key={index}
-    className={`btn rounded-pill px-3 mx-1 ${
-      currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
-    }`}
-    style={
-      currentPage === index + 1
-        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
-        : {}
-    }
-    onClick={() => setCurrentPage(index + 1)}
-  >
-    {index + 1}
-  </button>
-))}
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              className={`btn rounded-pill px-3 mx-1 ${currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
+                }`}
+              style={
+                currentPage === index + 1
+                  ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
+                  : {}
+              }
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
 
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-    disabled={currentPage === totalPages}
-  >
-    Next →
-  </button>
-</div>
+          <button
+            className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next →
+          </button>
+        </div>
       </div>
 
       {/* Edit User Modal */}

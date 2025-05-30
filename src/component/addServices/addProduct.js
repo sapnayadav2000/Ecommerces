@@ -16,8 +16,8 @@ function AddProduct() {
     name: "",
     images: [],
     description: "",
-    Sortdescription:"",
-    Originalprice:"",
+    Sortdescription: "",
+    Originalprice: "",
     price: "",
     category: "",
     subCategory: "",
@@ -92,7 +92,7 @@ function AddProduct() {
   };
   const handleRefundPolicyChange = (e) => {
     const { name, value } = e.target;
-  
+
     if (name === "returnable") {
       // Convert the value to boolean correctly
       setFormValues((prev) => ({
@@ -161,7 +161,7 @@ function AddProduct() {
     event.preventDefault();
     try {
       const formData = new FormData();
-  
+
       for (const key in formValues) {
         if (key === "images") {
           formValues.images.forEach((image) => {
@@ -176,7 +176,7 @@ function AddProduct() {
           formData.append(key, formValues[key]);
         }
       }
-  
+
       await Productservices.createproduct(formData);
       alert("Product created successfully");
       navigate("/product");
@@ -185,7 +185,7 @@ function AddProduct() {
       alert("Failed to create product ");
     }
   };
-  
+
   // Add size and quantity fields
   const handleChange = (index, field, value) => {
     const updatedproductkey = [...formValues.productkey];
@@ -220,7 +220,7 @@ function AddProduct() {
           <div className="container-box-top-header justify-content-end px-4">
             <div className="sub-title-box-right">
               <Link className="site-btn-green " to="/product">
-               <i className="fa fa-arrow-left mr-2"></i> Product List
+                <i className="fa fa-arrow-left mr-2"></i> Product List
               </Link>
             </div>
           </div>
@@ -232,20 +232,20 @@ function AddProduct() {
                   <div className="col-lg-4 col-md-6 ">
                     <div className="input-field ">
                       <label className="pt-3">Category*</label>
-                      <select 
-                        className=" form-select border"  
+                      <select
+                        className=" form-select border"
                         onChange={handleCategoryChange1}
                         value={formValues.category}
                       >
                         <option value="">Select Category</option>
-                       {categories
-  .filter(category => category.status && category.status.toLowerCase() === "active")
-  .map(category => (
-    <option key={category._id} value={category._id}>
-      {category.name}
-    </option>
-  ))
-}
+                        {categories
+                          .filter(category => category.status && category.status.toLowerCase() === "active")
+                          .map(category => (
+                            <option key={category._id} value={category._id}>
+                              {category.name}
+                            </option>
+                          ))
+                        }
 
                       </select>
                     </div>
@@ -254,25 +254,25 @@ function AddProduct() {
                   <div className="col-lg-4 col-md-6">
                     <div className="input-field">
                       <label className="pt-3">Subcategory*</label>
-                     <select
-  className="form-select border"
-  onChange={handleSubCategoryChange1}
-  value={formValues.subCategory || ""}
-  disabled={!formValues.category || subcategories.length === 0}
->
-  <option value="">Select Subcategory</option>
-  {subcategories && subcategories.length > 0 ? (
-    subcategories
-      .filter(subCategory => subCategory.status && subCategory.status.toLowerCase() === "active")
-      .map(subCategory => (
-        <option key={subCategory._id} value={subCategory._id}>
-          {subCategory.name}
-        </option>
-      ))
-  ) : (
-    <option disabled>No subcategories available</option>
-  )}
-</select>
+                      <select
+                        className="form-select border"
+                        onChange={handleSubCategoryChange1}
+                        value={formValues.subCategory || ""}
+                        disabled={!formValues.category || subcategories.length === 0}
+                      >
+                        <option value="">Select Subcategory</option>
+                        {subcategories && subcategories.length > 0 ? (
+                          subcategories
+                            .filter(subCategory => subCategory.status && subCategory.status.toLowerCase() === "active")
+                            .map(subCategory => (
+                              <option key={subCategory._id} value={subCategory._id}>
+                                {subCategory.name}
+                              </option>
+                            ))
+                        ) : (
+                          <option disabled>No subcategories available</option>
+                        )}
+                      </select>
 
 
                     </div>
@@ -287,13 +287,13 @@ function AddProduct() {
                         onChange={handleCategoryChange2}
                       >
                         <option value="">Select Brand</option>
-                       {brand
-  .filter(b => b.status && b.status.toLowerCase() === "active")
-  .map((brand) => (
-    <option key={brand._id} value={brand._id}>
-      {brand.name}
-    </option>
-  ))}
+                        {brand
+                          .filter(b => b.status && b.status.toLowerCase() === "active")
+                          .map((brand) => (
+                            <option key={brand._id} value={brand._id}>
+                              {brand.name}
+                            </option>
+                          ))}
 
                       </select>
                     </div>
@@ -373,7 +373,7 @@ function AddProduct() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="col-lg-6 col-md-6">
                     <label className="pt-3">Refundable</label>
                     <select
@@ -381,7 +381,7 @@ function AddProduct() {
                       value={formValues.refundPolicies.returnable ? "yes" : "no"}  // Correct string conversion
                       onChange={handleRefundPolicyChange}  // Handle change for returnable
                       className="form-control border"
-                    
+
                     >
                       <option value="yes" >Yes</option>
                       <option value="no">No</option>
@@ -397,10 +397,10 @@ function AddProduct() {
                       onChange={handleRefundPolicyChange}  // Handle change for returnWindow
                       className="form-control"
                       placeholder="Enter number of days"
-                       min="0"
+                      min="0"
                     />
                   </div>
-                  
+
 
                   {/* images Upload */}
                   <div className="col-lg-6 col-md-6">

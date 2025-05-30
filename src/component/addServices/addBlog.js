@@ -6,12 +6,12 @@ function AddBlog() {
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     title: "",
-    content:"",
-    author:"",
-    tags:"",
+    content: "",
+    author: "",
+    tags: "",
     image: "",
-    views:""
-   
+    views: ""
+
   });
 
   const [previewImage, setPreviewImage] = useState("img/placeholder-img.svg"); // Placeholder image path
@@ -65,7 +65,7 @@ function AddBlog() {
           <div className="container-box-top-header justify-content-end px-4">
             <div className="sub-title-box-right">
               <Link className="site-btn-green " to="/blog">
-               <i className="fa fa-arrow-left mr-2"></i> Blog List
+                <i className="fa fa-arrow-left mr-2"></i> Blog List
               </Link>
             </div>
           </div>
@@ -101,7 +101,7 @@ function AddBlog() {
                       />
                     </div>
                   </div>
-              
+
                   <div className="col-lg-4 col-md-6">
                     <div className="input-field">
                       <label className="pt-3">Author*</label>
@@ -144,10 +144,10 @@ function AddBlog() {
                       />
                     </div>
                   </div>
-                 
-                 
-                 
-                 
+
+
+
+
                   <div className="col-lg-6 col-md-6">
                     <div className="input-field">
                       <label className="pt-3">
@@ -158,7 +158,7 @@ function AddBlog() {
                         name="image"
                         onChange={handleFileChange}
                         className="form-control"
-                         required
+                        required
                       />
                       <div className="file-preview">
                         <img id="uploadFile" src={previewImage} alt=" " />

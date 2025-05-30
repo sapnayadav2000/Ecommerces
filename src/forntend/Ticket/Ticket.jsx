@@ -7,11 +7,11 @@ import { useParams } from "react-router-dom";
 
 const Ticket = () => {
   const { orderProductId } = useParams();
-  
+
   const userId = localStorage.getItem("userId"); // Get userId from storage
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [formData, setFormData] = useState({
-    orderProductId: orderProductId, 
+    orderProductId: orderProductId,
     userId: "",
     TicketId: "",
     Issue_type: "",
@@ -51,7 +51,7 @@ const Ticket = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!validateMobile(formData.mobileno)) {
       toast.error("Please enter a valid mobile number.");
       return;
@@ -226,21 +226,21 @@ const Ticket = () => {
           </div>
 
           <div className="col-lg-6 col-md-6 mb-3">
-                    <div className="input-field">
-                      <label className="pt-3">
-                        Upload Image*<small>(Size should be 343 x 160)</small>
-                      </label>
-                      <input
-                        type="file"
-                        name="image"
-                        onChange={handleFileChange}
-                        className="form-control"
-                      />
-                      <div className="file-preview">
-                        <img id="uploadFile" src={previewImage} alt=" " />
-                      </div>
-                    </div>
-                  </div>
+            <div className="input-field">
+              <label className="pt-3">
+                Upload Image*<small>(Size should be 343 x 160)</small>
+              </label>
+              <input
+                type="file"
+                name="image"
+                onChange={handleFileChange}
+                className="form-control"
+              />
+              <div className="file-preview">
+                <img id="uploadFile" src={previewImage} alt=" " />
+              </div>
+            </div>
+          </div>
           <button type="submit" style={buttonStyle}>
             Submit Ticket
           </button>

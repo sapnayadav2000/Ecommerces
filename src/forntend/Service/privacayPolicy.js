@@ -34,7 +34,7 @@ const PrivacyPolicy = () => {
         }}
       >
         <div className="container">
-          <h1 style={{ fontWeight: "800", fontSize: "48px",  color: "#fff" }}>Privacy Policy</h1>
+          <h1 style={{ fontWeight: "800", fontSize: "48px", color: "#fff" }}>Privacy Policy</h1>
           <p style={{ fontSize: "18px", opacity: 0.9 }}>
             Empowering transparency — how we handle your data with care.
           </p>

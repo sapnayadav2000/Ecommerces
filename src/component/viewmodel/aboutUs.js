@@ -2,20 +2,19 @@ import Pagetitle from "./pagetitle";
 import useAsync from '../../Hooks/useAsync';
 import React, { useState, useEffect } from "react";
 import UserServices from '../../services/appPolicyServices';
-const AboutUs=()=>
-{
-  const { data, error, isLoading } = useAsync(UserServices. getabout);
-  const [formValues, setFormValues] = useState({ 
-    about: '', 
-  
-    data: "about" 
+const AboutUs = () => {
+  const { data, error, isLoading } = useAsync(UserServices.getabout);
+  const [formValues, setFormValues] = useState({
+    about: '',
+
+    data: "about"
   });
 
   useEffect(() => {
     if (data) {
       setFormValues({
         about: data?.data?.English || '',
-      
+
         data: "about"
       });
     }
@@ -36,35 +35,35 @@ const AboutUs=()=>
       alert('Failed to update about us . Please try again.');
     }
   };
-    return(
-        <>
-        <div className="right_col" role="main">
+  return (
+    <>
+      <div className="right_col" role="main">
         <Pagetitle></Pagetitle>
-      <div className="container-box p-4 profile-container ">
-        <div className="container-box-inner ">
-          <div className="row">
-            <form  onSubmit={handleSubmit}>
-              <div className="input-field">
-                <label ><b>English</b></label>
-                <textarea
-                  type="text"
-                  name="aboutUs"
-                  rows={3}
-                  value={formValues.about} 
-                  onChange={(e) => handleInputChange('about', e.target.value)}
-                 
-                  className="form-control"
-                />
-              </div>
-           
-              <button className="sited-btn-green">SUBMIT</button>
-            </form>
+        <div className="container-box p-4 profile-container ">
+          <div className="container-box-inner ">
+            <div className="row">
+              <form onSubmit={handleSubmit}>
+                <div className="input-field">
+                  <label ><b>English</b></label>
+                  <textarea
+                    type="text"
+                    name="aboutUs"
+                    rows={3}
+                    value={formValues.about}
+                    onChange={(e) => handleInputChange('about', e.target.value)}
+
+                    className="form-control"
+                  />
+                </div>
+
+                <button className="sited-btn-green">SUBMIT</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-        </>
-    )
+    </>
+  )
 }
 
 export default AboutUs

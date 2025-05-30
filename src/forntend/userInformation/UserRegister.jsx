@@ -10,7 +10,7 @@ const UserRegister = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [firstName, setfirstName] = useState("");
-    const [lastName, setlastName] = useState("");
+  const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [password, setPassword] = useState("");
@@ -36,19 +36,19 @@ const UserRegister = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-      const mobile = mobileNo ? mobileNo.trim() : "";
-    
-   if (!/^\d{6}$/.test(pincode)) {
-    alert("Pincode must be exactly 6 digits.");
+    const mobile = mobileNo ? mobileNo.trim() : "";
 
-    return;
-  }
+    if (!/^\d{6}$/.test(pincode)) {
+      alert("Pincode must be exactly 6 digits.");
+
+      return;
+    }
     if (!/^\d{10}$/.test(mobile)) {
-    alert("Pincode must be exactly 10 digits.");
+      alert("Pincode must be exactly 10 digits.");
 
-    return;
-  }
-  
+      return;
+    }
+
     try {
       const response = await UserServices.getRegister(userData);
       setData(response.data);
@@ -108,7 +108,7 @@ const UserRegister = () => {
                           required
                         />
                       </span>
-                       <span className="ec-register-wrap ec-register-half">
+                      <span className="ec-register-wrap ec-register-half">
                         <label>Last Name*</label>
                         <input
                           type="text"
@@ -155,8 +155,8 @@ const UserRegister = () => {
                           placeholder="Enter your pincode"
                           value={pincode}
                           onChange={(e) => setPincode(e.target.value)}
-                            maxLength={6}  // max 6 characters
-                            pattern="\d{6}"
+                          maxLength={6}  // max 6 characters
+                          pattern="\d{6}"
                           required
                         />
                       </span>

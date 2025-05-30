@@ -13,15 +13,15 @@ Modal.setAppElement("#root");
 function Reviews() {
 
   const { data, run } = useAsync(Reviewservices.getReviews); // Use the review services to fetch data
-  console.log('fetch data',data)
+  console.log('fetch data', data)
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(""); // State for filtering by status
   const [ratingFilter, setRatingFilter] = useState(""); // State for filtering by rating
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [selectedEdit, setSelectedEdit] = useState(null);
-      const [currentPage, setCurrentPage] = useState(1);
-      const productsPerPage = 10;
+  const [selectedEdit, setSelectedEdit] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
   const handleEditDetails = (review) => {
     setSelectedEdit(review);
     setIsEditModalOpen(true);
@@ -61,7 +61,7 @@ function Reviews() {
     const matchesStatus = statusFilter ? review.status.toLowerCase() === statusFilter.toLowerCase() : true;
     const matchesRating = ratingFilter ? review.rating === parseInt(ratingFilter) : true; // Check for rating filter
     return matchesSearch && matchesStatus && matchesRating;
-  })||[];
+  }) || [];
   const totalProducts = filteredReviews.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
   const startIndex = (currentPage - 1) * productsPerPage;
@@ -85,25 +85,25 @@ function Reviews() {
             </button>
           </div>
           <div className="d-flex">
-          <div className="status-filter me-3"  >
-            <select onChange={handleStatusChange} value={statusFilter} className="form-select border">
-              <option value="">Status</option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-          </div>
-          
-          {/* Rating Filter Dropdown */}
-          <div className="rating-filter"  >
-            <select onChange={handleRatingChange} value={ratingFilter} className="form-select border">
-              <option value="">Rating</option>
-              {[1, 2, 3, 4, 5].map((rating) => (
-                <option key={rating} value={rating}>
-                  {rating} Stars
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="status-filter me-3"  >
+              <select onChange={handleStatusChange} value={statusFilter} className="form-select border">
+                <option value="">Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+
+            {/* Rating Filter Dropdown */}
+            <div className="rating-filter"  >
+              <select onChange={handleRatingChange} value={ratingFilter} className="form-select border">
+                <option value="">Rating</option>
+                {[1, 2, 3, 4, 5].map((rating) => (
+                  <option key={rating} value={rating}>
+                    {rating} Stars
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
@@ -124,7 +124,7 @@ function Reviews() {
             <tbody>
               {currentProducts?.map((review, i) => (
                 <tr key={review._id}>
-                 <td>{startIndex + i + 1}</td>
+                  <td>{startIndex + i + 1}</td>
 
                   {/* Display Review Images */}
                   <td>
@@ -175,75 +175,74 @@ function Reviews() {
                     />
                   </td>
                   <td>
-                                      <button
-                                        className="view-details-btn  "
-                                        onClick={() => handleEditDetails(review)}
-                                      >
-                                        <FontAwesomeIcon icon={faEdit} />
-                                      </button>
-                                    </td>
-                                    <td>
-                                      <button
-                                        className="viewdelete"
-                                        onClick={() => handleDelete(review)}
-                                      >
-                                        <FontAwesomeIcon icon={faTrash} />
-                                      </button>
-                                    </td>
+                    <button
+                      className="view-details-btn  "
+                      onClick={() => handleEditDetails(review)}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="viewdelete"
+                      onClick={() => handleDelete(review)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-           <div className="pagination-controls d-flex justify-content-center my-3">
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-    disabled={currentPage === 1}
-  >
-    ← Prev
-  </button>
-{[...Array(totalPages)].map((_, index) => (
-  <button
-    key={index}
-    className={`btn rounded-pill px-3 mx-1 ${
-      currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
-    }`}
-    style={
-      currentPage === index + 1
-        ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
-        : {}
-    }
-    onClick={() => setCurrentPage(index + 1)}
-  >
-    {index + 1}
-  </button>
-))}
+        <div className="pagination-controls d-flex justify-content-center my-3">
+          <button
+            className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            ← Prev
+          </button>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              className={`btn rounded-pill px-3 mx-1 ${currentPage === index + 1 ? "text-black fw-bold" : "btn-light border"
+                }`}
+              style={
+                currentPage === index + 1
+                  ? { backgroundColor: "#dcf6e6", border: "1px solid #dcf6e6" } // light green
+                  : {}
+              }
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
 
-  <button
-    className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
-    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-    disabled={currentPage === totalPages}
-  >
-    Next →
-  </button>
-</div>
+          <button
+            className="btn btn-light border rounded-pill px-3 mx-1 d-flex align-items-center"
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next →
+          </button>
+        </div>
       </div>
 
       {/* Edit Review Modal (optional) */}
-       <Modal
-              isOpen={isEditModalOpen}
-              onRequestClose={closeEditModal}
-              contentLabel="User Details"
-              className="modal-content"
-              overlayClassName="modal-overlay"
-            >
-              <ReviewUpdate
-                review={selectedEdit}
-                closeModal={closeEditModal}
-                onSuccess={run}
-              />
-            </Modal>
+      <Modal
+        isOpen={isEditModalOpen}
+        onRequestClose={closeEditModal}
+        contentLabel="User Details"
+        className="modal-content"
+        overlayClassName="modal-overlay"
+      >
+        <ReviewUpdate
+          review={selectedEdit}
+          closeModal={closeEditModal}
+          onSuccess={run}
+        />
+      </Modal>
       <Modal
         isOpen={isDeleteModalOpen}
         onRequestClose={closeDeleteModal}

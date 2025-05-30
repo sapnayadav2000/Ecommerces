@@ -9,25 +9,25 @@ function BannerUpdate({ Banner, onSuccess, closeModal }) {
     image: "",
     endDate: "",
   });
-useEffect(() => {
-  if (Banner) {
-    const formatDate = (dateStr) => {
-      return new Date(dateStr).toISOString().split("T")[0];
-    };
+  useEffect(() => {
+    if (Banner) {
+      const formatDate = (dateStr) => {
+        return new Date(dateStr).toISOString().split("T")[0];
+      };
 
-    setFormValues({
-      title: Banner?.title || "",
-      message: Banner?.message || "",
-      startDate: formatDate(Banner?.startDate),
-      image: Banner?.image || "",
-      endDate: formatDate(Banner?.endDate),
-    });
+      setFormValues({
+        title: Banner?.title || "",
+        message: Banner?.message || "",
+        startDate: formatDate(Banner?.startDate),
+        image: Banner?.image || "",
+        endDate: formatDate(Banner?.endDate),
+      });
 
-    if (Banner.image) {
-      setPreviewImage(`${process.env.REACT_APP_API_BASE_URL}/${Banner.image}`);
+      if (Banner.image) {
+        setPreviewImage(`${process.env.REACT_APP_API_BASE_URL}/${Banner.image}`);
+      }
     }
-  }
-}, [Banner]);
+  }, [Banner]);
 
 
   const [previewImage, setPreviewImage] = useState("img/placeholder-img.png"); // Placeholder image path
@@ -141,7 +141,7 @@ useEffect(() => {
                       </div>
                       <div className="col-sm-5">
                         <div className="input-field">
-                          <label  className="pt-3" for="">Select a StartDate</label>
+                          <label className="pt-3" for="">Select a StartDate</label>
                           <input
                             type="date"
                             class="form-control"
@@ -177,7 +177,7 @@ useEffect(() => {
                             name="image"
                             className="form-control"
                             onChange={handleFileChange}
-                           
+
                           />
 
                           <div className="file-preview text-center ">

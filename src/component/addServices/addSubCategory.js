@@ -80,116 +80,116 @@ function AddSubCategory() {
   };
 
   return (
-   <div className="right_col" role="main">
-  <Pagetitle />
+    <div className="right_col" role="main">
+      <Pagetitle />
 
-  <div className="container-box">
-    <div className="container-box-top-header justify-content-end px-4">
-      <div className="sub-title-box-right">
-        <Link className="site-btn-green" to="/sub-category" style={{ width: '200px' }}>
-          <i className="fa fa-arrow-left mr-2"></i>Sub Category List
-        </Link>
-      </div>
-    </div>
+      <div className="container-box">
+        <div className="container-box-top-header justify-content-end px-4">
+          <div className="sub-title-box-right">
+            <Link className="site-btn-green" to="/sub-category" style={{ width: '200px' }}>
+              <i className="fa fa-arrow-left mr-2"></i>Sub Category List
+            </Link>
+          </div>
+        </div>
 
-    <div className="container-box-inner px-4">
-      <div className="page-details">
-        <form onSubmit={handleSubmit}>
-          <div className="row g-4">
+        <div className="container-box-inner px-4">
+          <div className="page-details">
+            <form onSubmit={handleSubmit}>
+              <div className="row g-4">
 
-            {/* Select Category */}
-            <div className="col-md-6">
-              <div className="form-group">
-                <label className="form-label">Category *</label>
-                <select
-                  className="form-control form-select border"
-                  name="Category"
-                  onChange={handleCategoryChange}
-                  required
-                >
-                  <option value="">Select Category</option>
-                  {categories
-                    .filter((category) => category.status === "Active")
-                    .map((category) => (
-                      <option key={category._id} value={category._id}>
-                        {category.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-            </div>
+                {/* Select Category */}
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label className="form-label">Category *</label>
+                    <select
+                      className="form-control form-select border"
+                      name="Category"
+                      onChange={handleCategoryChange}
+                      required
+                    >
+                      <option value="">Select Category</option>
+                      {categories
+                        .filter((category) => category.status === "Active")
+                        .map((category) => (
+                          <option key={category._id} value={category._id}>
+                            {category.name}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                </div>
 
-            {/* Subcategory Name */}
-            <div className="col-md-6">
-              <div className="form-group">
-                <label className="form-label">Name *</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formValues.name}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Enter Subcategory Name"
-                  className="form-control"
-                />
-              </div>
-            </div>
-
-            {/* Image Upload */}
-            <div className="col-md-6">
-              <div className="form-group">
-                <label className="form-label">
-                  Upload Image <small>(Size should be 343 x 160)</small> *
-                </label>
-                <input
-                  type="file"
-                  name="image"
-                  onChange={handleFileChange}
-                  className="form-control"
-                  required
-                />
-                {previewImage && (
-                  <div className="mt-2">
-                    <img
-                      src={previewImage}
-                      alt="Preview"
-                      className="img-thumbnail"
-                      style={{ maxWidth: "200px", height: "auto" }}
+                {/* Subcategory Name */}
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label className="form-label">Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formValues.name}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="Enter Subcategory Name"
+                      className="form-control"
                     />
                   </div>
-                )}
+                </div>
+
+                {/* Image Upload */}
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label className="form-label">
+                      Upload Image <small>(Size should be 343 x 160)</small> *
+                    </label>
+                    <input
+                      type="file"
+                      name="image"
+                      onChange={handleFileChange}
+                      className="form-control"
+                      required
+                    />
+                    {previewImage && (
+                      <div className="mt-2">
+                        <img
+                          src={previewImage}
+                          alt="Preview"
+                          className="img-thumbnail"
+                          style={{ maxWidth: "200px", height: "auto" }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label className="form-label">Description *</label>
+                    <textarea
+                      name="description"
+                      value={formValues.description}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="Enter Description"
+                      className="form-control"
+                      rows={4}
+                    />
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <div className="col-12">
+                  <button type="submit" className="sited-btn">
+                    SUBMIT
+                  </button>
+                </div>
+
               </div>
-            </div>
-
-            {/* Description */}
-            <div className="col-md-12">
-              <div className="form-group">
-                <label className="form-label">Description *</label>
-                <textarea
-                  name="description"
-                  value={formValues.description}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Enter Description"
-                  className="form-control"
-                  rows={4}
-                />
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div className="col-12">
-              <button type="submit" className="sited-btn">
-                SUBMIT
-              </button>
-            </div>
-
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
   );
 }

@@ -253,7 +253,7 @@ const AddToCart = () => {
                                         >
                                           <div
                                             className="modal-content p-4 bg-white rounded shadow"
-                                            style={{ width: "450px", textAlign: 'center',height:'150px' }} // Smaller modal width
+                                            style={{ width: "450px", textAlign: 'center', height: '150px' }} // Smaller modal width
                                           >
                                             <h6 className="mb-2">Are you sure?</h6>
                                             <p style={{ fontSize: "14px" }}>Do you want to remove this item from your cart?</p>
@@ -301,7 +301,7 @@ const AddToCart = () => {
                             <a href="/">Continue Shopping</a>
                             <button
                               type="submit"
-                              className="btn fw-bold " style={{ background: 'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))',color:'black' }}
+                              className="btn fw-bold " style={{ background: 'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))', color: 'black' }}
                               onClick={(e) => {
                                 e.preventDefault();
                                 handleMove();

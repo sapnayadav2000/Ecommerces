@@ -15,8 +15,8 @@ import { useCart } from "../../Store/addtoCart";
 const Products = () => {
   const navigate = useNavigate();
   const { currency } = useCurrency();
-   const { fetchCartCount } = useCart();
-      const {
+  const { fetchCartCount } = useCart();
+  const {
     wishlistItems,
     setWishlistItems,
     fetchWishlistCount,
@@ -57,27 +57,27 @@ const Products = () => {
     }
   }, [selectedProduct]);
   const sliderSettings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow:
-    selectedProduct && selectedProduct.images?.length >= 4
-      ? 4
-      : selectedProduct?.images?.length || 1,
-  slidesToScroll: 1,
-  beforeChange: (oldIndex, newIndex) => {
-    setActiveImageIndex((prev) => ({
-      ...prev,
-      [selectedProduct._id]: newIndex,
-    }));
-  },
-};
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow:
+      selectedProduct && selectedProduct.images?.length >= 4
+        ? 4
+        : selectedProduct?.images?.length || 1,
+    slidesToScroll: 1,
+    beforeChange: (oldIndex, newIndex) => {
+      setActiveImageIndex((prev) => ({
+        ...prev,
+        [selectedProduct._id]: newIndex,
+      }));
+    },
+  };
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await Productservices.getproduct();
-          const activeProducts = response.data.filter(product => product.status === 'Active');
-      setProducts(activeProducts);
+        const activeProducts = response.data.filter(product => product.status === 'Active');
+        setProducts(activeProducts);
       } catch (error) {
         console.error("Failed to fetch products", error);
       }
@@ -163,7 +163,7 @@ const Products = () => {
   );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-     const nextPage = () => {
+  const nextPage = () => {
     if (currentPage < Math.ceil(products.length / productsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
@@ -203,17 +203,17 @@ const Products = () => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
-  
+
     // Generate or get existing sessionId for guest user
     if (!localStorage.getItem("sessionId")) {
       localStorage.setItem("sessionId", crypto.randomUUID());
     }
     const sessionId = localStorage.getItem("sessionId");
-  
+
     if (!selectedSize) return toast.error("Please select a size.");
-  
+
     const selectedPrice = selectedPrices[product._id] || product.price;
-  
+
     const body = {
       userId: userId || null, // send null if not logged in
       sessionId,
@@ -222,16 +222,16 @@ const Products = () => {
       selectedSize,
       price: selectedPrice,
     };
-  
+
     try {
       const response = await AddtoCartServices.addToCart(body, token);
-  
+
       if (response?.status === 409) {
         toast.error("This product is already in your cart.");
       } else {
         toast.success("Product added to cart successfully.");
       }
-  fetchCartCount();
+      fetchCartCount();
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
@@ -239,7 +239,7 @@ const Products = () => {
     }
   };
 
- const handleAddToWishlist = async (product) => {
+  const handleAddToWishlist = async (product) => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
@@ -318,7 +318,7 @@ const Products = () => {
                 padding: "15px",
                 marginTop: "10px",
                 backgroundColor: "#fff",
-                  border:'1px solid #eeeeee' 
+                border: '1px solid #eeeeee'
               }}
             >
               <h6 style={{ fontWeight: "bold", marginBottom: "10px" }}>
@@ -394,7 +394,7 @@ const Products = () => {
 
               <input
                 type="range"
-                style={{ backgroundColor: "#f7f7f7",}}
+                style={{ backgroundColor: "#f7f7f7", }}
                 className="form-range"
                 min="100"
                 max="12099"
@@ -434,8 +434,8 @@ const Products = () => {
                 style={{ backgroundColor: "#FF0B55", width: "40px" }}
               >
                 <a href="/">
-  <img src="/img/dashboard.svg" alt="Dashboard" />
-</a>
+                  <img src="/img/dashboard.svg" alt="Dashboard" />
+                </a>
               </button>
 
               <div
@@ -495,7 +495,7 @@ const Products = () => {
                                     className="main-image"
                                     src={`${process.env.REACT_APP_API_BASE_URL}/${product.images[0]}`}
                                     alt={product.name}
-                                      style={{ height: "303px", width:'100%', objectFit: "cover" }}
+                                    style={{ height: "303px", width: '100%', objectFit: "cover" }}
                                   />
                                 </Link>
                                 <div className="ec-pro-actions">
@@ -567,11 +567,11 @@ const Products = () => {
                             {product.productkey?.map((item) => (
                               <button
                                 key={item.Size}
-                                className="  m-2"  style={{
-      border: '1px solid',
-      borderColor:
-        selectedSizes[product._id] === item.Size ? 'pink' : 'black',
-    }}
+                                className="  m-2" style={{
+                                  border: '1px solid',
+                                  borderColor:
+                                    selectedSizes[product._id] === item.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
+                                }}
                                 onClick={() =>
                                   onSizeClick(product._id, item.Size)
                                 }
@@ -591,187 +591,184 @@ const Products = () => {
 
                   {/* Pagination */}
                   <div className="custom-pagination-container mt-4">
-  <div className="custom-pagination-info">
-    Showing {indexOfFirstProduct + 1}-
-    {Math.min(indexOfLastProduct, products.length)} of {products.length} item(s)
-  </div>
-  <ul className="custom-pagination">
-    <li>
-      <button
-        className="pagination-button"
-        onClick={prevPage}
-        disabled={currentPage === 1}
-      >
-        ⬅ Prev
-      </button>
-    </li>
+                    <div className="custom-pagination-info">
+                      Showing {indexOfFirstProduct + 1}-
+                      {Math.min(indexOfLastProduct, products.length)} of {products.length} item(s)
+                    </div>
+                    <ul className="custom-pagination">
+                      <li>
+                        <button
+                          className="pagination-button"
+                          onClick={prevPage}
+                          disabled={currentPage === 1}
+                        >
+                          ⬅ Prev
+                        </button>
+                      </li>
 
-    {Array.from({
-      length: Math.min(5, Math.ceil(products.length / productsPerPage)),
-    }).map((_, index) => (
-      <li key={index}>
-        <button
-          className={`pagination-number ${
-            currentPage === index + 1 ? "active" : ""
-          }`}
-          onClick={() => paginate(index + 1)}
-        >
-          {index + 1}
-        </button>
-      </li>
-    ))}
+                      {Array.from({
+                        length: Math.min(5, Math.ceil(products.length / productsPerPage)),
+                      }).map((_, index) => (
+                        <li key={index}>
+                          <button
+                            className={`pagination-number ${currentPage === index + 1 ? "active" : ""
+                              }`}
+                            onClick={() => paginate(index + 1)}
+                          >
+                            {index + 1}
+                          </button>
+                        </li>
+                      ))}
 
-    {Math.ceil(products.length / productsPerPage) > 5 && (
-      <li>
-        <button className="pagination-button" onClick={nextPage}>
-          Next ➡
-        </button>
-      </li>
-    )}
+                      {Math.ceil(products.length / productsPerPage) > 5 && (
+                        <li>
+                          <button className="pagination-button" onClick={nextPage}>
+                            Next ➡
+                          </button>
+                        </li>
+                      )}
 
-    <li>
-      <button
-        className="pagination-button"
-        onClick={nextPage}
-        disabled={currentPage === Math.ceil(products.length / productsPerPage)}
-      >
-        Next ➡
-      </button>
-    </li>
-  </ul>
-</div>
+                      <li>
+                        <button
+                          className="pagination-button"
+                          onClick={nextPage}
+                          disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+                        >
+                          Next ➡
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
 
                 </div>
               </div>
 
               {/* Modal Popup */}
               <Modal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        centered
-        size="lg"
-        backdropClassName="modal-backdrop show"
-      >
-        <Modal.Header
-          closeButton
-          style={{ backgroundColor: "white" }}
-        ></Modal.Header>
-        <Modal.Body style={{ backgroundColor: "white" }}>
-          <div className="row">
-            {/* Left Side - Product Images */}
-            <div className="col-md-5"  style={{ height: '460px' }}>
-              {/* Main Image */}
-              <img
-                src={`${process.env.REACT_APP_API_BASE_URL}/${
-                  selectedProduct?.images?.[
-                    activeImageIndex[selectedProduct?._id]
-                  ]
-                }`} // Use active index for this product
-                alt={selectedProduct?.name}
-                className="w-100 mb-2"
-                style={{ borderRadius: "10px", height: "79%", width: "100%" }} // Fixed width typo
-              />
-
-              {/* Thumbnails */}
-             <Slider {...sliderSettings}>
-  {selectedProduct?.images?.map((img, index) => (
-    <div key={index} className="image-wrapper">
-      <img
-        src={`${process.env.REACT_APP_API_BASE_URL}/${img}`}
-        alt={`Thumbnail ${index + 1}`}
-        className={`img-thumbnail mx-1 ${
-          activeImageIndex[selectedProduct?._id] === index
-            ? "border border-dark"
-            : ""
-        }`}
-        style={{
-          width: "70px",
-          height: "90px",
-          cursor: "pointer",
-        }}
-        onClick={() =>
-          handleImageClick(selectedProduct?._id, index)
-        }
-      />
-    </div>
-  ))}
-</Slider>
-
-            </div>
-
-            {/* Right Side - Product Details */}
-            <div className="col-md-4 mt-4">
-              <Link to={`/product-details/${selectedProduct?._id}`}>
-                <h5 className="text-danger fw-bold" style={{fontSize:'30px'}}>{selectedProduct?.name?.toUpperCase()}</h5>
-              </Link>
-              <h5 className="mt-2">{selectedProduct?.Sortdescription}</h5>
-
-              <div className="d-flex align-items-center mt-3">
-                <span className="text-muted text-decoration-line-through me-2">
-                  {currency.symbol}
-                  {selectedProduct?.Originalprice}
-                </span>
-                <span className="fs-4 fw-bold text-dark">
-                  {currency.symbol}
-                  {selectedPrices[selectedProduct?._id] ||
-                    selectedProduct?.price}
-                </span>
-              </div>
-
-              {/* Size Selection */}
-              <div className="mt-3">
-                <h6>Select Size:</h6>
-                {selectedProduct?.productkey?.map((size) => (
-                  <button
-                    key={size.Size}
-                    className=" m-1 "  style={{
-      border: '2px solid',
-      borderColor:
-        selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
-    }}
-                    onClick={() => onSizeClick(selectedProduct._id, size.Size)}
-                  >
-                    {size.Size}
-                  </button>
-                ))}
-              </div>
-
-              {/* Quantity Selection */}
-              <div
-                className="mt-3 d-flex align-items-center"
-                style={{ border: "1px solid black",width: '62%' }}
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                centered
+                size="lg"
+                backdropClassName="modal-backdrop show"
               >
-                <button
-                  className="btn btn-outline-dark"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                >
-                  -
-                </button>
-                <span className="mx-4">{quantity}</span>
-                <button
-                  className="btn btn-outline-dark"
-                  onClick={() => setQuantity(quantity + 1)}
-                >
-                  +
-                </button>
-              </div>
+                <Modal.Header
+                  closeButton
+                  style={{ backgroundColor: "white" }}
+                ></Modal.Header>
+                <Modal.Body style={{ backgroundColor: "white" }}>
+                  <div className="row">
+                    {/* Left Side - Product Images */}
+                    <div className="col-md-5" style={{ height: '460px' }}>
+                      {/* Main Image */}
+                      <img
+                        src={`${process.env.REACT_APP_API_BASE_URL}/${selectedProduct?.images?.[
+                          activeImageIndex[selectedProduct?._id]
+                        ]
+                          }`} // Use active index for this product
+                        alt={selectedProduct?.name}
+                        className="w-100 mb-2"
+                        style={{ borderRadius: "10px", height: "79%", width: "100%" }} // Fixed width typo
+                      />
 
-              {/* Add to Cart Button */}
-              <button
-                className="btn btn-dark mt-4 w-95"
-                onClick={() =>
-                  handleAddToCart(
-                    selectedProduct,
-                    selectedSizes[selectedProduct?._id]
-                  )
-                }
-              >
-                + Add to Cart
-              </button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
+                      {/* Thumbnails */}
+                      <Slider {...sliderSettings}>
+                        {selectedProduct?.images?.map((img, index) => (
+                          <div key={index} className="image-wrapper">
+                            <img
+                              src={`${process.env.REACT_APP_API_BASE_URL}/${img}`}
+                              alt={`Thumbnail ${index + 1}`}
+                              className={`img-thumbnail mx-1 ${activeImageIndex[selectedProduct?._id] === index
+                                ? "border border-dark"
+                                : ""
+                                }`}
+                              style={{
+                                width: "70px",
+                                height: "90px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() =>
+                                handleImageClick(selectedProduct?._id, index)
+                              }
+                            />
+                          </div>
+                        ))}
+                      </Slider>
+
+                    </div>
+
+                    {/* Right Side - Product Details */}
+                    <div className="col-md-4 mt-4">
+                      <Link to={`/product-details/${selectedProduct?._id}`}>
+                        <h5 className="text-danger fw-bold" style={{ fontSize: '30px' }}>{selectedProduct?.name?.toUpperCase()}</h5>
+                      </Link>
+                      <h5 className="mt-2">{selectedProduct?.Sortdescription}</h5>
+
+                      <div className="d-flex align-items-center mt-3">
+                        <span className="text-muted text-decoration-line-through me-2">
+                          {currency.symbol}
+                          {selectedProduct?.Originalprice}
+                        </span>
+                        <span className="fs-4 fw-bold text-dark">
+                          {currency.symbol}
+                          {selectedPrices[selectedProduct?._id] ||
+                            selectedProduct?.price}
+                        </span>
+                      </div>
+
+                      {/* Size Selection */}
+                      <div className="mt-3">
+                        <h6>Select Size:</h6>
+                        {selectedProduct?.productkey?.map((size) => (
+                          <button
+                            key={size.Size}
+                            className=" m-1 " style={{
+                              border: '2px solid',
+                              borderColor:
+                                selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
+                            }}
+                            onClick={() => onSizeClick(selectedProduct._id, size.Size)}
+                          >
+                            {size.Size}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Quantity Selection */}
+                      <div
+                        className="mt-3 d-flex align-items-center"
+                        style={{ border: "1px solid black", width: '62%' }}
+                      >
+                        <button
+                          className="btn btn-outline-dark"
+                          onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        >
+                          -
+                        </button>
+                        <span className="mx-4">{quantity}</span>
+                        <button
+                          className="btn btn-outline-dark"
+                          onClick={() => setQuantity(quantity + 1)}
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      {/* Add to Cart Button */}
+                      <button
+                        className="btn btn-dark mt-4 w-95"
+                        onClick={() =>
+                          handleAddToCart(
+                            selectedProduct,
+                            selectedSizes[selectedProduct?._id]
+                          )
+                        }
+                      >
+                        + Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
             </section>
           </div>
         </div>

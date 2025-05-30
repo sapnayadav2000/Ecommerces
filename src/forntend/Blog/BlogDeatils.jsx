@@ -68,7 +68,7 @@ export default function BlogDetails() {
               <img
                 className="img-fluid mb-3 mb-md-0 rounded"
                 src={`${process.env.REACT_APP_API_BASE_URL}/${blog.image}`}
-                alt={blog.title} 
+                alt={blog.title}
                 onError={(e) =>
                   (e.target.src = "/assets/images/default-blog.jpg")
                 }

@@ -12,24 +12,24 @@ const PasswordToggle = ({ password, setPassword }) => {
 
   return (
     <div className="form-group">
-    <label htmlFor="password" style={{ marginBottom: '10px' }}>
-      <i className="fa fa-lock" />
-    </label>
-    <input
-      type={passwordVisible ? 'text' : 'password'}
-      className=""
-      id="password"
-      placeholder="Enter Password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-    />
-    <span
-      id="togglePassword"
-      className={`fa ${passwordVisible ? 'fa-eye-slash' : 'fa-eye'}`}
-      onClick={togglePasswordVisibility}
-      style={{ cursor: 'pointer' }}
-    />
-  </div>
+      <label htmlFor="password" style={{ marginBottom: '10px' }}>
+        <i className="fa fa-lock" />
+      </label>
+      <input
+        type={passwordVisible ? 'text' : 'password'}
+        className=""
+        id="password"
+        placeholder="Enter Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <span
+        id="togglePassword"
+        className={`fa ${passwordVisible ? 'fa-eye-slash' : 'fa-eye'}`}
+        onClick={togglePasswordVisibility}
+        style={{ cursor: 'pointer' }}
+      />
+    </div>
   );
 };
 
@@ -49,19 +49,19 @@ function Login({ setIsAuthenticated, setRole }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-  
+
     try {
       const data = await AdminServices.login({ mobileOrEmail, password });
       if (data?.status === true && data?.token) {
         localStorage.setItem("authToken", data?.token);
-        
+
         // Decode token to get userType (Admin/User)
         const decodedToken = JSON.parse(atob(data.token.split(".")[1]));
         localStorage.setItem("userRole", decodedToken.userType); // ← fixed line
-      
+
         localStorage.setItem("name", data?.data?.name);
         localStorage.setItem("image", data?.data?.image);
-      
+
         // Store permissions
         const permissions = {};
         data?.data?.permissions?.forEach((item) => {
@@ -70,13 +70,13 @@ function Login({ setIsAuthenticated, setRole }) {
           }
         });
         localStorage.setItem("userPermissions", JSON.stringify(permissions));
-      
+
         setIsAuthenticated(true);
         setRole(decodedToken.userType);
-      
+
         // Redirect to dashboard
         setTimeout(() => navigate("/dashboard"), window.location.reload(), 0);
-      }else {
+      } else {
         setError("*Invalid Credentials. Please check your email and password.");
       }
     } catch (err) {
@@ -123,19 +123,19 @@ function Login({ setIsAuthenticated, setRole }) {
               <label className="form-check-label " htmlFor="flexCheckChecked">
                 Remember Password
               </label>
-               <h6 style={{ color: 'red' }}>{error}</h6>
+              <h6 style={{ color: 'red' }}>{error}</h6>
             </div>
-           
+
             <div className="input-field mb-3">
               <input
                 type="submit"
                 className="login-btn"
                 id="login-btn"
                 value="Login"
-              
+
               />
             </div>
-            <p className="company-details font-sm" style={{color:'white', fontSize: '12px'}}>
+            <p className="company-details font-sm" style={{ color: 'white', fontSize: '12px' }}>
               Software Design & Developed By :{' '}
               <a
                 href="https://truevalueinfosoft.com/"

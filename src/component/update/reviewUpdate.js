@@ -55,7 +55,7 @@ function ReviewUpdate({ review, onSuccess, closeModal }) {
         return;
       }
 
-      await ReviewService.deleteImage(imagePath,reviewId); // Backend must support this
+      await ReviewService.deleteImage(imagePath, reviewId); // Backend must support this
       const updatedImages = formValues.images.filter((_, i) => i !== index);
       const updatedPreviews = previewImages.filter((_, i) => i !== index);
 

@@ -14,12 +14,12 @@ import { useWishlist } from "../../Store/whislist";
 import { useCart } from "../../Store/addtoCart";
 const SilkSaree = () => {
   const { currency } = useCurrency();
-     const {
+  const {
     wishlistItems,
     setWishlistItems,
     fetchWishlistCount,
   } = useWishlist();
-       const { fetchCartCount } = useCart();
+  const { fetchCartCount } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // For navigation on button click
@@ -55,14 +55,14 @@ const SilkSaree = () => {
         const res = await productServices.getproduct();
         const allProducts = res.data;
         // console.log('All Products', allProducts);
-  
+
         const SareeProducts = allProducts.filter((product) => {
           return product.subCategoryname?.some(
             (name) => name.toLowerCase() === "silk saree"
           );
-          
+
         });
-  
+
         // console.log('Silk Saree Products', SareeProducts);
         setProducts(SareeProducts);
       } catch (err) {
@@ -71,12 +71,12 @@ const SilkSaree = () => {
         setLoading(false);
       }
     };
-  
+
     fetchSareeProducts();
   }, []);
-  
-  
-  
+
+
+
   const onSizeClick = (productId, size) => {
     const product = products.find((p) => p._id === productId);
     if (!product) return;
@@ -99,7 +99,7 @@ const SilkSaree = () => {
       [productId]: size,
     }));
   };
- const handleAddToWishlist = async (product) => {
+  const handleAddToWishlist = async (product) => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
@@ -132,17 +132,17 @@ const SilkSaree = () => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
-  
+
     // Generate or get existing sessionId for guest user
     if (!localStorage.getItem("sessionId")) {
       localStorage.setItem("sessionId", crypto.randomUUID());
     }
     const sessionId = localStorage.getItem("sessionId");
-  
+
     if (!selectedSize) return toast.error("Please select a size.");
-  
+
     const selectedPrice = selectedPrices[product._id] || product.price;
-  
+
     const body = {
       userId: userId || null, // send null if not logged in
       sessionId,
@@ -151,16 +151,16 @@ const SilkSaree = () => {
       selectedSize,
       price: selectedPrice,
     };
-  
+
     try {
       const response = await AddtoCartServices.addToCart(body, token);
-  
+
       if (response?.status === 409) {
         toast.error("This product is already in your cart.");
       } else {
         toast.success("Product added to cart successfully.");
       }
-  fetchCartCount();
+      fetchCartCount();
       console.log("Added to cart:", response);
     } catch (error) {
       console.error("Failed to add to cart", error);
@@ -173,21 +173,21 @@ const SilkSaree = () => {
     setShowModal(true);
   };
   const sliderSettings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow:
-    selectedProduct && selectedProduct.images?.length >= 4
-      ? 4
-      : selectedProduct?.images?.length || 1,
-  slidesToScroll: 1,
-  beforeChange: (oldIndex, newIndex) => {
-    setActiveImageIndex((prev) => ({
-      ...prev,
-      [selectedProduct._id]: newIndex,
-    }));
-  },
-};
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow:
+      selectedProduct && selectedProduct.images?.length >= 4
+        ? 4
+        : selectedProduct?.images?.length || 1,
+    slidesToScroll: 1,
+    beforeChange: (oldIndex, newIndex) => {
+      setActiveImageIndex((prev) => ({
+        ...prev,
+        [selectedProduct._id]: newIndex,
+      }));
+    },
+  };
   return (
     <>
       <section className="ec-banner section py-3">
@@ -210,9 +210,8 @@ const SilkSaree = () => {
                     <div className="ec-pro-image">
                       <img
                         className="main-image"
-                        src={`${process.env.REACT_APP_API_BASE_URL}/${
-                          product.images?.[0] || "default.jpg"
-                        }`}
+                        src={`${process.env.REACT_APP_API_BASE_URL}/${product.images?.[0] || "default.jpg"
+                          }`}
                         alt={product.name}
                         style={{
                           height: "450px",
@@ -284,11 +283,11 @@ const SilkSaree = () => {
                       {product.productkey?.map((item) => (
                         <button
                           key={item.Size}
-                          className="m-1"  style={{
-      border: '1px solid',
-      borderColor:
-        selectedSizes[product._id] === item.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
-    }}
+                          className="m-1" style={{
+                            border: '1px solid',
+                            borderColor:
+                              selectedSizes[product._id] === item.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
+                          }}
                           onClick={() => onSizeClick(product._id, item.Size)}
                         >
                           {item.Size}
@@ -305,15 +304,15 @@ const SilkSaree = () => {
 
           {/* Explore All Button */}
           {!loading && products.length > 4 && (
-  <div className="text-center mt-4">
-    <button
-      className="btn fw-bold" 
-      onClick={() => navigate("/saree")}  style={{background:'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))',color:'black'}}
-    >
-      Explore All
-    </button>
-  </div>
-)}
+            <div className="text-center mt-4">
+              <button
+                className="btn fw-bold"
+                onClick={() => navigate("/saree")} style={{ background: 'linear-gradient(to right,rgb(233, 115, 181),rgb(241, 82, 135))', color: 'black' }}
+              >
+                Explore All
+              </button>
+            </div>
+          )}
         </div>
       </section>
       <Modal
@@ -330,13 +329,12 @@ const SilkSaree = () => {
         <Modal.Body style={{ backgroundColor: "white" }}>
           <div className="row">
             {/* Left Side - Product Images */}
-            <div className="col-md-5"  style={{ height: '460px' }}>
+            <div className="col-md-5" style={{ height: '460px' }}>
               <img
-                src={`${process.env.REACT_APP_API_BASE_URL}/${
-                  selectedProduct?.images?.[
-                    activeImageIndex[selectedProduct?._id]
+                src={`${process.env.REACT_APP_API_BASE_URL}/${selectedProduct?.images?.[
+                  activeImageIndex[selectedProduct?._id]
                   ]
-                }`} // Use active index for this product
+                  }`} // Use active index for this product
                 alt={selectedProduct?.name}
                 className="w-100 mb-2"
                 style={{ borderRadius: "10px", height: "80%", width: "100%" }} // Fixed width typo
@@ -350,11 +348,10 @@ const SilkSaree = () => {
                       key={index}
                       src={`${process.env.REACT_APP_API_BASE_URL}/${img}`} // Actual image URL
                       alt={`Thumbnail ${index + 1}`}
-                      className={`img-thumbnail mx-1 ${
-                        activeImageIndex[selectedProduct?._id] === index
+                      className={`img-thumbnail mx-1 ${activeImageIndex[selectedProduct?._id] === index
                           ? "border border-dark"
                           : ""
-                      }`} // Add border if active
+                        }`} // Add border if active
                       style={{
                         width: "70px",
                         height: "90px",
@@ -372,7 +369,7 @@ const SilkSaree = () => {
             {/* Right Side - Product Details */}
             <div className="col-md-4 mt-4">
               <Link to={`/product-details/${selectedProduct?._id}`}>
-                <h5 className="text-danger fw-bold" style={{fontSize:'30px'}}>{selectedProduct?.name?.toUpperCase()}</h5>
+                <h5 className="text-danger fw-bold" style={{ fontSize: '30px' }}>{selectedProduct?.name?.toUpperCase()}</h5>
               </Link>
               <h5 className="mt-2">{selectedProduct?.Sortdescription}</h5>
               <div className="d-flex align-items-center mt-3">
@@ -393,11 +390,11 @@ const SilkSaree = () => {
                 {selectedProduct?.productkey?.map((size) => (
                   <button
                     key={size.Size}
-                    className=" m-1"  style={{
-      border: '2px solid',
-      borderColor:
-        selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
-    }}
+                    className=" m-1" style={{
+                      border: '2px solid',
+                      borderColor:
+                        selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
+                    }}
                     onClick={() => onSizeClick(selectedProduct._id, size.Size)}
                   >
                     {size.Size}
@@ -408,7 +405,7 @@ const SilkSaree = () => {
               {/* Quantity Selection */}
               <div
                 className="mt-3 d-flex align-items-center"
-                style={{ border: "1px solid black",width: '62%' }}
+                style={{ border: "1px solid black", width: '62%' }}
               >
                 <button
                   className="btn btn-outline-dark "

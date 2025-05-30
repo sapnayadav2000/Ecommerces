@@ -48,13 +48,13 @@ const HelpTogal = ({ help, page, onSuccess }) => {
         status: newStatus,
       });
       onSuccess();
-    } 
-     else if (page === "blog") {
+    }
+    else if (page === "blog") {
       const res = await BlogServices.updateblog(help._id, {
         status: newStatus,
       });
       onSuccess();
-    }else if (page === "product") {
+    } else if (page === "product") {
       const res = await Productservices.updateproduct(help._id, {
         status: newStatus,
       });
@@ -78,7 +78,7 @@ const HelpTogal = ({ help, page, onSuccess }) => {
       });
       onSuccess();
     }
-    
+
     else if (page === "contact") {
       const res = await Conatctservices.updatedContact(help._id, {
         status: newStatus,
@@ -91,7 +91,7 @@ const HelpTogal = ({ help, page, onSuccess }) => {
       });
       onSuccess();
     }
-    
+
     else if (page === "returns") {
       const res = await ReturnServices.updateReturn(help._id, {
         status: newStatus,
@@ -104,7 +104,7 @@ const HelpTogal = ({ help, page, onSuccess }) => {
   return (
     <>
       <div className="check-box">
-        <input type="checkbox" checked={isChecked}  onChange={handleToggle} />
+        <input type="checkbox" checked={isChecked} onChange={handleToggle} />
         <div class="handle"></div>
       </div>
     </>

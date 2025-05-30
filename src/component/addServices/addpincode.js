@@ -13,43 +13,43 @@ function AddPincode() {
     status: "Active",
   });
 
-const handleInputChange = (event) => {
-  const { name, value } = event.target;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
 
-  if (name === "pincode") {
-    // Allow only digits, max length 6
-    if (/^\d{0,6}$/.test(value)) {
+    if (name === "pincode") {
+      // Allow only digits, max length 6
+      if (/^\d{0,6}$/.test(value)) {
+        setFormValues({
+          ...formValues,
+          [name]: value,
+        });
+      }
+    } else {
       setFormValues({
         ...formValues,
         [name]: value,
       });
     }
-  } else {
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  }
-};
+  };
 
 
   const handleSubmit = async (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  if (formValues.pincode.length !== 6) {
-    alert("Pincode must be exactly 6 digits");
-    return;
-  }
+    if (formValues.pincode.length !== 6) {
+      alert("Pincode must be exactly 6 digits");
+      return;
+    }
 
-  try {
-    await Pincodeservices.createPincode(formValues);
-    alert("Pincode created successfully");
-    navigate("/pincode");
-  } catch (error) {
-    console.error("Failed to create Pincode", error);
-    alert("Failed to create Pincode");
-  }
-};
+    try {
+      await Pincodeservices.createPincode(formValues);
+      alert("Pincode created successfully");
+      navigate("/pincode");
+    } catch (error) {
+      console.error("Failed to create Pincode", error);
+      alert("Failed to create Pincode");
+    }
+  };
 
 
   return (
@@ -78,7 +78,7 @@ const handleInputChange = (event) => {
                       required
                       placeholder="Enter pincode"
                       className="form-control"
-                        maxLength={6}  
+                      maxLength={6}
                       pattern="\d{6}"
                     />
                   </div>

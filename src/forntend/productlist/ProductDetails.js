@@ -264,30 +264,30 @@ const ProductDetails = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = relatedProducts.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(relatedProducts.length / itemsPerPage);
-const sliderSettings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  beforeChange: (oldIndex, newIndex) => {
-    setCurrentSlide(newIndex);
-    handleImageClick(selectedProduct?._id, newIndex); // sync main image
-  },
-  responsive: [
-    { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-    { breakpoint: 600, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-  ],
-};
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    beforeChange: (oldIndex, newIndex) => {
+      setCurrentSlide(newIndex);
+      handleImageClick(selectedProduct?._id, newIndex); // sync main image
+    },
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+      { breakpoint: 600, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+    ],
+  };
 
 
-const handleImageClick = (productId, index) => {
-  setModalImageIndex((prev) => ({
-    ...prev,
-    [productId]: index,
-  }));
-  setCurrentSlide(index);
-};
+  const handleImageClick = (productId, index) => {
+    setModalImageIndex((prev) => ({
+      ...prev,
+      [productId]: index,
+    }));
+    setCurrentSlide(index);
+  };
 
 
 
@@ -317,16 +317,16 @@ const handleImageClick = (productId, index) => {
               <div className="col-lg-5">
                 <div className="position-relative" style={{ height: '700px', width: '100%' }}>
                   <img
-    src={product.images[activeImageIndex]}
-    alt={product.name}
-    className="img-fluid main-image rounded-4 "
-    onError={handleImageError}
-    style={{
-      height: '100%',
-      width: '100%',
-      objectFit: 'contain',
-    }}
-  />
+                    src={product.images[activeImageIndex]}
+                    alt={product.name}
+                    className="img-fluid main-image rounded-4 "
+                    onError={handleImageError}
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
                   <div className="d-flex mt-3 overflow-auto thumb-container">
                     {product.images.map((img, index) => (
                       <img
@@ -367,19 +367,19 @@ const handleImageClick = (productId, index) => {
                     <div className="mt-2">
                       {product.productkey?.length > 0 ? (
                         product.productkey.map((item, index) => (
-<button
-  key={item.Size}
-  className="me-1 "
-  onClick={() => onSizeClick(product, item.Size)}
-  style={{
-    border: '2px solid',
-    borderColor:
-      selectedSizes[product._id] === item.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
- 
-  }}
->
-  {item.Size.toUpperCase()}
-</button>
+                          <button
+                            key={item.Size}
+                            className="me-1 "
+                            onClick={() => onSizeClick(product, item.Size)}
+                            style={{
+                              border: '2px solid',
+                              borderColor:
+                                selectedSizes[product._id] === item.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
+
+                            }}
+                          >
+                            {item.Size.toUpperCase()}
+                          </button>
 
                         ))
                       ) : (
@@ -438,7 +438,7 @@ const handleImageClick = (productId, index) => {
                   </div>
                 </div></div></div></div>
 
-          <div className="text-center"style={{paddingTop:'160px'}}>
+          <div className="text-center" style={{ paddingTop: '160px' }}>
             <h2 className="fw-bold">Customer Reviews</h2>
             <p className="text-muted">
               What our customers say about this product
@@ -478,8 +478,8 @@ const handleImageClick = (productId, index) => {
                           <i
                             key={star}
                             className={`fa-star fa-lg mx-1 ${review.rating >= star
-                                ? "fas text-warning"
-                                : "far text-muted"
+                              ? "fas text-warning"
+                              : "far text-muted"
                               }`}
                             style={{ transition: "0.3s" }}
                           />
@@ -683,7 +683,7 @@ const handleImageClick = (productId, index) => {
               <img
                 src={`${process.env.REACT_APP_API_BASE_URL}/${selectedProduct?.images?.[
                   modalImageIndex[selectedProduct?._id]
-                  ]
+                ]
                   }`}
                 alt={selectedProduct?.name}
                 className="w-100 mb-2"
@@ -698,8 +698,8 @@ const handleImageClick = (productId, index) => {
                       src={`${process.env.REACT_APP_API_BASE_URL}/${img}`}
                       alt={`Thumbnail ${index + 1}`}
                       className={`img-thumbnail mx-1 ${modalImageIndex[selectedProduct?._id] === index
-                          ? "border border-dark"
-                          : ""
+                        ? "border border-dark"
+                        : ""
                         }`}
                       style={{
                         width: "70px",
@@ -718,7 +718,7 @@ const handleImageClick = (productId, index) => {
             {/* Right Side - Product Details */}
             <div className="col-md-4 mt-4">
               <Link to={`/product-details/${selectedProduct?._id}`}>
-                <h5 className="text-danger fw-bold"style={{fontSize:'30px'}}>{selectedProduct?.name?.toUpperCase()}</h5>
+                <h5 className="text-danger fw-bold" style={{ fontSize: '30px' }}>{selectedProduct?.name?.toUpperCase()}</h5>
               </Link>
               <h5 className="mt-2">
                 {selectedProduct?.Sortdescription}
@@ -742,11 +742,11 @@ const handleImageClick = (productId, index) => {
                   selectedProduct.productkey.map((size) => (
                     <button
                       key={size.Size}
-                      className=" m-1 "  style={{
-      border: '2px solid',
-      borderColor:
-        selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
-    }}
+                      className=" m-1 " style={{
+                        border: '2px solid',
+                        borderColor:
+                          selectedSizes[selectedProduct._id] === size.Size ? 'rgb(242, 6, 112)' : 'rgb(132, 131, 131)',
+                      }}
                       onClick={() => onSizeClick(selectedProduct, size.Size)} // Passing product object and size
                     >
                       {size.Size}

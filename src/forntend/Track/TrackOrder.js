@@ -7,7 +7,7 @@ import orderServices from "../../services/orderServices";
 const statusSteps = ["Pending", "Dispatch", "Shipped", "Delivered", "Cancel", "Return"];
 
 const TrackOrder = () => {
- const { orderId, orderProductId } = useParams(); // productId = orderProductId
+  const { orderId, orderProductId } = useParams(); // productId = orderProductId
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user?._id;
 
@@ -27,12 +27,12 @@ const TrackOrder = () => {
         const response = await orderServices.trackOrder(userId, orderId, orderProductId);
         const orders = response?.data;
 
-      let orderProduct = null;
-if (Array.isArray(orders)) {
-  orderProduct = orders.find((item) => item._id === orderProductId);
-} else if (orders && orders._id === orderProductId) {
-  orderProduct = orders;
-}
+        let orderProduct = null;
+        if (Array.isArray(orders)) {
+          orderProduct = orders.find((item) => item._id === orderProductId);
+        } else if (orders && orders._id === orderProductId) {
+          orderProduct = orders;
+        }
 
         setOrder(orderProduct || null);
       } catch (error) {
@@ -94,7 +94,7 @@ if (Array.isArray(orders)) {
                       {new Date(order.createdAt).toLocaleDateString()}
                     </div>
                     <div>Order Status: {order.orderStatus}</div>
-                    
+
                     <div>Product Name: {order?.productId?.name}</div>
                     <div>Size: {order?.size}</div>
                     <div>Price: ₹{order?.price}</div>

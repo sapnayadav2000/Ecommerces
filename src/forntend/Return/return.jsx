@@ -54,93 +54,93 @@ const ReturnRequest = () => {
     <>
       <HomeHeader />
       <div className="container py-5">
-  <div className="p-4 rounded-4 shadow-lg" style={{ backgroundColor: "#ffffff" }}>
-    <h2 className="mb-4 text-center" style={{ fontWeight: "600", fontSize: "2rem" }}>
-      Request a Return
-    </h2>
+        <div className="p-4 rounded-4 shadow-lg" style={{ backgroundColor: "#ffffff" }}>
+          <h2 className="mb-4 text-center" style={{ fontWeight: "600", fontSize: "2rem" }}>
+            Request a Return
+          </h2>
 
-    <form onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label className="form-label fw-semibold">Reason for Return</label>
-        <div className="d-flex flex-column gap-3">
-          {returnReasons.map((reason, index) => (
-            <div key={index} className="position-relative d-flex align-items-center">
-              <input
-                type="radio"
-                id={`reason-${index}`}
-                name="returnReason"
-                value={reason}
-                checked={selectedReason === reason}
-                onChange={handleReasonChange}
-                style={{ display: "none" }}
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="form-label fw-semibold">Reason for Return</label>
+              <div className="d-flex flex-column gap-3">
+                {returnReasons.map((reason, index) => (
+                  <div key={index} className="position-relative d-flex align-items-center">
+                    <input
+                      type="radio"
+                      id={`reason-${index}`}
+                      name="returnReason"
+                      value={reason}
+                      checked={selectedReason === reason}
+                      onChange={handleReasonChange}
+                      style={{ display: "none" }}
+                    />
+                    <label
+                      htmlFor={`reason-${index}`}
+                      className="return-reason-label p-3 w-100 rounded-3 shadow-sm"
+                      style={{
+                        border: selectedReason === reason ? "2px solid #28a745" : "1px solid #ccc",
+                        backgroundColor: selectedReason === reason ? "#eaf9f0" : "#f9f9f9",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        transition: "all 0.3s ease",
+                      }}
+                    >
+                      <span
+                        className="me-3 d-inline-block"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          borderRadius: "50%",
+                          border: "2px solid #ccc",
+                          backgroundColor: selectedReason === reason ? "#28a745" : "#fff",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "white",
+                          fontSize: "14px",
+                          transition: "all 0.3s ease",
+                        }}
+                      >
+                        {selectedReason === reason && "✔"}
+                      </span>
+                      {reason}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label className="form-label fw-semibold">Additional Comments (Optional)</label>
+              <textarea
+                className="form-control rounded-3 shadow-sm"
+                rows="4"
+                value={description}
+                onChange={(e) => setComments(e.target.value)}
+                placeholder="Write any extra details here..."
               />
-              <label
-                htmlFor={`reason-${index}`}
-                className="return-reason-label p-3 w-100 rounded-3 shadow-sm"
+            </div>
+
+            <div className="text-center">
+              <button
+                type="submit"
+                className="btn btn-lg px-4 "
                 style={{
-                  border: selectedReason === reason ? "2px solid #28a745" : "1px solid #ccc",
-                  backgroundColor: selectedReason === reason ? "#eaf9f0" : "#f9f9f9",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  transition: "all 0.3s ease",
+                  backgroundColor: "#dc3545",
+                  color: "#fff",
+                  borderRadius: "10px",
+                  fontWeight: "600",
+                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+                  transition: "background-color 0.3s ease",
                 }}
               >
-                <span
-                  className="me-3 d-inline-block"
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: "50%",
-                    border: "2px solid #ccc",
-                    backgroundColor: selectedReason === reason ? "#28a745" : "#fff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "white",
-                    fontSize: "14px",
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  {selectedReason === reason && "✔"}
-                </span>
-                {reason}
-              </label>
+                Submit Return Request
+              </button>
             </div>
-          ))}
+          </form>
         </div>
       </div>
-
-      <div className="mb-4">
-        <label className="form-label fw-semibold">Additional Comments (Optional)</label>
-        <textarea
-          className="form-control rounded-3 shadow-sm"
-          rows="4"
-          value={description}
-          onChange={(e) => setComments(e.target.value)}
-          placeholder="Write any extra details here..."
-        />
-      </div>
-
-      <div className="text-center">
-        <button
-          type="submit"
-          className="btn btn-lg px-4 "
-          style={{
-            backgroundColor: "#dc3545",
-            color: "#fff",
-            borderRadius: "10px",
-            fontWeight: "600",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            transition: "background-color 0.3s ease",
-          }}
-        >
-          Submit Return Request
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
 
       <Footer />
     </>
