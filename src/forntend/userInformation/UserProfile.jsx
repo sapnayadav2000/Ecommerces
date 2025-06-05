@@ -108,11 +108,11 @@ const UserProfile = () => {
                               src={`${process.env.REACT_APP_API_BASE_URL}/${user?.image}`}
                               alt="User"
                             />
-                            <h5 className="name">{user?.name}</h5>
+                            <h5 className="name">{user?.firstName} {user?.lastName}</h5>
                             <p>({user?.userType})</p>
                           </div>
                           <p>
-                            Hello <span>{user?.name}!</span>
+                            Hello <span>{user?.firstName} {user?.lastName}</span>
                           </p>
                           <p>
                             From your account, you can easily view and track

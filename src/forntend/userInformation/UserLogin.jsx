@@ -76,7 +76,7 @@ const UserLogin = () => {
   return (
     <>
       <HomeHeader />
-      <section className="ec-page-content section-space-p">
+      <section className="ec-page-content section-space-p mt-5">
         <div className="ec-login-wrapper">
           <div className="ec-login-container">
             <div className="ec-login-form">

@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 
 const UserProfileEdit = () => {
   const [editUser, setEditUser] = useState({
-    name: "",
+    firstName: "",
+    lastName:"",
     email: "",
     mobileNo: "",
     address: "",
@@ -106,7 +107,8 @@ const UserProfileEdit = () => {
                 <form onSubmit={handleUpdate}>
                   <div className="row g-3">
                     {[
-                      { label: "Name", key: "name" },
+                      { label: "First Name", key: "firstName" },
+                       { label: "Last Name", key: "lastName" },
                       { label: "Email", key: "email" },
                       { label: "Mobile Number", key: "mobileNo" },
                       { label: "Address", key: "address" },

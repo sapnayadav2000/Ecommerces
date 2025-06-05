@@ -82,18 +82,18 @@ const UserRegister = () => {
   return (
     <>
       <HomeHeader />
-      <section className="ec-page-content section-space-p">
+      <section className="ec-page-content section-space-p mt-5">
         <div className="container">
           <div className="row">
             <div className="col-md-12 text-center">
               <div className="section-title">
                 <h2 className="ec-title">Register</h2>
-                <p className="sub-title mb-3">
+                <p className="sub-title">
                   Best place to buy and sell digital products
                 </p>
               </div>
             </div>
-            <div className="ec-register-wrapper">
+            <div className="ec-register-wrapper mt-3">
               <div className="ec-register-container">
                 <div className="ec-register-form">
                   {!data?.otpCode ? (
