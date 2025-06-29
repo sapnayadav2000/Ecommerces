@@ -1013,47 +1013,56 @@ body.nav-md.sidebar-closed footer {
 .sidebar-item a {
   font-size: 16px !important;
   font-family: "Poppins", sans-serif !important;}
-.sidebar {
-  width: 325px ;
+..sidebar {
+  width: 325px;
   padding: 20px 15px !important;
   height: 100vh !important;
   float: left !important;
-  background-color: #e3ffe9	 !important;
+  background-color: #e3ffe9 !important;
   border-right: 1px solid #699836 !important;
   overflow-y: auto !important;
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   z-index: 9 !important;
-  color: white !important;}
+  color: white !important;
+}
+
 .sidebar-menu {
   list-style-type: none !important;
   padding: 0 !important;
-  margin: 0 !important;}
+  margin: 0 !important;
+  margin-top: 2em !important;
+}
+
 .sidebar-item.has-sub-menus,
 .sidebar-item a {
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
   padding: 10px 15px !important;
-  color: black; /* Purple text color */
+  color: black;
   cursor: pointer !important;
   border-radius: 4px !important;
   transition: background-color 0.3s ease !important;
   text-decoration: none !important;
   margin-block-end: 2px !important;
-  font-weight: 500 !important;}
+  font-weight: 500 !important;
+}
 
-.sidebar-menu {
-  margin-top: 2em !important;}
 .sidebar-div li {
   display: flex !important;
-  justify-content: start !important ;}
+  justify-content: start !important;
+}
+
 .sidebar-div:hover {
-  background-color: #ddf5dd !important; /* Slightly darker green on hover */}
+  background-color: #ddf5dd !important;
+}
+
 .sidebar-div:active {
-  background-color: #699836 !important;}
-  
+  background-color: #699836 !important;
+}
+
 /*  header profile */
 
 .top_nav {

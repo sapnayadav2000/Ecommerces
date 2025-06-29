@@ -85,7 +85,21 @@ function Header() {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content" style={{backgroundColor:'#f0f3ff',width:'auto'}}>
+          <div className="modal-content" 
+          
+          style={{
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  width: '900px',
+  height: '350px',
+  pointerEvents: 'auto',
+  backgroundColor: '#ffffff',
+  backgroundClip: 'padding-box',
+  border: '1px solid black',
+  backgroundColor:'#f0f3ff',width:'auto'
+
+}}>
             <div className="modal-header">
               <h5 className="modal-title text-center">Support</h5>
               <button
@@ -139,7 +153,21 @@ function Header() {
         aria-hidden="true"
       >
         <div className="modal-dialog">
-          <div className="modal-content">
+          <div className="modal-content"
+                
+          style={{
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  width: '900px',
+  height: '400px',
+  pointerEvents: 'auto',
+  backgroundColor: '#ffffff',
+  backgroundClip: 'padding-box',
+  border: '1px solid black',
+  backgroundColor:'#f0f3ff',width:'auto'
+
+}}>
             <div className="modal-body px-5 pb-0">
               <div className="row align-items-center">
                 <div className="modal-body py-4 text-center">

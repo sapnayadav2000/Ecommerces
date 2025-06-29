@@ -14,6 +14,7 @@ Modal.setAppElement("#root");
 function Return() {
   const { currency } = useCurrency();
   const { data, run } = useAsync(Returnservices.getAllReturn);
+  console.log('data',data)
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

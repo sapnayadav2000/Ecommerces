@@ -169,18 +169,18 @@ function DeleteBanner({ data, page, closeModal, onSuccess }) {
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <div
-          className="modal-content"
-          style={{
-            borderRadius: "12px",
-            overflow: "hidden",
-            boxShadow: "0 5px 15px rgba(0,0,0,0.2)",
-            position: "relative",
-            width: '80%',
-            marginInline: 'auto'
+<div style={{
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  height: '200px',
+  pointerEvents: 'auto',
+  backgroundColor: '#ffffff',
+  backgroundClip: 'padding-box',
+  border: '1px solid black',
 
-          }}
-        >
+}}>
           {/* Close (X) Button */}
           <button
             type="button"
@@ -196,6 +196,7 @@ function DeleteBanner({ data, page, closeModal, onSuccess }) {
               fontSize: "1.4rem",
               color: "#000",
               zIndex: 10,
+             
             }}
           >
             &times;
